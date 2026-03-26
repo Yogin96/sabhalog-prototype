@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sabhalog — Prototype v3</title>
+<style>
+:root {
+  --black: #111111;
+  --gray-900: #1a1a1a;
+  --gray-800: #333333;
+  --gray-700: #4a4a4a;
+  --gray-600: #666666;
+  --gray-500: #888888;
+  --gray-400: #aaaaaa;
+  --gray-300: #cccccc;
+  --gray-200: #e0e0e0;
+  --gray-100: #f0f0f0;
+  --gray-50: #f8f8f8;
+  --white: #ffffff;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#0a0a0a; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+#phone { width:390px; height:844px; background:var(--white); border-radius:44px; overflow:hidden; position:relative; box-shadow:0 0 0 3px #222,0 20px 60px rgba(0,0,0,0.6); }
+
+/* Screen system */
+.screen { display:none; flex-direction:column; height:100%; width:100%; position:absolute; top:0; left:0; background:var(--white); }
+.screen.active { display:flex; }
+
+/* Status bar */
+.status-bar { height:50px; padding:12px 28px 0; display:flex; justify-content:space-between; font-size:13px; font-weight:600; color:var(--black); flex-shrink:0; }
+
+/* Header */
+.header { display:flex; align-items:center; justify-content:space-between; padding:4px 20px 10px; flex-shrink:0; }
+.logo { font-size:24px; font-weight:800; color:var(--black); letter-spacing:-1px; }
+.header-icons { display:flex; gap:6px; }
+.h-icon { width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:50%; cursor:pointer; font-size:18px; position:relative; }
+.h-icon:hover { background:var(--gray-100); }
+.dot { position:absolute; top:6px; right:6px; width:8px; height:8px; background:var(--black); border-radius:50%; border:2px solid var(--white); }
+
+/* Page header */
+.pg-header { display:flex; align-items:center; padding:4px 20px 10px; gap:8px; flex-shrink:0; border-bottom:1px solid var(--gray-200); }
+.back { font-size:20px; cursor:pointer; width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:50%; }
+.back:hover { background:var(--gray-100); }
+.pg-title { font-size:17px; font-weight:700; flex:1; }
+.pg-right { display:flex; gap:10px; font-size:18px; }
+.pg-right span { cursor:pointer; }
+
+/* Content */
+.content { flex:1; overflow-y:auto; padding:16px 20px; -webkit-overflow-scrolling:touch; }
+.content::-webkit-scrollbar { display:none; }
+
+/* Bottom nav */
+.bottom-nav { display:flex; border-top:1px solid var(--gray-200); padding:4px 0 30px; background:var(--white); flex-shrink:0; }
+.nav-tab { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 0; cursor:pointer; font-size:10px; font-weight:500; color:var(--gray-400); position:relative; }
+.nav-tab.active { color:var(--black); }
+.nav-tab .ni { font-size:20px; }
+.nbadge { position:absolute; top:2px; right:calc(50% - 20px); background:var(--black); color:var(--white); font-size:9px; font-weight:700; min-width:16px; height:16px; border-radius:8px; display:flex; align-items:center; justify-content:center; padding:0 4px; }
+
+/* Sections */
+.sec-header { display:flex; justify-content:space-between; align-items:center; margin:20px 0 10px; }
+.sec-header:first-child { margin-top:4px; }
+.sec-title { font-size:16px; font-weight:700; }
+.sec-link { font-size:13px; color:var(--gray-600); cursor:pointer; text-decoration:underline; }
+
+/* Search */
+.search { display:flex; align-items:center; gap:8px; background:var(--gray-100); border-radius:var(--radius); padding:11px 14px; margin-bottom:14px; color:var(--gray-500); font-size:14px; cursor:text; border:1px solid var(--gray-200); }
+
+/* Carousel */
+.carousel { display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; scroll-snap-type:x mandatory; }
+.carousel::-webkit-scrollbar { display:none; }
+
+/* Cards */
+.c-card { min-width:170px; max-width:170px; border:1px solid var(--gray-200); border-radius:var(--radius); overflow:hidden; cursor:pointer; scroll-snap-align:start; flex-shrink:0; }
+.c-card:hover { border-color:var(--gray-400); }
+.c-img { height:80px; background:var(--gray-100); display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--gray-400); }
+.c-body { padding:10px; }
+.c-date { font-size:11px; font-weight:600; color:var(--gray-600); }
+.c-name { font-size:13px; font-weight:600; margin-top:1px; line-height:1.3; }
+.c-sub { font-size:11px; color:var(--gray-500); margin-top:1px; }
+.c-meta { font-size:10px; color:var(--gray-400); margin-top:3px; }
+
+/* Pills */
+.pills { display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
+.pill { padding:5px 12px; border-radius:20px; font-size:12px; font-weight:500; cursor:pointer; border:1px solid var(--gray-300); color:var(--gray-600); background:var(--white); }
+.pill.on { background:var(--black); color:var(--white); border-color:var(--black); }
+
+/* Notification items */
+.nf { display:flex; align-items:center; gap:10px; padding:12px; background:var(--gray-50); border-radius:var(--radius-sm); margin-bottom:6px; cursor:pointer; border:1px solid var(--gray-200); }
+.nf:hover { background:var(--gray-100); }
+.nf-icon { font-size:18px; flex-shrink:0; }
+.nf-body { flex:1; }
+.nf-title { font-size:13px; font-weight:600; }
+.nf-meta { font-size:11px; color:var(--gray-500); margin-top:1px; }
+.nf-arrow { color:var(--gray-400); font-size:14px; }
+
+/* Series card */
+.sr { border:1px solid var(--gray-200); border-radius:var(--radius); padding:14px; margin-bottom:10px; cursor:pointer; }
+.sr:hover { border-color:var(--gray-400); }
+.sr-top { display:flex; justify-content:space-between; align-items:center; }
+.sr-name { font-size:15px; font-weight:700; }
+.sr-badge { padding:2px 8px; border-radius:4px; font-size:10px; font-weight:700; text-transform:uppercase; }
+.sr-badge.plan { background:var(--gray-200); color:var(--gray-700); }
+.sr-badge.pub { background:var(--black); color:var(--white); }
+.sr-stats { font-size:12px; color:var(--gray-500); margin-top:6px; display:flex; gap:10px; }
+.sr-warn { color:var(--gray-800); font-weight:600; }
+
+/* Slot items */
+.sl { border-bottom:1px solid var(--gray-100); padding:12px 0; cursor:pointer; }
+.sl:last-child { border-bottom:none; }
+.sl-date { font-size:12px; font-weight:700; color:var(--gray-700); margin-bottom:4px; }
+.sl-status { font-size:11px; font-weight:700; letter-spacing:0.5px; margin-bottom:3px; }
+.sl-status.conf { color:var(--gray-800); }
+.sl-status.pend { color:var(--gray-500); }
+.sl-status.avail { color:var(--gray-400); }
+.sl-artist { font-size:13px; color:var(--gray-700); }
+.sl-meta { font-size:11px; color:var(--gray-400); margin-top:2px; }
+
+/* Buttons */
+.btn { display:flex; align-items:center; justify-content:center; padding:13px; border-radius:var(--radius); font-size:15px; font-weight:600; cursor:pointer; border:none; width:100%; transition:opacity 0.15s; font-family:inherit; }
+.btn:hover { opacity:0.85; }
+.btn-p { background:var(--black); color:var(--white); }
+.btn-s { background:var(--gray-100); color:var(--black); }
+.btn-o { background:var(--white); color:var(--black); border:1.5px solid var(--black); }
+.btn-d { background:var(--white); color:var(--gray-600); border:1.5px solid var(--gray-300); }
+.btn-sm { padding:10px; font-size:13px; }
+.btn+.btn { margin-top:8px; }
+.btn-inv { display:inline-flex; align-items:center; gap:4px; padding:7px 14px; border-radius:var(--radius-sm); border:1px dashed var(--gray-400); color:var(--gray-600); font-size:12px; font-weight:500; cursor:pointer; background:none; margin-top:4px; }
+.btn-inv:hover { background:var(--gray-50); border-color:var(--gray-600); }
+
+/* Invite cards (artist) */
+.inv { border:1px solid var(--gray-200); border-radius:var(--radius); padding:14px; margin-bottom:10px; cursor:pointer; }
+.inv:hover { border-color:var(--gray-400); }
+.inv-org { font-size:14px; font-weight:700; }
+.inv-series { font-size:12px; color:var(--gray-500); margin-top:1px; }
+.inv-dates { font-size:12px; color:var(--gray-700); font-weight:500; margin-top:5px; }
+.inv-msg { font-size:11px; color:var(--gray-400); margin-top:3px; font-style:italic; }
+.inv-time { font-size:10px; color:var(--gray-400); margin-top:5px; }
+
+/* Schedule cards */
+.sc-month { font-size:14px; font-weight:700; margin:18px 0 8px; }
+.sc-month:first-child { margin-top:4px; }
+.sc { border:1px solid var(--gray-200); border-radius:var(--radius-sm); padding:12px; margin-bottom:6px; cursor:pointer; }
+.sc:hover { border-color:var(--gray-400); }
+.sc-date { font-size:13px; font-weight:700; }
+.sc-event { font-size:13px; color:var(--gray-700); margin-top:1px; }
+.sc-venue { font-size:11px; color:var(--gray-400); margin-top:1px; }
+
+/* Profile */
+.pf-name { font-size:22px; font-weight:800; }
+.pf-email { font-size:13px; color:var(--gray-500); margin-top:2px; }
+.pf-sec { border-bottom:1px solid var(--gray-200); padding:14px 0; }
+.pf-sec:last-child { border-bottom:none; }
+.pf-label { font-size:12px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+
+.role-row { display:flex; align-items:center; padding:12px 0; cursor:pointer; gap:10px; }
+.role-dot { width:18px; height:18px; border-radius:50%; border:2px solid var(--gray-300); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.role-dot.on { border-color:var(--black); }
+.role-dot.on::after { content:''; width:8px; height:8px; border-radius:50%; background:var(--black); }
+.role-body { flex:1; }
+.role-title { font-size:14px; font-weight:600; }
+.role-desc { font-size:11px; color:var(--gray-500); }
+.role-bdg { font-size:12px; font-weight:700; color:var(--gray-700); }
+
+.pf-link { display:flex; justify-content:space-between; padding:12px 0; cursor:pointer; font-size:14px; border-bottom:1px solid var(--gray-100); }
+.pf-link:last-child { border-bottom:none; }
+.pf-link:hover { color:var(--gray-600); }
+.pf-link.danger { color:var(--gray-400); }
+
+/* Splash */
+#splash { background:var(--black); color:var(--white); justify-content:center; align-items:center; text-align:center; }
+.sp-logo { font-size:44px; font-weight:800; letter-spacing:-2px; margin-bottom:20px; }
+.sp-tag { font-size:18px; opacity:0.5; margin-bottom:60px; line-height:1.6; }
+.sp-btn { padding:16px 52px; background:var(--white); color:var(--black); border:none; border-radius:30px; font-size:16px; font-weight:700; cursor:pointer; }
+.sp-btn:hover { opacity:0.9; }
+
+/* Confirmation */
+.conf { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; flex:1; padding:40px; }
+.conf-icon { font-size:48px; margin-bottom:14px; }
+.conf-title { font-size:20px; font-weight:800; margin-bottom:6px; }
+.conf-line { font-size:13px; color:var(--gray-600); margin-bottom:2px; }
+.conf-status { font-size:12px; color:var(--gray-500); font-weight:600; margin:14px 0 24px; }
+
+/* Forms */
+.fg { margin-bottom:14px; }
+.fl { font-size:12px; font-weight:700; color:var(--gray-600); margin-bottom:4px; display:block; }
+.fi { width:100%; padding:11px 12px; border:1px solid var(--gray-300); border-radius:var(--radius-sm); font-size:14px; outline:none; font-family:inherit; }
+.fi:focus { border-color:var(--black); }
+.ft { width:100%; padding:11px 12px; border:1px solid var(--gray-300); border-radius:var(--radius-sm); font-size:13px; outline:none; min-height:70px; resize:none; font-family:inherit; }
+
+/* Date options */
+.dt { display:flex; align-items:center; gap:10px; padding:11px 12px; border:1px solid var(--gray-200); border-radius:var(--radius-sm); margin-bottom:6px; cursor:pointer; }
+.dt:hover { border-color:var(--gray-400); }
+.dt.on { border-color:var(--black); background:var(--gray-50); }
+.dt-box { width:18px; height:18px; border:2px solid var(--gray-300); border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; }
+.dt.on .dt-box { background:var(--black); border-color:var(--black); color:var(--white); }
+.dt-info { flex:1; }
+.dt-label { font-size:13px; font-weight:500; }
+.dt-sub { font-size:11px; color:var(--gray-500); }
+
+/* Artist search */
+.as { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--gray-100); cursor:pointer; }
+.as:hover { background:var(--gray-50); margin:0 -20px; padding:10px 20px; }
+.as-av { width:42px; height:42px; border-radius:50%; background:var(--gray-200); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.as-info { flex:1; }
+.as-name { font-size:14px; font-weight:600; }
+.as-det { font-size:11px; color:var(--gray-500); }
+.as-free { font-size:11px; font-weight:600; color:var(--gray-700); margin-top:1px; }
+.as-busy { font-size:11px; font-weight:500; color:var(--gray-400); margin-top:1px; }
+
+/* Review */
+.rv { margin-bottom:16px; }
+.rv-label { font-size:11px; color:var(--gray-400); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:3px; }
+.rv-val { font-size:14px; font-weight:500; }
+
+/* Concert detail */
+.cd-date { font-size:14px; font-weight:700; color:var(--gray-600); }
+.cd-title { font-size:22px; font-weight:800; margin-top:2px; }
+.cd-genre { font-size:13px; color:var(--gray-500); margin-top:2px; }
+.cd-row { display:flex; align-items:center; gap:6px; padding:8px 0; font-size:14px; cursor:pointer; }
+.cd-row:hover { color:var(--gray-500); }
+.cd-desc { font-size:13px; color:var(--gray-500); line-height:1.5; margin-top:10px; padding-top:10px; border-top:1px solid var(--gray-200); }
+.cd-actions { display:flex; gap:8px; margin-top:16px; }
+.cd-act { flex:1; padding:10px; border-radius:var(--radius-sm); text-align:center; cursor:pointer; font-size:12px; font-weight:600; background:var(--gray-100); }
+.cd-act:hover { background:var(--gray-200); }
+
+/* Context banner */
+.ctx { background:var(--gray-100); border-radius:var(--radius-sm); padding:10px 12px; margin-bottom:14px; font-size:12px; color:var(--gray-600); border-left:3px solid var(--gray-400); }
+
+/* Message bubble */
+.msg { background:var(--gray-100); border-radius:var(--radius-sm); padding:10px 12px; font-size:13px; color:var(--gray-600); font-style:italic; margin:6px 0; border-left:3px solid var(--gray-400); }
+
+/* Warning */
+.warn { display:flex; align-items:center; gap:5px; padding:6px 10px; background:var(--gray-100); border-radius:4px; font-size:11px; color:var(--gray-600); margin-top:3px; }
+
+/* Overlay & bottom sheet */
+.overlay { display:none; position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.4); z-index:100; }
+.overlay.on { display:block; }
+.bsheet { position:absolute; bottom:0; left:0; right:0; background:var(--white); border-radius:16px 16px 0 0; padding:20px; z-index:101; display:none; }
+.bsheet.on { display:block; }
+.bs-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.bs-title { font-size:17px; font-weight:700; }
+.bs-close { font-size:18px; cursor:pointer; color:var(--gray-400); }
+
+/* Pub btn in series */
+.pub { padding:5px 14px; background:var(--black); color:var(--white); border:none; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; }
+
+/* Create fab */
+.fab { display:flex; align-items:center; gap:3px; color:var(--gray-600); font-weight:700; font-size:13px; cursor:pointer; }
+.fab:hover { color:var(--black); }
+
+/* List items */
+.li { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--gray-100); cursor:pointer; }
+.li:hover { background:var(--gray-50); margin:0 -20px; padding:10px 20px; }
+.li-av { width:44px; height:44px; border-radius:var(--radius-sm); background:var(--gray-100); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+.li-av.round { border-radius:50%; }
+.li-body { flex:1; }
+.li-name { font-size:14px; font-weight:600; }
+.li-sub { font-size:11px; color:var(--gray-500); }
+</style>
+</head>
+<body>
+<div id="phone">
+
+<!-- SPLASH -->
+<div id="splash" class="screen active">
+  <div>
+    <div class="sp-logo">Sabhalog</div>
+    <div class="sp-tag">Connect.<br>Schedule.<br>Gather.</div>
+    <button class="sp-btn" onclick="switchRole('exploring');nav('explore')">Get Started →</button>
+  </div>
+</div>
+
+<!-- EXPLORE -->
+<div id="explore" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="header">
+    <div class="logo">Sabhalog</div>
+    <div class="header-icons">
+      <div class="h-icon" onclick="nav('search')">🔍</div>
+      <div class="h-icon" onclick="nav('saved')">♡</div>
+      <div class="h-icon" onclick="openSheet()">👤<div class="dot role-dot-indicator"></div></div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="search" onclick="nav('search')">🔍 Search concerts, orgs, artists...</div>
+    <div class="sec-header"><div class="sec-title">Upcoming Concerts</div><div class="sec-link" onclick="nav('concertList')">See all →</div></div>
+    <div class="pills" id="timePills">
+      <div class="pill on" onclick="setPill(this)">This Week</div>
+      <div class="pill" onclick="setPill(this)">This Month</div>
+      <div class="pill" onclick="setPill(this)">All</div>
+    </div>
+    <div class="carousel">
+      <div class="c-card" onclick="nav('concertDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Mar 27 · 7 PM</div><div class="c-name">Sitaristique</div><div class="c-sub">Ranjani & Gayatri</div><div class="c-meta">SIFA · Chennai</div></div></div>
+      <div class="c-card" onclick="nav('concertDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Apr 5 · 6 PM</div><div class="c-name">Aham Pravahini</div><div class="c-sub">Shobana Balachandra</div><div class="c-meta">Cleveland Aradhana · Cleveland</div></div></div>
+      <div class="c-card" onclick="nav('concertDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Apr 12 · 7 PM</div><div class="c-name">Enchantment</div><div class="c-sub">Vedanth Bharadwaj</div><div class="c-meta">FAAA · Phoenix</div></div></div>
+      <div class="c-card" onclick="nav('concertDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Apr 18 · 6:30 PM</div><div class="c-name">Naada Vaibhavam</div><div class="c-sub">Sanjay Subrahmanyan</div><div class="c-meta">SIFA · Chennai</div></div></div>
+    </div>
+    <div class="sec-header"><div class="sec-title">Featured Organizations</div><div class="sec-link" onclick="nav('orgList')">See all →</div></div>
+    <div class="carousel">
+      <div class="c-card" onclick="nav('orgProfile')"><div class="c-img">▣</div><div class="c-body"><div class="c-name">Cleveland Aradhana</div><div class="c-sub">Cleveland, OH</div><div class="c-meta">12 upcoming</div></div></div>
+      <div class="c-card" onclick="nav('orgProfile')"><div class="c-img">▣</div><div class="c-body"><div class="c-name">SIFA</div><div class="c-sub">Chennai</div><div class="c-meta">8 upcoming</div></div></div>
+      <div class="c-card" onclick="nav('orgProfile')"><div class="c-img">▣</div><div class="c-body"><div class="c-name">Charsur Arts</div><div class="c-sub">Chennai</div><div class="c-meta">5 upcoming</div></div></div>
+      <div class="c-card" onclick="nav('orgProfile')"><div class="c-img">▣</div><div class="c-body"><div class="c-name">FAAA</div><div class="c-sub">Phoenix, AZ</div><div class="c-meta">11 upcoming</div></div></div>
+    </div>
+    <div class="sec-header"><div class="sec-title">Artists to Follow</div><div class="sec-link" onclick="nav('artistList')">See all →</div></div>
+    <div class="carousel">
+      <div class="c-card" onclick="nav('artistProfile')"><div class="c-img">●</div><div class="c-body"><div class="c-name">Abhishek Raghuram</div><div class="c-sub">Karnatic · Vocal</div><div class="c-meta">Bangalore</div></div></div>
+      <div class="c-card" onclick="nav('artistProfile')"><div class="c-img">●</div><div class="c-body"><div class="c-name">Ranjani & Gayatri</div><div class="c-sub">Karnatic · Vocal</div><div class="c-meta">Chennai</div></div></div>
+      <div class="c-card" onclick="nav('artistProfile')"><div class="c-img">●</div><div class="c-body"><div class="c-name">Shobana Balachandra</div><div class="c-sub">Bharatanatyam</div><div class="c-meta">Chennai</div></div></div>
+    </div>
+  </div>
+  <div id="exploreNav"></div>
+</div>
+
+<!-- SEARCH -->
+<div id="search" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div style="padding:10px 20px;display:flex;gap:8px;align-items:center">
+    <div class="back" onclick="goBack()">←</div>
+    <input class="fi" placeholder="Search concerts, orgs, artists..." autofocus style="flex:1">
+  </div>
+  <div class="content">
+    <div class="pf-label">Recent Searches</div>
+    <div class="li" onclick="nav('orgProfile')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Cleveland Aradhana</div><div class="li-sub">Organization</div></div></div>
+    <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Ranjani & Gayatri</div><div class="li-sub">Artist</div></div></div>
+    <div class="li" onclick="nav('concertDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Sitaristique</div><div class="li-sub">Concert · Mar 27</div></div></div>
+  </div>
+</div>
+
+<!-- SAVED -->
+<div id="saved" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Saved</div></div>
+  <div style="padding:0 20px">
+    <div class="pills" style="margin-top:12px">
+      <div class="pill on" onclick="setPill(this)">Concerts</div>
+      <div class="pill" onclick="setPill(this)">Organizations</div>
+      <div class="pill" onclick="setPill(this)">Artists</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="li" onclick="nav('concertDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Sitaristique</div><div class="li-sub">Mar 27 · SIFA · Chennai</div></div></div>
+    <div class="li" onclick="nav('concertDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Aham Pravahini</div><div class="li-sub">Apr 5 · Cleveland Aradhana</div></div></div>
+    <div class="li" onclick="nav('concertDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Enchantment</div><div class="li-sub">Apr 12 · FAAA · Phoenix</div></div></div>
+  </div>
+</div>
+
+<!-- CONCERT LIST -->
+<div id="concertList" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Upcoming Concerts</div></div>
+  <div class="content">
+    <div class="search">🔍 Search concerts...</div>
+    <div class="pills"><div class="pill on" onclick="setPill(this)">All</div><div class="pill" onclick="setPill(this)">Chennai</div><div class="pill" onclick="setPill(this)">Karnatic</div><div class="pill" onclick="setPill(this)">Vocal</div></div>
+    <div class="li" onclick="nav('concertDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Sitaristique</div><div class="li-sub">Mar 27 · 7 PM · Ranjani & Gayatri · SIFA · Chennai</div></div></div>
+    <div class="li" onclick="nav('concertDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Aham Pravahini</div><div class="li-sub">Apr 5 · 6 PM · Shobana Balachandra · Cleveland Aradhana</div></div></div>
+    <div class="li" onclick="nav('concertDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Enchantment</div><div class="li-sub">Apr 12 · 7 PM · Vedanth Bharadwaj · FAAA · Phoenix</div></div></div>
+    <div class="li" onclick="nav('concertDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Naada Vaibhavam</div><div class="li-sub">Apr 18 · 6:30 PM · Sanjay Subrahmanyan · SIFA · Chennai</div></div></div>
+    <div class="li" onclick="nav('concertDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Spring Melody</div><div class="li-sub">Apr 20 · 7 PM · Bombay Jayashri · SIFA · Chennai</div></div></div>
+    <div class="li" onclick="nav('concertDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Violin Virtuoso</div><div class="li-sub">May 3 · 6 PM · Vedanth Bharadwaj · SIFA · Chennai</div></div></div>
+  </div>
+</div>
+
+<!-- ORG LIST -->
+<div id="orgList" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Organizations</div></div>
+  <div class="content">
+    <div class="search">🔍 Search organizations...</div>
+    <div class="pills"><div class="pill on" onclick="setPill(this)">All</div><div class="pill" onclick="setPill(this)">Chennai</div><div class="pill" onclick="setPill(this)">USA</div><div class="pill" onclick="setPill(this)">Karnatic</div></div>
+    <div style="font-size:12px;color:var(--gray-400);margin-bottom:10px">320 organizations</div>
+    <div class="li" onclick="nav('orgProfile')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Cleveland Aradhana</div><div class="li-sub">Cleveland, OH · Karnatic · 12 upcoming</div></div></div>
+    <div class="li" onclick="nav('orgProfile')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">South India Fine Arts (SIFA)</div><div class="li-sub">Chennai · Karnatic, Hindustani · 8 upcoming</div></div></div>
+    <div class="li" onclick="nav('orgProfile')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Charsur Arts Foundation</div><div class="li-sub">Chennai · Karnatic · 5 upcoming</div></div></div>
+    <div class="li" onclick="nav('orgProfile')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Fine Arts Assoc. of Arizona</div><div class="li-sub">Phoenix, AZ · Karnatic · 11 upcoming</div></div></div>
+    <div class="li" onclick="nav('orgProfile')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Sri Parthasarathy Swami Sabha</div><div class="li-sub">Chennai · Karnatic · 6 upcoming</div></div></div>
+    <div class="li" onclick="nav('orgProfile')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Narada Gana Sabha</div><div class="li-sub">Chennai · Karnatic, Dance · 9 upcoming</div></div></div>
+    <div class="li" onclick="nav('orgProfile')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Shanmukhananda Sabha</div><div class="li-sub">Mumbai · Hindustani · 4 upcoming</div></div></div>
+  </div>
+</div>
+
+<!-- ARTIST LIST -->
+<div id="artistList" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Artists</div></div>
+  <div class="content">
+    <div class="search">🔍 Search artists...</div>
+    <div class="pills"><div class="pill on" onclick="setPill(this)">All</div><div class="pill" onclick="setPill(this)">Vocal</div><div class="pill" onclick="setPill(this)">Violin</div><div class="pill" onclick="setPill(this)">Bharatanatyam</div></div>
+    <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Abhishek Raghuram</div><div class="li-sub">Karnatic · Vocal · Bangalore</div></div></div>
+    <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Ranjani & Gayatri</div><div class="li-sub">Karnatic · Vocal · Chennai</div></div></div>
+    <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Shobana Balachandra</div><div class="li-sub">Bharatanatyam · Chennai</div></div></div>
+    <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Vedanth Bharadwaj</div><div class="li-sub">Karnatic · Violin · Chennai</div></div></div>
+    <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Sanjay Subrahmanyan</div><div class="li-sub">Karnatic · Vocal · Chennai</div></div></div>
+    <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Bombay Jayashri</div><div class="li-sub">Karnatic · Vocal · Mumbai</div></div></div>
+    <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Shashank Subramanyam</div><div class="li-sub">Karnatic · Flute · Bangalore</div></div></div>
+    <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">T.M. Krishna</div><div class="li-sub">Karnatic · Vocal · Chennai</div></div></div>
+  </div>
+</div>
+
+<!-- CONCERT DETAIL -->
+<div id="concertDetail" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title"></div><div class="pg-right"><span>♡</span><span>↗</span></div></div>
+  <div class="content">
+    <div style="padding:16px 0 14px;border-bottom:1px solid var(--gray-200)">
+      <div class="cd-date">Sat, Mar 27, 2026 · 7:00 – 9:00 PM</div>
+      <div class="cd-title">Sitaristique</div>
+      <div class="cd-genre">Karnatic · Vocal</div>
+    </div>
+    <div class="cd-row" onclick="nav('artistProfile')">● &nbsp;Ranjani & Gayatri</div>
+    <div class="cd-row" onclick="nav('orgProfile')">▣ &nbsp;South India Fine Arts (SIFA)</div>
+    <div class="cd-row">◉ &nbsp;Chennai, India</div>
+    <div class="cd-desc">An enchanting evening of Karnatic classical music featuring the celebrated duo Ranjani & Gayatri, known for their soulful renditions. Part of SIFA's annual concert series celebrating 50 years of classical music.</div>
+    <div class="cd-actions">
+      <div class="cd-act">Add to Calendar</div>
+      <div class="cd-act">♡ Interested</div>
+    </div>
+  </div>
+</div>
+
+<!-- ORG PROFILE -->
+<div id="orgProfile" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Organization</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:16px 0">
+      <div style="width:64px;height:64px;border-radius:var(--radius);background:var(--gray-200);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--gray-500)">▣</div>
+      <div style="font-size:18px;font-weight:800">South India Fine Arts (SIFA)</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-top:3px">Chennai, India</div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:6px;font-size:12px;color:var(--gray-400)"><span>Website</span><span>Instagram</span></div>
+    </div>
+    <div style="font-size:13px;color:var(--gray-500);line-height:1.5;margin-bottom:14px;text-align:center">Promoting Karnatic music and Bharatanatyam since 1935. One of India's premier cultural organizations.</div>
+    <div class="sec-title" style="margin-bottom:8px">Upcoming Concerts</div>
+    <div class="sc" onclick="nav('concertDetail')"><div class="sc-date">Mar 27 · 7 PM</div><div class="sc-event">Sitaristique — Ranjani & Gayatri</div><div class="sc-venue">Chennai</div></div>
+    <div class="sc" onclick="nav('concertDetail')"><div class="sc-date">Apr 12 · 6:30 PM</div><div class="sc-event">Spring Melody — Abhishek Raghuram</div><div class="sc-venue">Chennai</div></div>
+    <div class="sc" onclick="nav('concertDetail')"><div class="sc-date">Apr 18 · 6:30 PM</div><div class="sc-event">Naada Vaibhavam — Sanjay Subrahmanyan</div><div class="sc-venue">Chennai</div></div>
+    <div class="sc" onclick="nav('concertDetail')"><div class="sc-date">May 3 · 7 PM</div><div class="sc-event">Violin Evening — Vedanth Bharadwaj</div><div class="sc-venue">Chennai</div></div>
+  </div>
+</div>
+
+<!-- ARTIST PROFILE -->
+<div id="artistProfile" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Artist</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:16px 0">
+      <div style="width:72px;height:72px;border-radius:50%;background:var(--gray-200);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--gray-500)">●</div>
+      <div style="font-size:18px;font-weight:800">Abhishek Raghuram</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-top:3px">Karnatic · Vocal · Bangalore</div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:6px;font-size:12px;color:var(--gray-400)"><span>Instagram</span><span>YouTube</span></div>
+    </div>
+    <div style="font-size:13px;color:var(--gray-500);line-height:1.5;margin-bottom:14px">Award-winning Karnatic vocalist. Disciple of the legendary Semmangudi Srinivasa Iyer tradition. Performing internationally since 2010.</div>
+    <div class="sec-title" style="margin-bottom:8px">Upcoming Concerts</div>
+    <div class="sc" onclick="nav('concertDetail')"><div class="sc-date">Apr 5 · Cleveland Aradhana</div><div class="sc-venue">Cleveland, OH</div></div>
+    <div class="sc" onclick="nav('concertDetail')"><div class="sc-date">Apr 12 · SIFA Annual</div><div class="sc-venue">Chennai</div></div>
+  </div>
+</div>
+
+<!-- MY ORG -->
+<div id="myorg" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="nav('saved')">♡</div><div class="h-icon" onclick="openSheet()">👤</div></div></div>
+  <div class="content">
+    <div class="sec-header" style="margin-top:0"><div class="sec-title">Needs Attention (3)</div></div>
+    <div class="nf" onclick="nav('orgAcceptDetail')"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shobana Balachandra accepted</div><div class="nf-meta">May 14 · Spring Concert Series · 2h ago</div></div><div class="nf-arrow">→</div></div>
+    <div class="nf" onclick="nav('counterProposal')"><div class="nf-icon">↩</div><div class="nf-body"><div class="nf-title">Ranjani counter-proposed</div><div class="nf-meta">Spring Concert Series · "I'm available May 20..."</div></div><div class="nf-arrow">→</div></div>
+    <div class="nf" onclick="nav('seriesPlanner')"><div class="nf-icon">✗</div><div class="nf-body"><div class="nf-title">Abhishek Raghuram declined</div><div class="nf-meta">May 16 · Spring Concert Series · 1d ago</div></div><div class="nf-arrow">→</div></div>
+    <div class="sec-header"><div class="sec-title">My Series</div><div class="fab" onclick="nav('createSeries1')">+ Create</div></div>
+    <div class="sr" onclick="nav('seriesPlanner')"><div class="sr-top"><div class="sr-name">Spring Concert Series 2026</div><span class="sr-badge plan">Planning</span></div><div class="sr-stats"><span>8/11 confirmed</span><span class="sr-warn">⚠ 2 pending</span></div></div>
+    <div class="sr" onclick="nav('seriesPlanner')"><div class="sr-top"><div class="sr-name">Fall Season 2026</div><span class="sr-badge plan">Planning</span></div><div class="sr-stats"><span>0/8 confirmed</span></div></div>
+    <div class="sr"><div class="sr-top"><div class="sr-name">Cleveland Aradhana 2026</div><span class="sr-badge pub">Published</span></div><div class="sr-stats"><span>12/12 confirmed</span></div></div>
+  </div>
+  <div id="myorgNav"></div>
+</div>
+
+<!-- ORG ACCEPT DETAIL -->
+<div id="orgAcceptDetail" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Booking Confirmed</div></div>
+  <div class="content">
+    <div class="rv"><div class="rv-label">Artist</div><div class="rv-val">● Shobana Balachandra</div><div style="font-size:12px;color:var(--gray-500)">Bharatanatyam · Chennai</div></div>
+    <div class="rv"><div class="rv-label">Slot</div><div class="rv-val">May 14 (Wed) · 6:00 PM – 8:00 PM</div></div>
+    <div class="rv"><div class="rv-label">Series</div><div class="rv-val">Spring Concert Series 2026</div><div style="font-size:12px;color:var(--gray-500)">Phoenix, AZ</div></div>
+    <div class="rv"><div class="rv-label">Status</div><div class="rv-val" style="color:var(--gray-700);font-weight:700">CONFIRMED</div></div>
+    <div style="margin-top:20px"><button class="btn btn-s" onclick="nav('seriesPlanner')">View in Series Planner</button><button class="btn btn-d" onclick="goBack()">Dismiss</button></div>
+  </div>
+</div>
+
+<!-- SERIES PLANNER -->
+<div id="seriesPlanner" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="nav('myorg')">←</div><div class="pg-title">Spring Concert Series</div></div>
+  <div class="content">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--gray-200);margin-bottom:10px">
+      <div><span class="sr-badge plan">Planning</span><span style="font-size:12px;color:var(--gray-500);margin-left:8px">8/11 confirmed</span><div style="font-size:11px;color:var(--gray-400);margin-top:2px">Phoenix, AZ · May 2026</div></div>
+      <button class="pub">Publish →</button>
+    </div>
+    <div class="pills" id="slotPills"><div class="pill on" onclick="filterSlots('all',this)">All</div><div class="pill" onclick="filterSlots('avail',this)">Available</div><div class="pill" onclick="filterSlots('pend',this)">Pending</div><div class="pill" onclick="filterSlots('conf',this)">Confirmed</div></div>
+    <div id="slotList">
+      <div class="sl slot-conf" onclick="nav('concertDetail')"><div class="sl-date">May 14 (Wed) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">Shobana Balachandra · Bharatanatyam</div></div>
+      <div class="sl slot-pend"><div class="sl-date">May 15 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Ranjani & group · Vocal</div><div class="sl-meta">Invited 3 days ago</div></div>
+      <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 16 (Fri) · 6:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
+      <div class="sl slot-conf" onclick="nav('concertDetail')"><div class="sl-date">May 17 (Sat) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">Vedanth Bharadwaj · Violin</div></div>
+      <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 18 (Sun) · 4:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
+      <div class="sl slot-conf" onclick="nav('concertDetail')"><div class="sl-date">May 19 (Mon) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">Sanjay Subrahmanyan · Vocal</div></div>
+      <div class="sl slot-conf" onclick="nav('concertDetail')"><div class="sl-date">May 20 (Tue) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">Bombay Jayashri · Vocal</div></div>
+      <div class="sl slot-conf" onclick="nav('concertDetail')"><div class="sl-date">May 21 (Wed) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">T.M. Krishna · Vocal</div></div>
+      <div class="sl slot-pend"><div class="sl-date">May 22 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Shashank Subramanyam · Flute</div><div class="sl-meta">Invited 1 day ago</div></div>
+      <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 23 (Fri) · 6:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
+      <div class="sl slot-conf" onclick="nav('concertDetail')"><div class="sl-date">May 24 (Sat) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">Abhishek Raghuram · Vocal</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- INVITE: SELECT ARTIST -->
+<div id="inviteSelect" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Invite Artist</div></div>
+  <div class="content">
+    <div class="ctx">For: May 16 (Fri) · 6:00 – 8:00 PM<br>Spring Concert Series 2026 · Phoenix, AZ</div>
+    <div class="search">🔍 Search artists...</div>
+    <div class="pills"><div class="pill">Karnatic</div><div class="pill">Vocal</div><div class="pill">Violin</div><div class="pill">Flute</div></div>
+    <div class="as" onclick="nav('invitePreview')"><div class="as-av">●</div><div class="as-info"><div class="as-name">Abhishek Raghuram</div><div class="as-det">Karnatic · Vocal · Bangalore</div><div class="as-free">✓ Available May 16</div></div></div>
+    <div class="as" onclick="nav('invitePreview')"><div class="as-av">●</div><div class="as-info"><div class="as-name">Vedanth Bharadwaj</div><div class="as-det">Karnatic · Violin · Chennai</div><div class="as-free">✓ Available May 16</div></div></div>
+    <div class="as"><div class="as-av">●</div><div class="as-info"><div class="as-name">Shobana Balachandra</div><div class="as-det">Bharatanatyam · Chennai</div><div class="as-busy">⚠ Busy May 16 (FAAA concert)</div></div></div>
+    <div class="as"><div class="as-av">●</div><div class="as-info"><div class="as-name">Ranjani & Gayatri</div><div class="as-det">Karnatic · Vocal · Chennai</div><div class="as-busy">⚠ Pending invite (SIFA, May 16)</div></div></div>
+    <div class="as" onclick="nav('invitePreview')"><div class="as-av">●</div><div class="as-info"><div class="as-name">Shashank Subramanyam</div><div class="as-det">Karnatic · Flute · Bangalore</div><div class="as-free">✓ Available May 16</div></div></div>
+  </div>
+</div>
+
+<!-- INVITE: ARTIST PREVIEW -->
+<div id="invitePreview" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Artist Profile</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:14px 0"><div style="width:68px;height:68px;border-radius:50%;background:var(--gray-200);margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--gray-500)">●</div><div style="font-size:18px;font-weight:800">Abhishek Raghuram</div><div style="font-size:12px;color:var(--gray-500);margin-top:2px">Karnatic · Vocal · Bangalore</div></div>
+    <div style="font-size:13px;color:var(--gray-500);line-height:1.5;margin-bottom:12px">Award-winning Karnatic vocalist performing internationally since 2010.</div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:6px">Upcoming Concerts</div>
+    <div class="sc"><div class="sc-date">Apr 5 · Cleveland Aradhana</div><div class="sc-venue">Cleveland, OH</div></div>
+    <div class="sc"><div class="sc-date">Apr 12 · SIFA Annual</div><div class="sc-venue">Chennai</div></div>
+    <div style="margin-top:4px;font-size:12px;font-weight:600;color:var(--gray-700)">✓ Available May 16</div>
+    <div style="margin-top:16px"><button class="btn btn-p" onclick="nav('inviteDates')">Invite to Spring Concert Series →</button></div>
+  </div>
+</div>
+
+<!-- INVITE: PROPOSE DATES -->
+<div id="inviteDates" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Propose Dates</div></div>
+  <div class="content">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div class="as-av" style="width:36px;height:36px;font-size:14px">●</div><div><div style="font-weight:700;font-size:14px">Abhishek Raghuram</div><div style="font-size:11px;color:var(--gray-500)">Karnatic · Vocal</div></div></div>
+    <div class="fl">Select dates to offer (artist will pick one)</div>
+    <div class="dt on" onclick="togDt(this)"><div class="dt-box">✓</div><div class="dt-info"><div class="dt-label">May 16 (Fri) · 6:00 – 8:00 PM</div><div class="dt-sub">AVAILABLE</div></div></div>
+    <div class="dt" onclick="togDt(this)"><div class="dt-box"></div><div class="dt-info"><div class="dt-label">May 18 (Sun) · 4:00 – 7:00 PM</div><div class="dt-sub">AVAILABLE</div></div></div>
+    <div class="dt" onclick="togDt(this)"><div class="dt-box"></div><div class="dt-info"><div class="dt-label">May 23 (Fri) · 6:00 – 8:00 PM</div><div class="dt-sub">AVAILABLE</div></div></div>
+    <div class="fg" style="margin-top:14px"><div class="fl">Message (optional)</div><textarea class="ft" placeholder="Add a personal note...">Would love to have you perform. May 16 is preferred but flexible.</textarea></div>
+    <button class="btn btn-p" onclick="nav('inviteReview')">Review Invite →</button>
+  </div>
+</div>
+
+<!-- INVITE: REVIEW -->
+<div id="inviteReview" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review Invite</div></div>
+  <div class="content">
+    <div class="rv"><div class="rv-label">To</div><div class="rv-val">Abhishek Raghuram</div><div style="font-size:11px;color:var(--gray-500)">Karnatic · Vocal · Bangalore</div></div>
+    <div class="rv"><div class="rv-label">From</div><div class="rv-val">Fine Arts Association of Arizona</div></div>
+    <div class="rv"><div class="rv-label">Series</div><div class="rv-val">Spring Concert Series 2026</div><div style="font-size:11px;color:var(--gray-500)">Phoenix, AZ</div></div>
+    <div class="rv"><div class="rv-label">Proposed Dates (pick one)</div><div style="font-size:13px;margin-top:3px">• May 16 (Fri) · 6:00 – 8:00 PM</div></div>
+    <div class="rv"><div class="rv-label">Your Message</div><div class="msg">Would love to have you perform. May 16 is preferred but flexible.</div></div>
+    <button class="btn btn-p" onclick="nav('inviteConfirm')">Send Invite</button>
+  </div>
+</div>
+
+<!-- INVITE: CONFIRM -->
+<div id="inviteConfirm" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Invite Sent!</div><div class="conf-line">Abhishek Raghuram</div><div class="conf-line">May 16 (Fri) · 6:00 PM</div><div class="conf-status">Status: PENDING · Artist notified by email</div><button class="btn btn-p btn-sm" onclick="nav('inviteSelect')">Invite Another Artist</button><button class="btn btn-s btn-sm" onclick="nav('seriesPlanner')">Back to Series</button></div>
+</div>
+
+<!-- COUNTER PROPOSAL -->
+<div id="counterProposal" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Invite Details</div></div>
+  <div class="content">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div class="as-av" style="width:36px;height:36px;font-size:14px">●</div><div><div style="font-weight:700;font-size:14px">Ranjani & group</div><div style="font-size:11px;color:var(--gray-500)">Karnatic · Vocal</div></div></div>
+    <div class="rv"><div class="rv-label">Series</div><div class="rv-val">Spring Concert Series 2026</div></div>
+    <div class="rv"><div class="rv-label">Original Invite</div><div style="font-size:13px">Proposed: May 14, May 15</div><div style="display:inline-block;padding:2px 6px;border-radius:3px;background:var(--gray-200);font-size:10px;font-weight:700;margin-top:3px">COUNTER-PROPOSED</div></div>
+    <div class="rv"><div class="rv-label">Artist's Message</div><div class="msg">"I'm available May 20 or 22 instead. May 14-15 I have a concert in Chennai."</div></div>
+    <button class="btn btn-p" onclick="nav('reinvite')">Withdraw & Re-invite</button>
+    <button class="btn btn-o">Withdraw Only</button>
+  </div>
+</div>
+
+<!-- REINVITE -->
+<div id="reinvite" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Re-invite Ranjani</div></div>
+  <div class="content">
+    <div class="ctx">Artist said: "Available May 20 or 22"</div>
+    <div class="fl">Pick new dates</div>
+    <div style="font-size:11px;color:var(--gray-400);margin-bottom:8px">Available slots in this series:</div>
+    <div class="dt" onclick="togDt(this)"><div class="dt-box"></div><div class="dt-info"><div class="dt-label">May 18 (Sun) · 4:00 PM</div><div class="dt-sub">AVAILABLE</div></div></div>
+    <div class="dt on" onclick="togDt(this)"><div class="dt-box">✓</div><div class="dt-info"><div class="dt-label">May 23 (Fri) · 6:00 PM</div><div class="dt-sub">AVAILABLE</div></div></div>
+    <div class="fg" style="margin-top:14px"><div class="fl">Message (optional)</div><textarea class="ft">May 23 works. Looking forward to it!</textarea></div>
+    <button class="btn btn-p" onclick="nav('inviteConfirm')">Send New Invite</button>
+  </div>
+</div>
+
+<!-- CREATE SERIES: DETAILS -->
+<div id="createSeries1" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Create Series (1/4)</div></div>
+  <div class="content">
+    <div class="fg"><div class="fl">Series Name *</div><input class="fi" value="Monsoon Music Festival 2026"></div>
+    <div class="fg"><div class="fl">Location *</div><input class="fi" value="Phoenix, AZ"></div>
+    <div class="fg"><div class="fl">Description</div><textarea class="ft" placeholder="Describe the series..."></textarea></div>
+    <div class="fg"><div class="fl">Art Form *</div><div class="pills"><div class="pill on" onclick="this.classList.toggle('on')">Karnatic</div><div class="pill" onclick="this.classList.toggle('on')">Hindustani</div><div class="pill" onclick="this.classList.toggle('on')">Bharatanatyam</div><div class="pill" onclick="this.classList.toggle('on')">Dance</div><div class="pill" onclick="this.classList.toggle('on')">Instrumental</div></div></div>
+    <button class="btn btn-p" onclick="nav('createSeries2')">Continue →</button>
+  </div>
+</div>
+
+<!-- CREATE SERIES: DATES -->
+<div id="createSeries2" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Select Dates (2/4)</div></div>
+  <div class="content">
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:12px">Tap dates to add slots</div>
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-weight:700;margin-bottom:8px">July 2026</div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:12px;color:var(--gray-400);margin-bottom:4px"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:13px" id="calGrid"></div>
+    </div>
+    <div style="font-size:12px;color:var(--gray-500);margin-bottom:12px" id="dateCount">0 dates selected</div>
+    <button class="btn btn-p" onclick="nav('createSeries3')">Continue →</button>
+  </div>
+</div>
+
+<!-- CREATE SERIES: TIME SLOTS -->
+<div id="createSeries3" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Set Time Slots (3/4)</div></div>
+  <div class="content">
+    <div style="border-bottom:1px solid var(--gray-200);padding-bottom:10px;margin-bottom:12px"><div class="fl">Jul 8 (Wed)</div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px">Slot 1:</span><input class="fi" value="6:00 PM" style="width:100px;padding:8px"><input class="fi" value="2 hrs" style="width:70px;padding:8px"></div><div style="font-size:12px;color:var(--gray-500);cursor:pointer;margin-top:4px">+ Add another slot</div></div>
+    <div style="border-bottom:1px solid var(--gray-200);padding-bottom:10px;margin-bottom:12px"><div class="fl">Jul 10 (Fri)</div><div style="display:flex;gap:8px;align-items:center;margin-bottom:6px"><span style="font-size:12px">Slot 1:</span><input class="fi" value="10:00 AM" style="width:100px;padding:8px"><input class="fi" value="2 hrs" style="width:70px;padding:8px"></div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px">Slot 2:</span><input class="fi" value="6:00 PM" style="width:100px;padding:8px"><input class="fi" value="2 hrs" style="width:70px;padding:8px"></div><div style="font-size:12px;color:var(--gray-500);cursor:pointer;margin-top:4px">+ Add another slot</div></div>
+    <div style="border-bottom:1px solid var(--gray-200);padding-bottom:10px;margin-bottom:12px"><div class="fl">Jul 12 (Sun)</div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px">Slot 1:</span><input class="fi" value="4:00 PM" style="width:100px;padding:8px"><input class="fi" value="3 hrs" style="width:70px;padding:8px"></div><div style="font-size:12px;color:var(--gray-500);cursor:pointer;margin-top:4px">+ Add another slot</div></div>
+    <div style="font-size:12px;color:var(--gray-500);margin-bottom:12px">4 slots across 3 dates</div>
+    <button class="btn btn-p" onclick="nav('createSeries4')">Continue →</button>
+  </div>
+</div>
+
+<!-- CREATE SERIES: REVIEW -->
+<div id="createSeries4" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review Series (4/4)</div></div>
+  <div class="content">
+    <div class="rv"><div class="rv-label">Series</div><div class="rv-val">Monsoon Music Festival 2026</div></div>
+    <div class="rv"><div class="rv-label">Location</div><div class="rv-val">Phoenix, AZ</div></div>
+    <div class="rv"><div class="rv-label">Art Form</div><div class="rv-val">Karnatic</div></div>
+    <div class="rv"><div class="rv-label">Slots (4)</div>
+      <div style="font-size:13px;margin-top:3px">• Jul 8 (Wed) · 6:00 PM · 2 hrs</div>
+      <div style="font-size:13px">• Jul 10 (Fri) · 10:00 AM · 2 hrs</div>
+      <div style="font-size:13px">• Jul 10 (Fri) · 6:00 PM · 2 hrs</div>
+      <div style="font-size:13px">• Jul 12 (Sun) · 4:00 PM · 3 hrs</div>
+    </div>
+    <div style="font-size:12px;color:var(--gray-500);margin-top:12px">All slots will start as AVAILABLE.</div>
+    <button class="btn btn-p" style="margin-top:16px" onclick="nav('createSeriesConf')">Create Series</button>
+  </div>
+</div>
+
+<!-- CREATE SERIES: CONFIRM -->
+<div id="createSeriesConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Series Created!</div><div class="conf-line">Monsoon Music Festival 2026</div><div class="conf-line">Phoenix, AZ · 4 slots</div><div class="conf-status">Status: PLANNING</div><button class="btn btn-p btn-sm" onclick="nav('seriesPlanner')">Start Inviting Artists</button><button class="btn btn-s btn-sm" onclick="nav('myorg')">Back to My Org</button></div>
+</div>
+
+<!-- ARTIST: INVITES -->
+<div id="artistInvites" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="nav('saved')">♡</div><div class="h-icon" onclick="openSheet()">👤</div></div></div>
+  <div class="content">
+    <div style="font-size:20px;font-weight:800;margin-bottom:14px">Invites (2)</div>
+    <div class="inv" onclick="nav('artistInvDetail')"><div class="inv-org">Fine Arts Association of Arizona</div><div class="inv-series">Spring Concert Series 2026 · Phoenix, AZ</div><div class="inv-dates">Proposed: May 16 or May 18</div><div class="inv-msg">"Would love to have you perform..."</div><div class="inv-time">Received 2 hours ago</div></div>
+    <div class="inv" onclick="nav('artistInvDetail')"><div class="inv-org">Charsur Arts Foundation</div><div class="inv-series">Monsoon Music Festival · Chennai</div><div class="inv-dates">Proposed: Jul 10</div><div class="inv-time">Received 1 day ago</div></div>
+  </div>
+  <div id="artistInvitesNav"></div>
+</div>
+
+<!-- ARTIST: INVITE DETAIL -->
+<div id="artistInvDetail" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Invite Details</div></div>
+  <div class="content">
+    <div class="rv"><div style="font-size:15px;font-weight:700;cursor:pointer" onclick="nav('orgProfile')">▣ Fine Arts Association of Arizona</div><div style="font-size:12px;color:var(--gray-500)">Spring Concert Series 2026 · Phoenix, AZ</div></div>
+    <div class="rv"><div class="rv-label">Proposed Dates (select one)</div>
+      <div class="dt" onclick="togDt(this)"><div class="dt-box"></div><div class="dt-info"><div class="dt-label">May 16 (Fri) · 6:00 – 8:00 PM</div><div class="dt-sub" style="color:var(--gray-700)">✓ Your schedule: Free</div></div></div>
+      <div class="dt" onclick="togDt(this)"><div class="dt-box"></div><div class="dt-info"><div class="dt-label">May 18 (Sun) · 4:00 – 7:00 PM</div><div class="warn">⚠ SIFA concert 3–6 PM (overlap)</div></div></div>
+    </div>
+    <div class="rv"><div class="rv-label">Message from Organization</div><div class="msg">"Would love to have you perform at our spring series. May 16 is preferred but flexible."</div></div>
+    <button class="btn btn-p" onclick="nav('artistAccConf')">Accept Selected Date</button>
+    <button class="btn btn-o" onclick="nav('artistCounter')">Suggest Different Dates</button>
+    <button class="btn btn-d">Decline</button>
+  </div>
+</div>
+
+<!-- ARTIST: COUNTER -->
+<div id="artistCounter" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Suggest Different Dates</div></div>
+  <div class="content">
+    <div class="rv"><div style="font-weight:700">Fine Arts Association of Arizona</div><div style="font-size:12px;color:var(--gray-500)">Spring Concert Series 2026</div></div>
+    <div style="font-size:12px;color:var(--gray-400);margin-bottom:8px">They proposed: May 16, May 18</div>
+    <div class="fg"><div class="fl">Your Message</div><textarea class="ft" style="min-height:100px">I'm available May 20 or 22 instead. May 16 I have a concert in Chennai.</textarea></div>
+    <button class="btn btn-p" onclick="nav('artistInvites')">Send to Organization</button>
+  </div>
+</div>
+
+<!-- ARTIST: ACCEPT CONFIRM -->
+<div id="artistAccConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">You're Booked!</div><div class="conf-line" style="font-weight:700">May 16 (Fri) · 6:00 – 8:00 PM</div><div class="conf-line">Spring Concert Series 2026</div><div class="conf-line">Fine Arts Association of Arizona</div><div class="conf-line">Phoenix, AZ</div><div class="conf-status">Added to your Schedule</div><button class="btn btn-o btn-sm">Add to Calendar</button><button class="btn btn-s btn-sm" onclick="nav('artistInvites')">Back to Invites</button></div>
+</div>
+
+<!-- ARTIST: SCHEDULE -->
+<div id="artistSchedule" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="nav('saved')">♡</div><div class="h-icon" onclick="openSheet()">👤</div></div></div>
+  <div class="content">
+    <div style="font-size:20px;font-weight:800;margin-bottom:14px">My Upcoming Performances</div>
+    <div class="sc-month">March 2026</div>
+    <div class="sc" onclick="nav('concertDetail')"><div class="sc-date">Mar 27 (Fri) · 7:00 PM</div><div class="sc-event">Charsur Arts Foundation</div><div class="sc-event" style="font-size:12px">Monsoon Music Festival</div><div class="sc-venue">Chennai</div></div>
+    <div class="sc-month">May 2026</div>
+    <div class="sc" onclick="nav('concertDetail')"><div class="sc-date">May 16 (Fri) · 6:00 PM</div><div class="sc-event">Fine Arts Assoc. of Arizona</div><div class="sc-event" style="font-size:12px">Spring Concert Series 2026</div><div class="sc-venue">Phoenix, AZ</div></div>
+    <div class="sc" onclick="nav('concertDetail')"><div class="sc-date">May 17 (Sat) · 7:00 PM</div><div class="sc-event">South India Fine Arts (SIFA)</div><div class="sc-event" style="font-size:12px">SIFA Annual Concert</div><div class="sc-venue">San Diego</div></div>
+    <div class="sc-month">July 2026</div>
+    <div class="sc" onclick="nav('concertDetail')"><div class="sc-date">Jul 10 (Fri) · 6:30 PM</div><div class="sc-event">Cleveland Aradhana</div><div class="sc-event" style="font-size:12px">Summer Concert</div><div class="sc-venue">Cleveland, OH</div></div>
+  </div>
+  <div id="artistScheduleNav"></div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="nav('saved')">♡</div></div></div>
+  <div class="content">
+    <div class="pf-sec"><div class="pf-name">Yogin Naidu</div><div class="pf-email">yogin@schoolcues.com</div></div>
+    <div class="pf-sec"><div class="pf-label">Active Role</div>
+      <div class="role-row" onclick="switchRole('exploring');nav('explore')"><div class="role-dot" id="pf-r-exp"></div><div class="role-body"><div class="role-title">Exploring</div><div class="role-desc">Browse concerts, orgs, and artists</div></div></div>
+      <div class="role-row" onclick="switchRole('org');nav('myorg')"><div class="role-dot" id="pf-r-org"></div><div class="role-body"><div class="role-title">Org Admin</div><div class="role-desc">Fine Arts Association of Arizona</div></div><div class="role-bdg">⚠ 3</div></div>
+      <div class="role-row" onclick="switchRole('artist');nav('artistInvites')"><div class="role-dot" id="pf-r-art"></div><div class="role-body"><div class="role-title">Artist</div><div class="role-desc">Yogin Naidu · Vocal</div></div><div class="role-bdg">● 1</div></div>
+    </div>
+    <div class="pf-sec"><div class="pf-label">Org Settings</div><div class="pf-link">Edit organization profile <span>→</span></div></div>
+    <div class="pf-sec"><div class="pf-link">Contact Us <span>→</span></div><div class="pf-link">Sign Out <span>→</span></div><div class="pf-link danger">Delete Account <span>→</span></div></div>
+  </div>
+  <div id="profileNav"></div>
+</div>
+
+<!-- ROLE SWITCHER -->
+<div id="sheetOverlay" class="overlay" onclick="closeSheet()"></div>
+<div id="sheet" class="bsheet">
+  <div class="bs-head"><div class="bs-title">Switch Role</div><div class="bs-close" onclick="closeSheet()">✕</div></div>
+  <div class="role-row" onclick="closeSheet();switchRole('exploring');nav('explore')"><div class="role-dot" id="sh-r-exp"></div><div class="role-body"><div class="role-title">Exploring</div><div class="role-desc">Browse concerts, orgs, and artists</div></div></div>
+  <div class="role-row" onclick="closeSheet();switchRole('org');nav('myorg')"><div class="role-dot" id="sh-r-org"></div><div class="role-body"><div class="role-title">Org Admin</div><div class="role-desc">Fine Arts Association of Arizona</div></div><div class="role-bdg">⚠ 3</div></div>
+  <div class="role-row" onclick="closeSheet();switchRole('artist');nav('artistInvites')"><div class="role-dot" id="sh-r-art"></div><div class="role-body"><div class="role-title">Artist</div><div class="role-desc">Yogin Naidu · Vocal</div></div><div class="role-bdg">● 1</div></div>
+</div>
+
+</div>
+
+<script>
+let hist = [];
+let cur = 'splash';
+let role = 'exploring'; // 'exploring' | 'org' | 'artist'
+
+function nav(id) {
+  hist.push(cur);
+  cur = id;
+  show(id);
+}
+
+function goBack() {
+  if (hist.length) { cur = hist.pop(); show(cur); }
+}
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  renderNavs();
+}
+
+// Build bottom nav HTML based on current role
+function getNavHTML(activeTab) {
+  let tabs = [];
+  if (role === 'exploring') {
+    tabs = [
+      { id:'explore', icon:'◎', label:'Explore' },
+      { id:'profile', icon:'●', label:'Profile' }
+    ];
+  } else if (role === 'org') {
+    tabs = [
+      { id:'explore', icon:'◎', label:'Explore' },
+      { id:'myorg', icon:'▣', label:'My Org' },
+      { id:'profile', icon:'●', label:'Profile' }
+    ];
+  } else if (role === 'artist') {
+    tabs = [
+      { id:'explore', icon:'◎', label:'Explore' },
+      { id:'artistInvites', icon:'✉', label:'Invites', badge:'2' },
+      { id:'artistSchedule', icon:'▦', label:'Schedule' },
+      { id:'profile', icon:'●', label:'Profile' }
+    ];
+  }
+  return '<div class="bottom-nav">' + tabs.map(t => {
+    let cls = (t.id === activeTab) ? 'nav-tab active' : 'nav-tab';
+    let badge = t.badge ? `<div class="nbadge">${t.badge}</div>` : '';
+    return `<div class="${cls}" onclick="nav('${t.id}')"><div class="ni">${t.icon}</div>${t.label}${badge}</div>`;
+  }).join('') + '</div>';
+}
+
+function renderNavs() {
+  // Screens that have dynamic navs
+  const navMap = {
+    'explore': 'exploreNav',
+    'myorg': 'myorgNav',
+    'artistInvites': 'artistInvitesNav',
+    'artistSchedule': 'artistScheduleNav',
+    'profile': 'profileNav'
+  };
+  for (let [screen, navId] of Object.entries(navMap)) {
+    const el = document.getElementById(navId);
+    if (el) el.innerHTML = getNavHTML(screen);
+  }
+}
+
+function switchRole(r) {
+  role = r;
+  // Update role dots everywhere
+  document.querySelectorAll('.role-dot[id]').forEach(d => d.classList.remove('on'));
+  if (r === 'exploring') {
+    ['pf-r-exp','sh-r-exp'].forEach(id => { let e=document.getElementById(id); if(e) e.classList.add('on'); });
+  } else if (r === 'org') {
+    ['pf-r-org','sh-r-org'].forEach(id => { let e=document.getElementById(id); if(e) e.classList.add('on'); });
+  } else if (r === 'artist') {
+    ['pf-r-art','sh-r-art'].forEach(id => { let e=document.getElementById(id); if(e) e.classList.add('on'); });
+  }
+  // Show/hide dot indicator
+  document.querySelectorAll('.role-dot-indicator').forEach(d => {
+    d.style.display = (r === 'exploring') ? 'block' : (r !== role ? 'block' : 'block');
+  });
+  renderNavs();
+}
+
+function openSheet() { document.getElementById('sheetOverlay').classList.add('on'); document.getElementById('sheet').classList.add('on'); }
+function closeSheet() { document.getElementById('sheetOverlay').classList.remove('on'); document.getElementById('sheet').classList.remove('on'); }
+
+function setPill(el) { el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('on')); el.classList.add('on'); }
+
+function togDt(el) { el.classList.toggle('on'); el.querySelector('.dt-box').textContent = el.classList.contains('on') ? '✓' : ''; }
+
+function filterSlots(type, el) {
+  setPill(el);
+  document.querySelectorAll('#slotList .sl').forEach(s => {
+    if (type === 'all') { s.style.display = ''; }
+    else if (type === 'avail') { s.style.display = s.classList.contains('slot-avail') ? '' : 'none'; }
+    else if (type === 'pend') { s.style.display = s.classList.contains('slot-pend') ? '' : 'none'; }
+    else if (type === 'conf') { s.style.display = s.classList.contains('slot-conf') ? '' : 'none'; }
+  });
+}
+
+// Calendar grid
+(function buildCal(){
+  const grid = document.getElementById('calGrid');
+  if (!grid) return;
+  // July 2026 starts on Wednesday (index 2)
+  let html = '<span></span><span></span>'; // offset for Wed start
+  let selected = [8,10,12,15,18]; // pre-selected dates
+  for (let d=1; d<=31; d++) {
+    let sel = selected.includes(d);
+    html += `<span style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;font-weight:${sel?'700':'400'};background:${sel?'var(--black)':'transparent'};color:${sel?'var(--white)':'var(--gray-700)'}" onclick="this.style.background=this.style.background==='transparent'?'var(--black)':'transparent';this.style.color=this.style.color==='var(--white)'?'var(--gray-700)':'var(--white)';this.style.fontWeight=this.style.fontWeight==='700'?'400':'700';updateDateCount()">${d}</span>`;
+  }
+  grid.innerHTML = html;
+})();
+
+function updateDateCount() {
+  const grid = document.getElementById('calGrid');
+  const count = grid.querySelectorAll('span[style*="font-weight: 700"], span[style*="font-weight:700"]').length;
+  document.getElementById('dateCount').textContent = count + ' dates selected';
+}
+
+// Init role
+switchRole('exploring');
+</script>
+</body>
+</html>

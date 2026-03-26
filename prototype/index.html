@@ -84,8 +84,8 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 
 /* Pills */
 .pills { display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
-.pill { padding:5px 12px; border-radius:20px; font-size:12px; font-weight:500; cursor:pointer; border:1px solid var(--gray-300); color:var(--gray-600); background:var(--white); }
-.pill.on { background:var(--black); color:var(--white); border-color:var(--black); }
+.pill { padding:7px 14px; border-radius:20px; font-size:12px; font-weight:500; cursor:pointer; border:1.5px solid var(--gray-200); color:var(--gray-600); background:var(--white); box-shadow:0 1px 3px rgba(0,0,0,0.06); white-space:nowrap; }
+.pill.on { background:var(--black); color:var(--white); border-color:var(--black); box-shadow:none; }
 
 /* Notification items */
 .nf { display:flex; align-items:center; gap:10px; padding:12px; background:var(--gray-50); border-radius:var(--radius-sm); margin-bottom:6px; cursor:pointer; border:1px solid var(--gray-200); }
@@ -244,14 +244,6 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 .bs-title { font-size:17px; font-weight:700; }
 .bs-close { font-size:18px; cursor:pointer; color:var(--gray-400); }
 
-/* Role toggle (2-segment) */
-.role-toggle { display:flex; border:1.5px solid var(--gray-300); border-radius:10px; overflow:hidden; margin:0 0 12px; }
-.role-seg { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:10px 0; cursor:pointer; font-size:13px; font-weight:600; color:var(--gray-600); background:var(--white); transition:all 0.15s; border:none; }
-.role-seg + .role-seg { border-left:1.5px solid var(--gray-300); }
-.role-seg.on { background:var(--black); color:var(--white); }
-.role-seg .seg-badge { font-size:11px; font-weight:700; padding:1px 6px; border-radius:10px; background:var(--gray-200); color:var(--gray-700); }
-.role-seg.on .seg-badge { background:rgba(255,255,255,0.25); color:var(--white); }
-
 /* Time dropdown */
 .time-dropdown { position:relative; display:inline; }
 .time-trigger { text-decoration:underline; text-decoration-style:dotted; cursor:pointer; font-weight:700; }
@@ -318,17 +310,12 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
       <div class="city-pick" onclick="openCitySheet()" id="cityPill" style="display:inline-flex;align-items:center;gap:4px;padding:2px 0;font-size:13px;font-weight:600;cursor:pointer;color:var(--gray-600)">📍 <span id="cityLabel">All Cities</span> ▾</div>
     </div>
     <div class="header-icons">
+      <div class="h-icon" onclick="nav('notifications')">🔔<div class="dot" style="background:var(--black)"></div></div>
       <div class="h-icon" onclick="nav('saved')">♡</div>
       <div class="h-icon" onclick="nav('profile')">👤</div>
     </div>
   </div>
   <div class="content">
-    <!-- Role Toggle -->
-    <div class="role-toggle" id="roleToggle">
-      <div class="role-seg" id="seg-org" onclick="switchRole('org')">Org <span class="seg-badge" id="orgBadge">3</span></div>
-      <div class="role-seg" id="seg-artist" onclick="switchRole('artist')">Artist <span class="seg-badge" id="artistBadge">1</span></div>
-    </div>
-
     <div class="search" onclick="nav('search')">🔍 Search events, orgs, artists...</div>
 
     <!-- Browse by Instrument -->
@@ -404,6 +391,18 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   </div>
 </div>
 
+<!-- NOTIFICATIONS -->
+<div id="notifications" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Notifications</div></div>
+  <div class="content">
+    <div class="nf" onclick="nav('orgAcceptDetail')"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shobana Balachandra accepted</div><div class="nf-meta">May 14 · Spring Concert Series · 2h ago</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG</span></div></div><div class="nf-arrow">→</div></div>
+    <div class="nf" onclick="nav('counterProposal')"><div class="nf-icon">↩</div><div class="nf-body"><div class="nf-title">Ranjani counter-proposed</div><div class="nf-meta">Spring Concert Series · "I'm available May 20..."</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG</span></div></div><div class="nf-arrow">→</div></div>
+    <div class="nf" onclick="nav('seriesPlanner')"><div class="nf-icon">✗</div><div class="nf-body"><div class="nf-title">Abhishek Raghuram declined</div><div class="nf-meta">May 16 · Spring Concert Series · 1d ago</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG</span></div></div><div class="nf-arrow">→</div></div>
+    <div class="nf" onclick="nav('artistInviteDetail')"><div class="nf-icon">✉</div><div class="nf-body"><div class="nf-title">New invite from SIFA</div><div class="nf-meta">Mar 28 · Spring Series · 5h ago</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ARTIST</span></div></div><div class="nf-arrow">→</div></div>
+  </div>
+</div>
+
 <!-- EVENTS (unified — BookMyShow style) -->
 <div id="events" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
@@ -415,6 +414,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
       <div class="pill" onclick="evFilter('date',this)">Date ▾</div>
       <div class="pill" onclick="evFilter('today',this)">Today</div>
       <div class="pill" onclick="evFilter('week',this)">This Week</div>
+      <div class="pill" onclick="evFilter('venue',this)">Venue ▾</div>
       <div class="pill" onclick="evFilter('Vocal',this)" id="evf-Vocal">Vocal</div>
       <div class="pill" onclick="evFilter('Violin',this)" id="evf-Violin">Violin</div>
       <div class="pill" onclick="evFilter('Flute',this)" id="evf-Flute">Flute</div>
@@ -820,7 +820,11 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Profile</div></div>
   <div class="content">
     <div class="pf-sec"><div class="pf-name">Yogin Naidu</div><div class="pf-email">yogin@schoolcues.com</div></div>
-    <div class="pf-sec"><div class="pf-label">Your Roles</div>
+    <div class="pf-sec"><div class="pf-label">Switch Role</div>
+      <div onclick="switchRole('general');nav('explore')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px">
+        <div style="font-size:20px">◎</div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:700">General</div><div style="font-size:12px;color:var(--gray-500)">Browse events, orgs, and artists</div></div>
+      </div>
       <div onclick="switchRole('org');nav('explore')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px">
         <div style="font-size:20px">▣</div>
         <div style="flex:1"><div style="font-size:14px;font-weight:700">Org Admin</div><div style="font-size:12px;color:var(--gray-500)">Fine Arts Association of AZ</div></div>
@@ -867,7 +871,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <script>
 let hist = [];
 let cur = 'splash';
-let role = 'default'; // 'default' | 'org' | 'artist'
+let role = 'general'; // 'general' | 'org' | 'artist'
 
 function nav(id) {
   hist.push(cur);
@@ -885,10 +889,10 @@ function show(id) {
   renderNavs();
 }
 
-// Build bottom nav HTML based on current role — NO profile tab
+// Build bottom nav HTML based on current role — Profile in header
 function getNavHTML(activeTab) {
   let tabs = [];
-  if (role === 'default') {
+  if (role === 'general') {
     tabs = [
       { id:'explore', icon:'◎', label:'Explore' }
     ];
@@ -924,22 +928,10 @@ function renderNavs() {
   }
 }
 
-// Toggle-style role switching
+// Switch role — called from Profile page role cards
 function switchRole(r) {
-  if (role === r) {
-    role = 'default'; // toggle off
-  } else {
-    role = r;
-  }
-  updateToggleUI();
+  role = r;
   renderNavs();
-}
-
-function updateToggleUI() {
-  const orgSeg = document.getElementById('seg-org');
-  const artSeg = document.getElementById('seg-artist');
-  if (orgSeg) { orgSeg.classList.toggle('on', role === 'org'); }
-  if (artSeg) { artSeg.classList.toggle('on', role === 'artist'); }
 }
 
 function setPill(el) { el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('on')); el.classList.add('on'); }
@@ -1019,10 +1011,8 @@ function updateDateCount() {
   document.getElementById('dateCount').textContent = count + ' dates selected';
 }
 
-// Init
-switchRole('default');
-role = 'default';
-updateToggleUI();
+// Init — default to org role for demo (user has both roles)
+role = 'org';
 renderNavs();
 </script>
 </body>

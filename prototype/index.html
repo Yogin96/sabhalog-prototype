@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Sabhalog — Prototype v3</title>
+<title>Sabhalog — Prototype v4</title>
 <style>
 :root {
   --black: #111111;
@@ -244,6 +244,42 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 .bs-title { font-size:17px; font-weight:700; }
 .bs-close { font-size:18px; cursor:pointer; color:var(--gray-400); }
 
+/* Role toggle (2-segment) */
+.role-toggle { display:flex; border:1.5px solid var(--gray-300); border-radius:10px; overflow:hidden; margin:0 0 12px; }
+.role-seg { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:10px 0; cursor:pointer; font-size:13px; font-weight:600; color:var(--gray-600); background:var(--white); transition:all 0.15s; border:none; }
+.role-seg + .role-seg { border-left:1.5px solid var(--gray-300); }
+.role-seg.on { background:var(--black); color:var(--white); }
+.role-seg .seg-badge { font-size:11px; font-weight:700; padding:1px 6px; border-radius:10px; background:var(--gray-200); color:var(--gray-700); }
+.role-seg.on .seg-badge { background:rgba(255,255,255,0.25); color:var(--white); }
+
+/* Time dropdown */
+.time-dropdown { position:relative; display:inline; }
+.time-trigger { text-decoration:underline; text-decoration-style:dotted; cursor:pointer; font-weight:700; }
+.time-menu { display:none; position:absolute; top:100%; left:0; background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius); box-shadow:0 4px 16px rgba(0,0,0,0.12); z-index:50; min-width:200px; overflow:hidden; margin-top:6px; }
+.time-menu.on { display:block; }
+.time-opt { padding:12px 16px; cursor:pointer; border-bottom:1px solid var(--gray-100); }
+.time-opt:last-child { border-bottom:none; }
+.time-opt:hover { background:var(--gray-50); }
+.time-opt.on { background:var(--gray-100); font-weight:600; }
+.time-opt-label { font-size:14px; font-weight:500; }
+.time-opt-sub { font-size:11px; color:var(--gray-400); margin-top:1px; }
+
+/* Event grid (BookMyShow style) */
+.ev-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.ev-card { border:1px solid var(--gray-200); border-radius:var(--radius); overflow:hidden; cursor:pointer; }
+.ev-card:hover { border-color:var(--gray-400); }
+.ev-img { height:100px; background:var(--gray-100); display:flex; align-items:center; justify-content:center; font-size:36px; color:var(--gray-400); position:relative; }
+.ev-bkmk { position:absolute; top:8px; right:8px; font-size:16px; cursor:pointer; opacity:0.6; }
+.ev-bkmk:hover { opacity:1; }
+.ev-info { padding:10px; }
+.ev-title { font-size:13px; font-weight:700; line-height:1.3; }
+.ev-date { font-size:11px; color:var(--gray-600); margin-top:3px; }
+.ev-meta { font-size:11px; color:var(--gray-400); margin-top:2px; }
+
+/* Scrollable filter bar */
+.filter-bar { display:flex; gap:6px; overflow-x:auto; padding-bottom:12px; flex-wrap:nowrap; }
+.filter-bar::-webkit-scrollbar { display:none; }
+
 /* Pub btn in series */
 .pub { padding:5px 14px; background:var(--black); color:var(--white); border:none; border-radius:6px; font-size:12px; font-weight:700; cursor:pointer; }
 
@@ -269,7 +305,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div>
     <div class="sp-logo">Sabhalog</div>
     <div class="sp-tag">Connect.<br>Schedule.<br>Gather.</div>
-    <button class="sp-btn" onclick="switchRole('exploring');nav('explore')">Get Started →</button>
+    <button class="sp-btn" onclick="nav('explore')">Get Started →</button>
   </div>
 </div>
 
@@ -277,15 +313,22 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <div id="explore" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="header">
-    <div class="logo">Sabhalog</div>
+    <div>
+      <div class="logo">Sabhalog</div>
+      <div class="city-pick" onclick="openCitySheet()" id="cityPill" style="display:inline-flex;align-items:center;gap:4px;padding:2px 0;font-size:13px;font-weight:600;cursor:pointer;color:var(--gray-600)">📍 <span id="cityLabel">All Cities</span> ▾</div>
+    </div>
     <div class="header-icons">
-      <div class="h-icon" onclick="nav('search')">🔍</div>
       <div class="h-icon" onclick="nav('saved')">♡</div>
-      <div class="h-icon" onclick="openSheet()">👤<div class="dot role-dot-indicator"></div></div>
+      <div class="h-icon" onclick="nav('profile')">👤</div>
     </div>
   </div>
   <div class="content">
-    <div class="city-pick" onclick="openCitySheet()" id="cityPill" style="display:inline-flex;align-items:center;gap:4px;padding:4px 12px 4px 6px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;color:var(--gray-700);margin-bottom:10px;border:1px solid var(--gray-200)">📍 <span id="cityLabel">All Cities</span> ▾</div>
+    <!-- Role Toggle -->
+    <div class="role-toggle" id="roleToggle">
+      <div class="role-seg" id="seg-org" onclick="switchRole('org')">Org <span class="seg-badge" id="orgBadge">3</span></div>
+      <div class="role-seg" id="seg-artist" onclick="switchRole('artist')">Artist <span class="seg-badge" id="artistBadge">1</span></div>
+    </div>
+
     <div class="search" onclick="nav('search')">🔍 Search events, orgs, artists...</div>
 
     <!-- Browse by Instrument -->
@@ -297,29 +340,15 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
       <div onclick="navInstrument('Bharatanatyam')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px 0;text-align:center;cursor:pointer"><div style="font-size:32px;margin-bottom:4px">💃</div><div style="font-size:11px;font-weight:600">Bharatanatyam</div></div>
     </div>
 
-    <!-- Near You -->
-    <div class="sec-header"><div class="sec-title">Near You</div><div class="sec-link" onclick="nav('eventList')">See all →</div></div>
-    <div class="carousel">
-      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Apr 1 · 5 PM</div><div class="c-name">Cleveland Aradhana Opening</div><div class="c-sub">Vedanth Bharadwaj · Violin</div><div class="c-meta">Cleveland Aradhana · Cleveland</div></div></div>
-      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Apr 2 · 6 PM</div><div class="c-name">Evening Raaga</div><div class="c-sub">Abhishek Raghuram · Vocal</div><div class="c-meta">Cleveland Aradhana · Cleveland</div></div></div>
-      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Apr 5 · 7 PM</div><div class="c-name">FAAA Spring Kickoff</div><div class="c-sub">Shashank · Flute</div><div class="c-meta">FAAA · Phoenix</div></div></div>
+    <!-- What's Happening (with time dropdown) -->
+    <div class="sec-header">
+      <div class="sec-title" style="position:relative">What's happening <span class="time-dropdown" id="timeDropdown"><span class="time-trigger" id="timeTrigger" onclick="toggleTimeMenu(event)">this week</span><div class="time-menu" id="timeMenu"><div class="time-opt" onclick="pickTime('today','Today')"><div class="time-opt-label">Today</div><div class="time-opt-sub">26 Mar</div></div><div class="time-opt" onclick="pickTime('tomorrow','Tomorrow')"><div class="time-opt-label">Tomorrow</div><div class="time-opt-sub">27 Mar</div></div><div class="time-opt on" onclick="pickTime('this week','This Week')"><div class="time-opt-label">This Week</div><div class="time-opt-sub">24–30 Mar</div></div><div class="time-opt" onclick="pickTime('this month','This Month')"><div class="time-opt-label">This Month</div><div class="time-opt-sub">March 2026</div></div></div></span> ▾</div>
+      <div class="sec-link" onclick="nav('events')">See all →</div>
     </div>
-
-    <!-- Happening This Week -->
-    <div class="sec-header"><div class="sec-title">Happening This Week</div><div class="sec-link" onclick="nav('eventList')">See all →</div></div>
     <div class="carousel">
       <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Mar 27 · 7 PM</div><div class="c-name">Sitaristique</div><div class="c-sub">Ranjani & Gayatri · Vocal</div><div class="c-meta">SIFA · Chennai</div></div></div>
       <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Mar 28 · 6 PM</div><div class="c-name">SIFA Spring Concert</div><div class="c-sub">Shobana · Bharatanatyam</div><div class="c-meta">Charsur Arts · Chennai</div></div></div>
       <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Mar 29 · 7 PM</div><div class="c-name">Navarathri Evening</div><div class="c-sub">Sanjay Subrahmanyan · Vocal</div><div class="c-meta">Music Academy · Chennai</div></div></div>
-    </div>
-
-    <!-- Upcoming -->
-    <div class="sec-header"><div class="sec-title">Upcoming</div><div class="sec-link" onclick="nav('eventList')">See all →</div></div>
-    <div class="carousel">
-      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Apr 12 · 7 PM</div><div class="c-name">Enchantment</div><div class="c-sub">Vedanth Bharadwaj · Violin</div><div class="c-meta">FAAA · Phoenix</div></div></div>
-      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Apr 18 · 6:30 PM</div><div class="c-name">Naada Vaibhavam</div><div class="c-sub">Sanjay Subrahmanyan · Vocal</div><div class="c-meta">SIFA · Chennai</div></div></div>
-      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">May 14 · 6 PM</div><div class="c-name">Spring Concert Series</div><div class="c-sub">Abhishek Raghuram · Vocal</div><div class="c-meta">FAAA · Phoenix</div></div></div>
-      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Sep 10 · 7 PM</div><div class="c-name">Fall Season Opener</div><div class="c-sub">Bombay Jayashri · Vocal</div><div class="c-meta">Cleveland Aradhana · Cleveland</div></div></div>
     </div>
 
     <!-- Featured Organizations -->
@@ -375,19 +404,36 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   </div>
 </div>
 
-<!-- EVENT LIST -->
-<div id="eventList" class="screen">
+<!-- EVENTS (unified — BookMyShow style) -->
+<div id="events" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">All Events</div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Events</div></div>
   <div class="content">
     <div class="search">🔍 Search events...</div>
-    <div class="pills"><div class="pill on" onclick="setPill(this)">All</div><div class="pill" onclick="setPill(this)">Chennai</div><div class="pill" onclick="setPill(this)">Karnatic</div><div class="pill" onclick="setPill(this)">Vocal</div></div>
-    <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Sitaristique</div><div class="li-sub">Mar 27 · 7 PM · Ranjani & Gayatri · SIFA · Chennai</div></div></div>
-    <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Aham Pravahini</div><div class="li-sub">Apr 5 · 6 PM · Shobana Balachandra · Cleveland Aradhana</div></div></div>
-    <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Enchantment</div><div class="li-sub">Apr 12 · 7 PM · Vedanth Bharadwaj · FAAA · Phoenix</div></div></div>
-    <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Naada Vaibhavam</div><div class="li-sub">Apr 18 · 6:30 PM · Sanjay Subrahmanyan · SIFA · Chennai</div></div></div>
-    <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Spring Melody</div><div class="li-sub">Apr 20 · 7 PM · Bombay Jayashri · SIFA · Chennai</div></div></div>
-    <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Violin Virtuoso</div><div class="li-sub">May 3 · 6 PM · Vedanth Bharadwaj · SIFA · Chennai</div></div></div>
+    <div class="filter-bar" id="evFilterBar">
+      <div class="pill" onclick="evFilter('all',this)" id="evf-all">All</div>
+      <div class="pill" onclick="evFilter('date',this)">Date ▾</div>
+      <div class="pill" onclick="evFilter('today',this)">Today</div>
+      <div class="pill" onclick="evFilter('week',this)">This Week</div>
+      <div class="pill" onclick="evFilter('Vocal',this)" id="evf-Vocal">Vocal</div>
+      <div class="pill" onclick="evFilter('Violin',this)" id="evf-Violin">Violin</div>
+      <div class="pill" onclick="evFilter('Flute',this)" id="evf-Flute">Flute</div>
+      <div class="pill" onclick="evFilter('Bharatanatyam',this)" id="evf-Bharatanatyam">Bharatanatyam</div>
+    </div>
+    <div class="ev-grid" id="evGrid">
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎻<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Cleveland Aradhana Opening</div><div class="ev-date">Tue, Apr 1 · 5:00 PM</div><div class="ev-meta">Cleveland Aradhana · Cleveland</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎻<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Enchantment</div><div class="ev-date">Sat, Apr 12 · 7:00 PM</div><div class="ev-meta">FAAA · Phoenix</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎻<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Violin Evening</div><div class="ev-date">Sat, May 3 · 7:00 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Sitaristique</div><div class="ev-date">Thu, Mar 27 · 7:00 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Navarathri Evening</div><div class="ev-date">Sat, Mar 29 · 7:00 PM</div><div class="ev-meta">Music Academy · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Evening Raaga</div><div class="ev-date">Thu, Apr 2 · 6:00 PM</div><div class="ev-meta">Cleveland Aradhana · Cleveland</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🪈<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">FAAA Spring Kickoff</div><div class="ev-date">Sat, Apr 5 · 7:00 PM</div><div class="ev-meta">FAAA · Phoenix</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">💃<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">SIFA Spring Concert</div><div class="ev-date">Sat, Mar 28 · 6:00 PM</div><div class="ev-meta">Charsur Arts · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Naada Vaibhavam</div><div class="ev-date">Sat, Apr 18 · 6:30 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Spring Concert Series</div><div class="ev-date">Thu, May 14 · 6:00 PM</div><div class="ev-meta">FAAA · Phoenix</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🪈<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Bamboo Breeze</div><div class="ev-date">Wed, May 20 · 6:00 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">💃<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Nritya Sangamam</div><div class="ev-date">Wed, Apr 22 · 7:00 PM</div><div class="ev-meta">Narada Gana Sabha · Chennai</div></div></div>
+    </div>
   </div>
 </div>
 
@@ -489,7 +535,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- MY ORG -->
 <div id="myorg" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="nav('saved')">♡</div><div class="h-icon" onclick="openSheet()">👤</div></div></div>
+  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('saved')">♡</div><div class="h-icon" onclick="nav('profile')">👤</div></div></div>
   <div class="content">
     <div class="sec-header" style="margin-top:0"><div class="sec-title">Needs Attention (3)</div></div>
     <div class="nf" onclick="nav('orgAcceptDetail')"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shobana Balachandra accepted</div><div class="nf-meta">May 14 · Spring Concert Series · 2h ago</div></div><div class="nf-arrow">→</div></div>
@@ -771,37 +817,32 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- PROFILE -->
 <div id="profile" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="nav('saved')">♡</div></div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Profile</div></div>
   <div class="content">
     <div class="pf-sec"><div class="pf-name">Yogin Naidu</div><div class="pf-email">yogin@schoolcues.com</div></div>
-    <div class="pf-sec"><div class="pf-label">Active Role</div>
-      <div class="role-row" onclick="switchRole('exploring');nav('explore')"><div class="role-dot" id="pf-r-exp"></div><div class="role-body"><div class="role-title">Exploring</div><div class="role-desc">Browse events, orgs, and artists</div></div></div>
-      <div class="role-row" onclick="switchRole('org');nav('myorg')"><div class="role-dot" id="pf-r-org"></div><div class="role-body"><div class="role-title">Org Admin</div><div class="role-desc">Fine Arts Association of Arizona</div></div><div class="role-bdg">⚠ 3</div></div>
-      <div class="role-row" onclick="switchRole('artist');nav('artistInvites')"><div class="role-dot" id="pf-r-art"></div><div class="role-body"><div class="role-title">Artist</div><div class="role-desc">Yogin Naidu · Vocal</div></div><div class="role-bdg">● 1</div></div>
+    <div class="pf-sec"><div class="pf-label">Your Roles</div>
+      <div onclick="switchRole('org');nav('explore')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px">
+        <div style="font-size:20px">▣</div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:700">Org Admin</div><div style="font-size:12px;color:var(--gray-500)">Fine Arts Association of AZ</div></div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-700)">⚠ 3</div>
+      </div>
+      <div onclick="switchRole('artist');nav('explore')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px">
+        <div style="font-size:20px">●</div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:700">Artist</div><div style="font-size:12px;color:var(--gray-500)">Yogin Naidu · Vocal</div></div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-700)">● 1</div>
+      </div>
     </div>
     <div class="pf-sec"><div class="pf-label">Org Settings</div><div class="pf-link">Edit organization profile <span>→</span></div></div>
-    <div class="pf-sec"><div class="pf-link">Contact Us <span>→</span></div><div class="pf-link">Sign Out <span>→</span></div><div class="pf-link danger">Delete Account <span>→</span></div></div>
-  </div>
-  <div id="profileNav"></div>
-</div>
-
-<!-- INSTRUMENT EVENTS (filtered) -->
-<div id="instrumentEvents" class="screen">
-  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title" id="instrTitle">Vocal Events</div></div>
-  <div class="content">
-    <div class="search" id="instrSearch">🔍 Search vocal events...</div>
-    <div class="pills"><div class="pill on" onclick="setPill(this)">This Week</div><div class="pill" onclick="setPill(this)">This Month</div><div class="pill" onclick="setPill(this)">All</div></div>
-    <div id="instrResults">
-      <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Sitaristique</div><div class="li-sub">Mar 27 · 7 PM · Ranjani & Gayatri · SIFA · Chennai</div></div></div>
-      <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Navarathri Evening</div><div class="li-sub">Mar 29 · 7 PM · Sanjay Subrahmanyan · Music Academy · Chennai</div></div></div>
-      <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Evening Raaga</div><div class="li-sub">Apr 2 · 6 PM · Abhishek Raghuram · Cleveland Aradhana · Cleveland</div></div></div>
-      <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Naada Vaibhavam</div><div class="li-sub">Apr 18 · 6:30 PM · Sanjay Subrahmanyan · SIFA · Chennai</div></div></div>
-      <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Spring Concert Series</div><div class="li-sub">May 14 · 6 PM · Abhishek Raghuram · FAAA · Phoenix</div></div></div>
-      <div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">Fall Season Opener</div><div class="li-sub">Sep 10 · 7 PM · Bombay Jayashri · Cleveland Aradhana · Cleveland</div></div></div>
+    <div class="pf-sec">
+      <div class="pf-link">⊕ Register as Artist <span>→</span></div>
+      <div class="pf-link">⊕ Request Org Access <span>→</span></div>
+      <div class="pf-link">Contact Us <span>→</span></div>
+      <div class="pf-link">Sign Out <span>→</span></div>
+      <div class="pf-link danger">Delete Account <span>→</span></div>
     </div>
   </div>
 </div>
+
 
 <!-- CITY PICKER -->
 <div id="cityOverlay" class="overlay" onclick="closeCitySheet()"></div>
@@ -820,21 +861,13 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="role-row" onclick="pickCity('New York, NY')"><div class="role-dot" id="city-newyork"></div><div class="role-body"><div class="role-title">New York, NY</div></div></div>
 </div>
 
-<!-- ROLE SWITCHER -->
-<div id="sheetOverlay" class="overlay" onclick="closeSheet()"></div>
-<div id="sheet" class="bsheet">
-  <div class="bs-head"><div class="bs-title">Switch Role</div><div class="bs-close" onclick="closeSheet()">✕</div></div>
-  <div class="role-row" onclick="closeSheet();switchRole('exploring');nav('explore')"><div class="role-dot" id="sh-r-exp"></div><div class="role-body"><div class="role-title">Exploring</div><div class="role-desc">Browse events, orgs, and artists</div></div></div>
-  <div class="role-row" onclick="closeSheet();switchRole('org');nav('myorg')"><div class="role-dot" id="sh-r-org"></div><div class="role-body"><div class="role-title">Org Admin</div><div class="role-desc">Fine Arts Association of Arizona</div></div><div class="role-bdg">⚠ 3</div></div>
-  <div class="role-row" onclick="closeSheet();switchRole('artist');nav('artistInvites')"><div class="role-dot" id="sh-r-art"></div><div class="role-body"><div class="role-title">Artist</div><div class="role-desc">Yogin Naidu · Vocal</div></div><div class="role-bdg">● 1</div></div>
-</div>
 
 </div>
 
 <script>
 let hist = [];
 let cur = 'splash';
-let role = 'exploring'; // 'exploring' | 'org' | 'artist'
+let role = 'default'; // 'default' | 'org' | 'artist'
 
 function nav(id) {
   hist.push(cur);
@@ -852,26 +885,23 @@ function show(id) {
   renderNavs();
 }
 
-// Build bottom nav HTML based on current role
+// Build bottom nav HTML based on current role — NO profile tab
 function getNavHTML(activeTab) {
   let tabs = [];
-  if (role === 'exploring') {
+  if (role === 'default') {
     tabs = [
-      { id:'explore', icon:'◎', label:'Explore' },
-      { id:'profile', icon:'●', label:'Profile' }
+      { id:'explore', icon:'◎', label:'Explore' }
     ];
   } else if (role === 'org') {
     tabs = [
       { id:'explore', icon:'◎', label:'Explore' },
-      { id:'myorg', icon:'▣', label:'My Org' },
-      { id:'profile', icon:'●', label:'Profile' }
+      { id:'myorg', icon:'▣', label:'My Org' }
     ];
   } else if (role === 'artist') {
     tabs = [
       { id:'explore', icon:'◎', label:'Explore' },
       { id:'artistInvites', icon:'✉', label:'Invites', badge:'2' },
-      { id:'artistSchedule', icon:'▦', label:'Schedule' },
-      { id:'profile', icon:'●', label:'Profile' }
+      { id:'artistSchedule', icon:'▦', label:'Schedule' }
     ];
   }
   return '<div class="bottom-nav">' + tabs.map(t => {
@@ -882,13 +912,11 @@ function getNavHTML(activeTab) {
 }
 
 function renderNavs() {
-  // Screens that have dynamic navs
   const navMap = {
     'explore': 'exploreNav',
     'myorg': 'myorgNav',
     'artistInvites': 'artistInvitesNav',
-    'artistSchedule': 'artistScheduleNav',
-    'profile': 'profileNav'
+    'artistSchedule': 'artistScheduleNav'
   };
   for (let [screen, navId] of Object.entries(navMap)) {
     const el = document.getElementById(navId);
@@ -896,26 +924,23 @@ function renderNavs() {
   }
 }
 
+// Toggle-style role switching
 function switchRole(r) {
-  role = r;
-  // Update role dots everywhere
-  document.querySelectorAll('.role-dot[id]').forEach(d => d.classList.remove('on'));
-  if (r === 'exploring') {
-    ['pf-r-exp','sh-r-exp'].forEach(id => { let e=document.getElementById(id); if(e) e.classList.add('on'); });
-  } else if (r === 'org') {
-    ['pf-r-org','sh-r-org'].forEach(id => { let e=document.getElementById(id); if(e) e.classList.add('on'); });
-  } else if (r === 'artist') {
-    ['pf-r-art','sh-r-art'].forEach(id => { let e=document.getElementById(id); if(e) e.classList.add('on'); });
+  if (role === r) {
+    role = 'default'; // toggle off
+  } else {
+    role = r;
   }
-  // Show/hide dot indicator
-  document.querySelectorAll('.role-dot-indicator').forEach(d => {
-    d.style.display = (r === 'exploring') ? 'block' : (r !== role ? 'block' : 'block');
-  });
+  updateToggleUI();
   renderNavs();
 }
 
-function openSheet() { document.getElementById('sheetOverlay').classList.add('on'); document.getElementById('sheet').classList.add('on'); }
-function closeSheet() { document.getElementById('sheetOverlay').classList.remove('on'); document.getElementById('sheet').classList.remove('on'); }
+function updateToggleUI() {
+  const orgSeg = document.getElementById('seg-org');
+  const artSeg = document.getElementById('seg-artist');
+  if (orgSeg) { orgSeg.classList.toggle('on', role === 'org'); }
+  if (artSeg) { artSeg.classList.toggle('on', role === 'artist'); }
+}
 
 function setPill(el) { el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('on')); el.classList.add('on'); }
 
@@ -931,39 +956,36 @@ function pickCity(city) {
   closeCitySheet();
 }
 
-// Instrument navigation
-const instrData = {
-  'Vocal': { icon:'🎤', events:[
-    {name:'Sitaristique',sub:'Mar 27 · 7 PM · Ranjani & Gayatri · SIFA · Chennai'},
-    {name:'Navarathri Evening',sub:'Mar 29 · 7 PM · Sanjay Subrahmanyan · Music Academy · Chennai'},
-    {name:'Evening Raaga',sub:'Apr 2 · 6 PM · Abhishek Raghuram · Cleveland Aradhana · Cleveland'},
-    {name:'Naada Vaibhavam',sub:'Apr 18 · 6:30 PM · Sanjay Subrahmanyan · SIFA · Chennai'},
-    {name:'Spring Concert Series',sub:'May 14 · 6 PM · Abhishek Raghuram · FAAA · Phoenix'},
-    {name:'Fall Season Opener',sub:'Sep 10 · 7 PM · Bombay Jayashri · Cleveland Aradhana · Cleveland'}
-  ]},
-  'Violin': { icon:'🎻', events:[
-    {name:'Cleveland Aradhana Opening',sub:'Apr 1 · 5 PM · Vedanth Bharadwaj · Cleveland Aradhana · Cleveland'},
-    {name:'Enchantment',sub:'Apr 12 · 7 PM · Vedanth Bharadwaj · FAAA · Phoenix'},
-    {name:'Violin Evening',sub:'May 3 · 7 PM · Vedanth Bharadwaj · SIFA · Chennai'}
-  ]},
-  'Flute': { icon:'🪈', events:[
-    {name:'FAAA Spring Kickoff',sub:'Apr 5 · 7 PM · Shashank · FAAA · Phoenix'},
-    {name:'Bamboo Breeze',sub:'May 20 · 6 PM · Shashank Subramanyam · SIFA · Chennai'}
-  ]},
-  'Bharatanatyam': { icon:'💃', events:[
-    {name:'SIFA Spring Concert',sub:'Mar 28 · 6 PM · Shobana Balachandra · Charsur Arts · Chennai'},
-    {name:'Nritya Sangamam',sub:'Apr 22 · 7 PM · Shobana Balachandra · Narada Gana Sabha · Chennai'}
-  ]}
-};
+// Time dropdown
+function toggleTimeMenu(e) {
+  e.stopPropagation();
+  document.getElementById('timeMenu').classList.toggle('on');
+}
+function pickTime(value, label) {
+  document.getElementById('timeTrigger').textContent = value;
+  document.querySelectorAll('#timeMenu .time-opt').forEach(o => o.classList.remove('on'));
+  event.currentTarget.classList.add('on');
+  document.getElementById('timeMenu').classList.remove('on');
+}
+// Close time menu on outside click
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('timeMenu');
+  if (menu && !e.target.closest('#timeDropdown')) menu.classList.remove('on');
+});
+
+// Navigate to events page with optional instrument filter
 function navInstrument(instr) {
-  let d = instrData[instr];
-  document.getElementById('instrTitle').textContent = instr + ' Events';
-  document.getElementById('instrSearch').textContent = '🔍 Search ' + instr.toLowerCase() + ' events...';
-  let html = d.events.map(e =>
-    `<div class="li" onclick="nav('eventDetail')"><div class="li-av">♪</div><div class="li-body"><div class="li-name">${e.name}</div><div class="li-sub">${e.sub}</div></div></div>`
-  ).join('');
-  document.getElementById('instrResults').innerHTML = html;
-  nav('instrumentEvents');
+  nav('events');
+  // Activate the matching filter pill
+  document.querySelectorAll('#evFilterBar .pill').forEach(p => p.classList.remove('on'));
+  const pill = document.getElementById('evf-' + instr);
+  if (pill) pill.classList.add('on');
+}
+
+// Events page filter (visual only for prototype)
+function evFilter(type, el) {
+  document.querySelectorAll('#evFilterBar .pill').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
 }
 
 function togDt(el) { el.classList.toggle('on'); el.querySelector('.dt-box').textContent = el.classList.contains('on') ? '✓' : ''; }
@@ -982,9 +1004,8 @@ function filterSlots(type, el) {
 (function buildCal(){
   const grid = document.getElementById('calGrid');
   if (!grid) return;
-  // July 2026 starts on Wednesday (index 2)
-  let html = '<span></span><span></span>'; // offset for Wed start
-  let selected = [8,10,12,15,18]; // pre-selected dates
+  let html = '<span></span><span></span>';
+  let selected = [8,10,12,15,18];
   for (let d=1; d<=31; d++) {
     let sel = selected.includes(d);
     html += `<span style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;font-weight:${sel?'700':'400'};background:${sel?'var(--black)':'transparent'};color:${sel?'var(--white)':'var(--gray-700)'}" onclick="this.style.background=this.style.background==='transparent'?'var(--black)':'transparent';this.style.color=this.style.color==='var(--white)'?'var(--gray-700)':'var(--white)';this.style.fontWeight=this.style.fontWeight==='700'?'400':'700';updateDateCount()">${d}</span>`;
@@ -998,8 +1019,11 @@ function updateDateCount() {
   document.getElementById('dateCount').textContent = count + ' dates selected';
 }
 
-// Init role
-switchRole('exploring');
+// Init
+switchRole('default');
+role = 'default';
+updateToggleUI();
+renderNavs();
 </script>
 </body>
 </html>

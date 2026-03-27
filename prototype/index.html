@@ -951,8 +951,13 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="fg"><div class="fl">Instrument / Skill *</div><input class="fi" placeholder="e.g., Vocal, Violin, Mridangam..."></div>
     <div class="fg"><div class="fl">Location *</div><input class="fi" placeholder="e.g., Chennai, India"></div>
     <div class="fg"><div class="fl">Bio *</div><textarea class="ft" placeholder="Tell us about yourself — training, guru, style..."></textarea></div>
-    <div class="fg"><div class="fl">Previous Work / Performance History *</div><textarea class="ft" placeholder="Concerts performed, festivals, albums, notable appearances..."></textarea></div>
-    <div class="fg"><div class="fl">Photo</div><div style="border:1px dashed var(--gray-300);border-radius:var(--radius-sm);padding:24px;text-align:center;color:var(--gray-400);font-size:13px;cursor:pointer">📷 Tap to upload photo</div></div>
+    <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:14px;background:var(--gray-50)">
+      <div style="font-size:12px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">📋 Proof of Work (required)</div>
+      <div class="fg"><div class="fl">Performance History *</div><textarea class="ft" placeholder="Concerts performed, festivals, albums, notable appearances..."></textarea></div>
+      <div class="fg"><div class="fl">Upload Videos</div><div style="border:1px dashed var(--gray-300);border-radius:var(--radius-sm);padding:16px;text-align:center;color:var(--gray-400);font-size:13px;cursor:pointer">▶ Tap to upload performance videos<br><span style="font-size:11px">MP4, MOV · Up to 3 videos</span></div></div>
+      <div class="fg"><div class="fl">Upload Images</div><div style="border:1px dashed var(--gray-300);border-radius:var(--radius-sm);padding:16px;text-align:center;color:var(--gray-400);font-size:13px;cursor:pointer">📷 Tap to upload performance photos<br><span style="font-size:11px">JPG, PNG · Up to 5 images</span></div></div>
+    </div>
+    <div class="fg"><div class="fl">Profile Photo</div><div style="border:1px dashed var(--gray-300);border-radius:var(--radius-sm);padding:24px;text-align:center;color:var(--gray-400);font-size:13px;cursor:pointer">📷 Tap to upload photo</div></div>
     <div class="fg"><div class="fl">Social Links (optional)</div><input class="fi" placeholder="Instagram URL" style="margin-bottom:6px"><input class="fi" placeholder="YouTube URL" style="margin-bottom:6px"><input class="fi" placeholder="Website URL"></div>
     <button class="btn btn-p" style="margin-top:8px" onclick="nav('requestSentConf')">Submit for Review</button>
     <div style="font-size:11px;color:var(--gray-400);text-align:center;margin-top:8px">An admin will review your profile within 24–48 hours</div>
@@ -971,6 +976,12 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="fg"><div class="fl">About the Organization *</div><textarea class="ft" placeholder="History, mission, what kind of events you organize..."></textarea></div>
     <div class="fg"><div class="fl">Your Role *</div><input class="fi" placeholder="e.g., Secretary, President, Event Coordinator..."></div>
     <div class="fg"><div class="fl">Contact Email *</div><input class="fi" placeholder="e.g., admin@musicacademy.in"></div>
+    <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:14px;background:var(--gray-50)">
+      <div style="font-size:12px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">📋 Proof of Work (required)</div>
+      <div class="fg"><div class="fl">Number of Events Organized *</div><input class="fi" placeholder="e.g., 50+ concerts, 3 annual festivals..."></div>
+      <div class="fg"><div class="fl">Years Active *</div><input class="fi" placeholder="e.g., Since 1927, 15 years..."></div>
+      <div class="fg"><div class="fl">Upload Images</div><div style="border:1px dashed var(--gray-300);border-radius:var(--radius-sm);padding:16px;text-align:center;color:var(--gray-400);font-size:13px;cursor:pointer">📷 Tap to upload venue / event photos<br><span style="font-size:11px">JPG, PNG · Up to 5 images</span></div></div>
+    </div>
     <div class="fg"><div class="fl">Logo / Photo</div><div style="border:1px dashed var(--gray-300);border-radius:var(--radius-sm);padding:24px;text-align:center;color:var(--gray-400);font-size:13px;cursor:pointer">📷 Tap to upload logo</div></div>
     <div class="fg"><div class="fl">Website (optional)</div><input class="fi" placeholder="e.g., musicacademymadras.in"></div>
     <button class="btn btn-p" style="margin-top:8px" onclick="nav('requestSentConf')">Submit for Review</button>
@@ -1008,15 +1019,15 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     </div>
 
     <div id="adminList">
-      <div class="nf admin-artist" onclick="nav('adminArtistReview')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Priya Subramanian</div><div class="nf-meta">Karnatic · Vocal · Chennai</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ARTIST REQUEST</span> <span style="font-size:10px;color:var(--gray-400)">· 2h ago</span></div></div><div class="nf-arrow">→</div></div>
+      <div class="nf admin-artist" onclick="nav('adminNewArtistReview')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Priya Subramanian</div><div class="nf-meta">Karnatic · Vocal · Chennai</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--white);background:var(--black);padding:2px 6px;border-radius:4px">NEW ARTIST</span> <span style="font-size:10px;color:var(--gray-400)">· 2h ago</span></div></div><div class="nf-arrow">→</div></div>
 
-      <div class="nf admin-artist" onclick="nav('adminArtistReview')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Karthik Raman</div><div class="nf-meta">Karnatic · Mridangam · Bangalore</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ARTIST REQUEST</span> <span style="font-size:10px;color:var(--gray-400)">· 5h ago</span></div></div><div class="nf-arrow">→</div></div>
+      <div class="nf admin-artist" onclick="nav('adminClaimArtistReview')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Karthik Raman</div><div class="nf-meta">Wants access to: <b>Karthik Raman</b> (existing)</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-600);background:var(--gray-200);padding:2px 6px;border-radius:4px">CLAIM ARTIST</span> <span style="font-size:10px;color:var(--gray-400)">· 5h ago</span></div></div><div class="nf-arrow">→</div></div>
 
-      <div class="nf admin-org" onclick="nav('adminOrgReview')"><div class="nf-icon">▣</div><div class="nf-body"><div class="nf-title">Madras Music Academy</div><div class="nf-meta">Chennai · Karnatic, Hindustani</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG REQUEST</span> <span style="font-size:10px;color:var(--gray-400)">· 1d ago</span></div></div><div class="nf-arrow">→</div></div>
+      <div class="nf admin-org" onclick="nav('adminNewOrgReview')"><div class="nf-icon">▣</div><div class="nf-body"><div class="nf-title">Madras Music Academy</div><div class="nf-meta">Chennai · Karnatic, Hindustani</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--white);background:var(--black);padding:2px 6px;border-radius:4px">NEW ORG</span> <span style="font-size:10px;color:var(--gray-400)">· 1d ago</span></div></div><div class="nf-arrow">→</div></div>
 
-      <div class="nf admin-artist" onclick="nav('adminArtistReview')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Deepa Krishnamurthy</div><div class="nf-meta">Bharatanatyam · Mumbai</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ARTIST REQUEST</span> <span style="font-size:10px;color:var(--gray-400)">· 1d ago</span></div></div><div class="nf-arrow">→</div></div>
+      <div class="nf admin-artist" onclick="nav('adminNewArtistReview')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Deepa Krishnamurthy</div><div class="nf-meta">Bharatanatyam · Mumbai</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--white);background:var(--black);padding:2px 6px;border-radius:4px">NEW ARTIST</span> <span style="font-size:10px;color:var(--gray-400)">· 1d ago</span></div></div><div class="nf-arrow">→</div></div>
 
-      <div class="nf admin-org" onclick="nav('adminOrgReview')"><div class="nf-icon">▣</div><div class="nf-body"><div class="nf-title">Bay Area Sangeet Sabha</div><div class="nf-meta">Bay Area, CA · Karnatic</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG REQUEST</span> <span style="font-size:10px;color:var(--gray-400)">· 2d ago</span></div></div><div class="nf-arrow">→</div></div>
+      <div class="nf admin-org" onclick="nav('adminClaimOrgReview')"><div class="nf-icon">▣</div><div class="nf-body"><div class="nf-title">Rajesh V. → Cleveland Aradhana</div><div class="nf-meta">Wants admin access to existing org</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-600);background:var(--gray-200);padding:2px 6px;border-radius:4px">CLAIM ORG</span> <span style="font-size:10px;color:var(--gray-400)">· 2d ago</span></div></div><div class="nf-arrow">→</div></div>
     </div>
 
     <!-- Recently Approved -->
@@ -1027,12 +1038,13 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div id="adminDashNav"></div>
 </div>
 
-<!-- ADMIN: ARTIST REVIEW -->
-<div id="adminArtistReview" class="screen">
+<!-- ADMIN: NEW ARTIST REVIEW (with proof of work) -->
+<div id="adminNewArtistReview" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review Artist Request</div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review New Artist</div></div>
   <div class="content">
-    <div style="text-align:center;padding:16px 0">
+    <div style="background:var(--black);color:var(--white);padding:6px 12px;border-radius:6px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:12px">NEW PROFILE</div>
+    <div style="text-align:center;padding:8px 0 16px">
       <div style="width:72px;height:72px;border-radius:50%;background:var(--gray-200);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--gray-500)">●</div>
       <div style="font-size:18px;font-weight:800">Priya Subramanian</div>
       <div style="font-size:13px;color:var(--gray-500);margin-top:3px">priya.sub@gmail.com</div>
@@ -1042,23 +1054,75 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="rv"><div class="rv-label">Instrument / Skill</div><div class="rv-val">Vocal</div></div>
     <div class="rv"><div class="rv-label">Location</div><div class="rv-val">Chennai, India</div></div>
     <div class="rv"><div class="rv-label">Bio</div><div style="font-size:13px;color:var(--gray-600);line-height:1.5">Trained under Padma Bhushan Smt. R. Vedavalli for 12 years. Performed at Music Academy, Narada Gana Sabha, and SIFA annual festivals. AIR-graded artist since 2019.</div></div>
-    <div class="rv"><div class="rv-label">Previous Work / History</div><div style="font-size:13px;color:var(--gray-600);line-height:1.5">• 50+ solo concerts across India<br>• Featured artist at December Season 2024, 2025<br>• YouTube channel: 12K subscribers<br>• Released 2 albums with Charsur Digital</div></div>
+
+    <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin:14px 0;background:var(--gray-50)">
+      <div style="font-size:12px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">📋 Proof of Work</div>
+      <div class="rv" style="margin-bottom:8px"><div class="rv-label">Performance History</div><div style="font-size:13px;color:var(--gray-600);line-height:1.5">• 50+ solo concerts across India<br>• Featured artist at December Season 2024, 2025<br>• YouTube channel: 12K subscribers<br>• Released 2 albums with Charsur Digital</div></div>
+      <div class="rv" style="margin-bottom:8px"><div class="rv-label">Videos (2)</div>
+        <div style="display:flex;gap:8px;margin-top:4px">
+          <div style="width:120px;height:72px;background:var(--gray-200);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--gray-400)">▶</div>
+          <div style="width:120px;height:72px;background:var(--gray-200);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--gray-400)">▶</div>
+        </div>
+        <div style="font-size:11px;color:var(--gray-400);margin-top:4px">Dec Season 2025 · SIFA Annual 2024</div>
+      </div>
+      <div class="rv"><div class="rv-label">Images (3)</div>
+        <div style="display:flex;gap:6px;margin-top:4px">
+          <div style="width:64px;height:64px;background:var(--gray-200);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--gray-400)">📷</div>
+          <div style="width:64px;height:64px;background:var(--gray-200);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--gray-400)">📷</div>
+          <div style="width:64px;height:64px;background:var(--gray-200);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--gray-400)">📷</div>
+        </div>
+      </div>
+    </div>
+
     <div class="rv"><div class="rv-label">Social Links</div><div style="font-size:13px;color:var(--gray-500)">Instagram · YouTube · Website</div></div>
-    <div class="rv"><div class="rv-label">Requested</div><div style="font-size:13px;color:var(--gray-500)">2 hours ago · Mar 27, 2026</div></div>
+    <div class="rv"><div class="rv-label">Submitted</div><div style="font-size:13px;color:var(--gray-500)">2 hours ago · Mar 27, 2026</div></div>
 
     <div style="margin-top:20px">
       <button class="btn btn-p" onclick="nav('adminApproveConf')">Approve Artist</button>
+      <button class="btn btn-o" onclick="goBack()">Request More Info</button>
       <button class="btn btn-d" onclick="goBack()">Reject</button>
     </div>
   </div>
 </div>
 
-<!-- ADMIN: ORG REVIEW -->
-<div id="adminOrgReview" class="screen">
+<!-- ADMIN: CLAIM ARTIST REVIEW -->
+<div id="adminClaimArtistReview" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review Org Request</div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review Claim Request</div></div>
   <div class="content">
-    <div style="text-align:center;padding:16px 0">
+    <div style="background:var(--gray-200);color:var(--gray-600);padding:6px 12px;border-radius:6px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:12px">CLAIM EXISTING PROFILE</div>
+
+    <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;margin-bottom:6px">Requesting User</div>
+      <div style="font-size:15px;font-weight:700">Karthik Raman</div>
+      <div style="font-size:12px;color:var(--gray-500)">karthik.r@gmail.com · Joined Mar 20, 2026</div>
+    </div>
+
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:6px;text-align:center">wants access to ↓</div>
+
+    <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+      <div style="width:48px;height:48px;border-radius:50%;background:var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--gray-500);flex-shrink:0">●</div>
+      <div><div style="font-size:15px;font-weight:700">Karthik Raman</div><div style="font-size:12px;color:var(--gray-500)">Karnatic · Mridangam · Bangalore</div><div style="font-size:11px;color:var(--gray-400)">Existing profile · 8 upcoming events</div></div>
+    </div>
+
+    <div class="rv"><div class="rv-label">Reason provided</div><div class="msg">"This is my profile. I'm a mridangam artist based in Bangalore, performing since 2015. I accompany Abhishek Raghuram and Sanjay Subrahmanyan regularly."</div></div>
+    <div class="rv"><div class="rv-label">Submitted</div><div style="font-size:13px;color:var(--gray-500)">5 hours ago · Mar 27, 2026</div></div>
+
+    <div style="margin-top:20px">
+      <button class="btn btn-p" onclick="nav('adminApproveConf')">Approve — Grant Access</button>
+      <button class="btn btn-o" onclick="goBack()">Request More Info</button>
+      <button class="btn btn-d" onclick="goBack()">Reject</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN: NEW ORG REVIEW (with proof of work) -->
+<div id="adminNewOrgReview" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review New Organization</div></div>
+  <div class="content">
+    <div style="background:var(--black);color:var(--white);padding:6px 12px;border-radius:6px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:12px">NEW PROFILE</div>
+    <div style="text-align:center;padding:8px 0 16px">
       <div style="width:64px;height:64px;border-radius:var(--radius);background:var(--gray-200);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--gray-500)">▣</div>
       <div style="font-size:18px;font-weight:800">Madras Music Academy</div>
       <div style="font-size:13px;color:var(--gray-500);margin-top:3px">admin@musicacademy.in</div>
@@ -1068,11 +1132,58 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="rv"><div class="rv-label">Art Forms</div><div class="rv-val">Karnatic, Hindustani</div></div>
     <div class="rv"><div class="rv-label">About</div><div style="font-size:13px;color:var(--gray-600);line-height:1.5">Founded in 1927. One of India's most prestigious music institutions. Hosts the annual December Season — the world's largest classical music festival with 1,000+ concerts over 4 weeks.</div></div>
     <div class="rv"><div class="rv-label">Contact Person</div><div class="rv-val">Dr. Rajesh Venkataraman</div><div style="font-size:12px;color:var(--gray-500)">Secretary · rajesh@musicacademy.in</div></div>
+
+    <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin:14px 0;background:var(--gray-50)">
+      <div style="font-size:12px;font-weight:700;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">📋 Proof of Work</div>
+      <div class="rv" style="margin-bottom:8px"><div class="rv-label">Events Organized</div><div class="rv-val">1,000+ concerts annually (December Season)</div><div style="font-size:12px;color:var(--gray-500)">Also hosts monthly lecture-demonstrations year-round</div></div>
+      <div class="rv" style="margin-bottom:8px"><div class="rv-label">Years Active</div><div class="rv-val">Since 1927 (99 years)</div></div>
+      <div class="rv" style="margin-bottom:8px"><div class="rv-label">Images (2)</div>
+        <div style="display:flex;gap:6px;margin-top:4px">
+          <div style="width:120px;height:72px;background:var(--gray-200);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--gray-400)">📷</div>
+          <div style="width:120px;height:72px;background:var(--gray-200);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--gray-400)">📷</div>
+        </div>
+        <div style="font-size:11px;color:var(--gray-400);margin-top:4px">Venue exterior · December Season 2025</div>
+      </div>
+    </div>
+
     <div class="rv"><div class="rv-label">Website</div><div style="font-size:13px;color:var(--gray-500)">musicacademymadras.in</div></div>
-    <div class="rv"><div class="rv-label">Requested</div><div style="font-size:13px;color:var(--gray-500)">1 day ago · Mar 26, 2026</div></div>
+    <div class="rv"><div class="rv-label">Submitted</div><div style="font-size:13px;color:var(--gray-500)">1 day ago · Mar 26, 2026</div></div>
 
     <div style="margin-top:20px">
       <button class="btn btn-p" onclick="nav('adminApproveConf')">Approve Organization</button>
+      <button class="btn btn-o" onclick="goBack()">Request More Info</button>
+      <button class="btn btn-d" onclick="goBack()">Reject</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN: CLAIM ORG REVIEW -->
+<div id="adminClaimOrgReview" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review Claim Request</div></div>
+  <div class="content">
+    <div style="background:var(--gray-200);color:var(--gray-600);padding:6px 12px;border-radius:6px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:12px">CLAIM EXISTING ORG</div>
+
+    <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;margin-bottom:6px">Requesting User</div>
+      <div style="font-size:15px;font-weight:700">Rajesh Venkataraman</div>
+      <div style="font-size:12px;color:var(--gray-500)">rajesh.v@gmail.com · Joined Mar 15, 2026</div>
+      <div style="font-size:12px;color:var(--gray-500)">States role: <b>Event Coordinator</b></div>
+    </div>
+
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:6px;text-align:center">wants admin access to ↓</div>
+
+    <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+      <div style="width:48px;height:48px;border-radius:var(--radius-sm);background:var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--gray-500);flex-shrink:0">▣</div>
+      <div><div style="font-size:15px;font-weight:700">Cleveland Aradhana</div><div style="font-size:12px;color:var(--gray-500)">Cleveland, OH · Karnatic</div><div style="font-size:11px;color:var(--gray-400)">Existing org · 12 upcoming events</div></div>
+    </div>
+
+    <div class="rv"><div class="rv-label">Reason provided</div><div class="msg">"I'm the event coordinator for Cleveland Aradhana. I manage the concert series scheduling and artist coordination for our annual festival."</div></div>
+    <div class="rv"><div class="rv-label">Submitted</div><div style="font-size:13px;color:var(--gray-500)">2 days ago · Mar 25, 2026</div></div>
+
+    <div style="margin-top:20px">
+      <button class="btn btn-p" onclick="nav('adminApproveConf')">Approve — Grant Access</button>
+      <button class="btn btn-o" onclick="goBack()">Request More Info</button>
       <button class="btn btn-d" onclick="goBack()">Reject</button>
     </div>
   </div>

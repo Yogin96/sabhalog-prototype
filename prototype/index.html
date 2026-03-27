@@ -851,6 +851,29 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     </div>
     <div class="pf-sec"><div class="pf-label">Org Settings</div><div class="pf-link">Edit organization profile <span>→</span></div></div>
     <div class="pf-sec">
+      <div class="pf-label">My Requests</div>
+      <div onclick="nav('reqStatusPending')" style="border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:12px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:10px">
+        <div style="font-size:18px">●</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">Artist — Priya Subramanian</div><div style="font-size:11px;color:var(--gray-500)">New profile · Submitted 2h ago</div></div>
+        <div style="padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--gray-100);color:var(--gray-600)">PENDING</div>
+      </div>
+      <div onclick="nav('reqStatusMoreInfo')" style="border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:12px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:10px">
+        <div style="font-size:18px">▣</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">Org — Bay Area Sangeet Sabha</div><div style="font-size:11px;color:var(--gray-500)">New org · Submitted 3d ago</div></div>
+        <div style="padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;background:#fff3cd;color:#856404">ACTION NEEDED</div>
+      </div>
+      <div onclick="nav('reqStatusApproved')" style="border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:12px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:10px">
+        <div style="font-size:18px">▣</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">Org — Cleveland Aradhana</div><div style="font-size:11px;color:var(--gray-500)">Claim access · Mar 22</div></div>
+        <div style="padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;background:#d4edda;color:#155724">APPROVED</div>
+      </div>
+      <div style="border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;opacity:0.5">
+        <div style="font-size:18px">●</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:600">Artist — Karthik Raman</div><div style="font-size:11px;color:var(--gray-500)">Claim access · Mar 18</div></div>
+        <div style="padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;background:#f8d7da;color:#721c24">DENIED</div>
+      </div>
+    </div>
+    <div class="pf-sec">
       <div class="pf-label">Become an Artist</div>
       <div class="pf-link" onclick="nav('claimArtist')">🔍 Claim existing artist profile <span>→</span></div>
       <div class="pf-link" onclick="nav('registerArtist')">⊕ Register as new artist <span>→</span></div>
@@ -993,6 +1016,77 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <div id="requestSentConf" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="conf"><div class="conf-icon">📩</div><div class="conf-title">Request Submitted!</div><div class="conf-line">An admin will review your request</div><div class="conf-line">and notify you by email once approved.</div><div class="conf-status">Usually within 24–48 hours</div><button class="btn btn-s btn-sm" onclick="nav('profile')">Back to Profile</button></div>
+</div>
+
+<!-- REQUEST STATUS: PENDING -->
+<div id="reqStatusPending" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Request Status</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:20px 0">
+      <div style="font-size:40px;margin-bottom:10px">⏳</div>
+      <div style="font-size:18px;font-weight:800">Pending Review</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-top:4px">Your request is in the queue</div>
+    </div>
+    <div class="rv"><div class="rv-label">Request</div><div class="rv-val">New Artist Profile</div></div>
+    <div class="rv"><div class="rv-label">Name</div><div class="rv-val">Priya Subramanian</div><div style="font-size:12px;color:var(--gray-500)">Karnatic · Vocal · Chennai</div></div>
+    <div class="rv"><div class="rv-label">Submitted</div><div style="font-size:13px;color:var(--gray-500)">Mar 27, 2026 · 2 hours ago</div></div>
+    <div class="rv"><div class="rv-label">Status</div><div style="display:inline-block;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;background:var(--gray-100);color:var(--gray-600)">PENDING</div></div>
+    <div class="ctx" style="margin-top:14px">An admin is reviewing your submission. You'll receive an email once a decision is made. This usually takes 24–48 hours.</div>
+  </div>
+</div>
+
+<!-- REQUEST STATUS: MORE INFO NEEDED -->
+<div id="reqStatusMoreInfo" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Request Status</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:20px 0">
+      <div style="font-size:40px;margin-bottom:10px">💬</div>
+      <div style="font-size:18px;font-weight:800">More Info Requested</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-top:4px">The admin needs additional details</div>
+    </div>
+    <div class="rv"><div class="rv-label">Request</div><div class="rv-val">New Organization</div></div>
+    <div class="rv"><div class="rv-label">Name</div><div class="rv-val">Bay Area Sangeet Sabha</div><div style="font-size:12px;color:var(--gray-500)">Bay Area, CA · Karnatic</div></div>
+    <div class="rv"><div class="rv-label">Submitted</div><div style="font-size:13px;color:var(--gray-500)">Mar 24, 2026</div></div>
+    <div class="rv"><div class="rv-label">Status</div><div style="display:inline-block;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;background:#fff3cd;color:#856404">ACTION NEEDED</div></div>
+
+    <div style="border:1px solid #ffc107;border-radius:var(--radius);padding:14px;margin:14px 0;background:#fffdf0">
+      <div style="font-size:12px;font-weight:700;color:#856404;margin-bottom:6px">Message from Admin</div>
+      <div style="font-size:13px;color:var(--gray-700);line-height:1.5">"Thanks for registering. Can you please provide:<br>1. Photos of your venue or past events<br>2. A link to your website or social media page<br>3. How many events have you organized in the last year?"</div>
+      <div style="font-size:11px;color:var(--gray-400);margin-top:6px">— Sabhalog Admin · Mar 25, 2026</div>
+    </div>
+
+    <div class="fg"><div class="fl">Your Response</div><textarea class="ft" placeholder="Type your response here..."></textarea></div>
+    <div class="fg"><div class="fl">Upload Additional Files</div><div style="border:1px dashed var(--gray-300);border-radius:var(--radius-sm);padding:16px;text-align:center;color:var(--gray-400);font-size:13px;cursor:pointer">📎 Tap to upload images, videos, or documents</div></div>
+    <button class="btn btn-p" onclick="nav('moreInfoSentConf')">Submit Response</button>
+  </div>
+</div>
+
+<!-- MORE INFO SENT CONFIRMATION -->
+<div id="moreInfoSentConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Response Sent!</div><div class="conf-line">The admin will review your additional info</div><div class="conf-line">and get back to you shortly.</div><div class="conf-status">Status: UNDER REVIEW</div><button class="btn btn-s btn-sm" onclick="nav('profile')">Back to Profile</button></div>
+</div>
+
+<!-- REQUEST STATUS: APPROVED -->
+<div id="reqStatusApproved" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Request Status</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:20px 0">
+      <div style="font-size:40px;margin-bottom:10px">✅</div>
+      <div style="font-size:18px;font-weight:800">Approved!</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-top:4px">You now have access</div>
+    </div>
+    <div class="rv"><div class="rv-label">Request</div><div class="rv-val">Claim Organization Access</div></div>
+    <div class="rv"><div class="rv-label">Organization</div><div class="rv-val">Cleveland Aradhana</div><div style="font-size:12px;color:var(--gray-500)">Cleveland, OH · Karnatic</div></div>
+    <div class="rv"><div class="rv-label">Approved</div><div style="font-size:13px;color:var(--gray-500)">Mar 22, 2026</div></div>
+    <div class="rv"><div class="rv-label">Status</div><div style="display:inline-block;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;background:#d4edda;color:#155724">APPROVED</div></div>
+    <div style="margin-top:20px">
+      <button class="btn btn-p" onclick="switchRole('org');nav('myorg')">Go to My Org →</button>
+    </div>
+  </div>
 </div>
 
 <!-- ADMIN DASHBOARD -->

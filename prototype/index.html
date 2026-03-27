@@ -1101,7 +1101,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px">
       <div onclick="nav('adminAllOrgs')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;text-align:center;cursor:pointer"><div style="font-size:22px;font-weight:800">320</div><div style="font-size:11px;color:var(--gray-500)">Organizations</div><div style="font-size:10px;color:var(--gray-400);margin-top:2px">View all →</div></div>
       <div onclick="nav('adminAllArtists')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;text-align:center;cursor:pointer"><div style="font-size:22px;font-weight:800">185</div><div style="font-size:11px;color:var(--gray-500)">Artists</div><div style="font-size:10px;color:var(--gray-400);margin-top:2px">View all →</div></div>
-      <div onclick="nav('adminArchive')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;text-align:center;cursor:pointer"><div style="font-size:22px;font-weight:800;color:var(--gray-800)">5</div><div style="font-size:11px;color:var(--gray-500)">Pending</div></div>
+      <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--gray-800)">5</div><div style="font-size:11px;color:var(--gray-500)">Pending</div></div>
     </div>
 
     <!-- Pending Requests -->
@@ -1127,9 +1127,8 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 
     <!-- Manage -->
     <div class="sec-header"><div class="sec-title">Manage</div></div>
-    <div class="nf" onclick="nav('adminAllOrgs')"><div class="nf-icon">▣</div><div class="nf-body"><div class="nf-title">All Organizations (320)</div><div class="nf-meta">Browse, edit, or remove org profiles</div></div><div class="nf-arrow">→</div></div>
-    <div class="nf" onclick="nav('adminAllArtists')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">All Artists (185)</div><div class="nf-meta">Browse, edit, or remove artist profiles</div></div><div class="nf-arrow">→</div></div>
-    <div class="nf" onclick="nav('adminArchive')"><div class="nf-icon">📋</div><div class="nf-body"><div class="nf-title">Request Archive</div><div class="nf-meta">Past approved, denied, and resolved requests</div></div><div class="nf-arrow">→</div></div>
+    <div class="nf" onclick="nav('adminAllOrgs')"><div class="nf-icon">▣</div><div class="nf-body"><div class="nf-title">All Organizations (320)</div><div class="nf-meta">Browse, edit, remove, or view request history</div></div><div class="nf-arrow">→</div></div>
+    <div class="nf" onclick="nav('adminAllArtists')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">All Artists (185)</div><div class="nf-meta">Browse, edit, remove, or view request history</div></div><div class="nf-arrow">→</div></div>
   </div>
   <div id="adminDashNav"></div>
 </div>
@@ -1137,34 +1136,50 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- ADMIN: ALL ORGANIZATIONS -->
 <div id="adminAllOrgs" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">All Organizations (320)</div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Organizations</div></div>
   <div class="content">
     <div class="search">🔍 Search organizations...</div>
-    <div class="pills"><div class="pill on" onclick="setPill(this)">All</div><div class="pill" onclick="setPill(this)">Active</div><div class="pill" onclick="setPill(this)">Deactivated</div></div>
+    <div class="pills"><div class="pill on" onclick="setPill(this)">Active (318)</div><div class="pill" onclick="setPill(this)">Deactivated (2)</div><div class="pill" onclick="setPill(this)">Request History</div></div>
+
     <div class="li" onclick="nav('adminOrgDetail')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Cleveland Aradhana</div><div class="li-sub">Cleveland, OH · Karnatic · 12 events</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
     <div class="li" onclick="nav('adminOrgDetail')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">South India Fine Arts (SIFA)</div><div class="li-sub">Chennai · Karnatic, Hindustani · 8 events</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
     <div class="li" onclick="nav('adminOrgDetail')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Charsur Arts Foundation</div><div class="li-sub">Chennai · Karnatic · 5 events</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
     <div class="li" onclick="nav('adminOrgDetail')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Fine Arts Assoc. of Arizona</div><div class="li-sub">Phoenix, AZ · Karnatic · 11 events</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
-    <div class="li" style="opacity:0.5" onclick="nav('adminOrgDetail')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Phoenix Arts Collective</div><div class="li-sub">Phoenix, AZ · Jazz · 0 events</div></div><div style="font-size:10px;font-weight:700;color:#721c24;background:#f8d7da;padding:2px 6px;border-radius:4px">INACTIVE</div></div>
     <div class="li" onclick="nav('adminOrgDetail')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Narada Gana Sabha</div><div class="li-sub">Chennai · Karnatic, Dance · 9 events</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
     <div class="li" onclick="nav('adminOrgDetail')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Shanmukhananda Sabha</div><div class="li-sub">Mumbai · Hindustani · 4 events</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
+
+    <!-- These show when "Deactivated" pill is tapped -->
+    <!--<div class="li" style="opacity:0.5" onclick="nav('adminOrgDetail')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Phoenix Arts Collective</div><div class="li-sub">Phoenix, AZ · Jazz · Deactivated Mar 20</div></div><div style="font-size:10px;font-weight:700;color:#721c24;background:#f8d7da;padding:2px 6px;border-radius:4px">INACTIVE</div></div>-->
+
+    <!-- These show when "Request History" pill is tapped -->
+    <!--
+    <div class="nf"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shanmukhananda Sabha</div><div class="nf-meta">New Org · Approved Mar 24</div></div><div style="...">APPROVED</div></div>
+    <div class="nf"><div class="nf-icon">✗</div><div class="nf-body"><div class="nf-title">Spam Org</div><div class="nf-meta">New Org · Denied Mar 18</div></div><div style="...">DENIED</div></div>
+    -->
   </div>
 </div>
 
 <!-- ADMIN: ALL ARTISTS -->
 <div id="adminAllArtists" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">All Artists (185)</div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Artists</div></div>
   <div class="content">
     <div class="search">🔍 Search artists...</div>
-    <div class="pills"><div class="pill on" onclick="setPill(this)">All</div><div class="pill" onclick="setPill(this)">Active</div><div class="pill" onclick="setPill(this)">Deactivated</div></div>
+    <div class="pills"><div class="pill on" onclick="setPill(this)">Active (183)</div><div class="pill" onclick="setPill(this)">Deactivated (2)</div><div class="pill" onclick="setPill(this)">Request History</div></div>
+
     <div class="li" onclick="nav('adminArtistDetail')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Abhishek Raghuram</div><div class="li-sub">Karnatic · Vocal · Bangalore</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
     <div class="li" onclick="nav('adminArtistDetail')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Ranjani & Gayatri</div><div class="li-sub">Karnatic · Vocal · Chennai</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
     <div class="li" onclick="nav('adminArtistDetail')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Shobana Balachandra</div><div class="li-sub">Bharatanatyam · Chennai</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
-    <div class="li" style="opacity:0.5" onclick="nav('adminArtistDetail')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Removed Artist</div><div class="li-sub">Karnatic · Violin · Delhi</div></div><div style="font-size:10px;font-weight:700;color:#721c24;background:#f8d7da;padding:2px 6px;border-radius:4px">INACTIVE</div></div>
     <div class="li" onclick="nav('adminArtistDetail')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Sanjay Subrahmanyan</div><div class="li-sub">Karnatic · Vocal · Chennai</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
     <div class="li" onclick="nav('adminArtistDetail')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Bombay Jayashri</div><div class="li-sub">Karnatic · Vocal · Mumbai</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
     <div class="li" onclick="nav('adminArtistDetail')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">T.M. Krishna</div><div class="li-sub">Karnatic · Vocal · Chennai</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
+    <div class="li" onclick="nav('adminArtistDetail')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Shashank Subramanyam</div><div class="li-sub">Karnatic · Flute · Bangalore</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">ACTIVE</div></div>
+
+    <!-- These show when "Request History" pill is tapped -->
+    <!--
+    <div class="nf"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Vedanth Bharadwaj</div><div class="nf-meta">New Artist · Approved Mar 25</div></div><div style="...">APPROVED</div></div>
+    <div class="nf"><div class="nf-icon">✗</div><div class="nf-body"><div class="nf-title">Unknown → Ranjani & Gayatri</div><div class="nf-meta">Claim · Denied Mar 22 · Unverified</div></div><div style="...">DENIED</div></div>
+    -->
   </div>
 </div>
 
@@ -1246,24 +1261,6 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
       <button class="btn btn-d" onclick="nav('adminDash')" style="color:var(--white);background:#721c24;border-color:#721c24">Remove Permanently</button>
       <button class="btn btn-s" onclick="goBack()">Cancel</button>
     </div>
-  </div>
-</div>
-
-<!-- ADMIN: ARCHIVE -->
-<div id="adminArchive" class="screen">
-  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Request Archive</div></div>
-  <div class="content">
-    <div class="pills">
-      <div class="pill on" onclick="setPill(this)">All</div>
-      <div class="pill" onclick="setPill(this)">Approved</div>
-      <div class="pill" onclick="setPill(this)">Denied</div>
-    </div>
-    <div class="nf"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Vedanth Bharadwaj</div><div class="nf-meta">New Artist · Approved Mar 25</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">APPROVED</div></div>
-    <div class="nf"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shanmukhananda Sabha</div><div class="nf-meta">New Org · Approved Mar 24</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">APPROVED</div></div>
-    <div class="nf"><div class="nf-icon">✗</div><div class="nf-body"><div class="nf-title">Unknown User → Ranjani & Gayatri</div><div class="nf-meta">Claim Artist · Denied Mar 22 · Unverified identity</div></div><div style="font-size:10px;font-weight:700;color:#721c24;background:#f8d7da;padding:2px 6px;border-radius:4px">DENIED</div></div>
-    <div class="nf"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Rajesh V. → Cleveland Aradhana</div><div class="nf-meta">Claim Org · Approved Mar 20</div></div><div style="font-size:10px;font-weight:700;color:#155724;background:#d4edda;padding:2px 6px;border-radius:4px">APPROVED</div></div>
-    <div class="nf"><div class="nf-icon">✗</div><div class="nf-body"><div class="nf-title">Spam Account</div><div class="nf-meta">New Artist · Denied Mar 18 · Insufficient proof</div></div><div style="font-size:10px;font-weight:700;color:#721c24;background:#f8d7da;padding:2px 6px;border-radius:4px">DENIED</div></div>
   </div>
 </div>
 

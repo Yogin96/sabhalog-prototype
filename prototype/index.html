@@ -167,7 +167,41 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 .pf-link { display:flex; justify-content:space-between; padding:12px 0; cursor:pointer; font-size:14px; border-bottom:1px solid var(--gray-100); }
 .pf-link:last-child { border-bottom:none; }
 .pf-link:hover { color:var(--gray-600); }
-.pf-link.danger { color:var(--gray-400); }
+.pf-link.danger { color:#d32f2f; font-weight:600; }
+.pf-link.danger:hover { color:#b71c1c; }
+.pf-link:active { background:var(--gray-50); margin:0 -20px; padding:12px 20px; }
+
+/* Profile cards */
+.pf-card { background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius); padding:16px; margin-bottom:4px; }
+.pf-card-icon { font-size:28px; margin-bottom:8px; }
+.pf-card-title { font-size:15px; font-weight:800; margin-bottom:2px; }
+.pf-card-desc { font-size:12px; color:var(--gray-500); margin-bottom:12px; line-height:1.4; }
+.pf-card .pf-link { font-size:13px; }
+.pf-card .pf-link:last-child { border-bottom:none; }
+.pf-card .pf-hint { font-size:11px; color:var(--gray-400); margin-top:-4px; margin-bottom:6px; }
+
+/* Request cards */
+.req-card { border:1px solid var(--gray-200); border-radius:var(--radius-sm); padding:12px; margin-bottom:6px; cursor:pointer; display:flex; align-items:center; gap:10px; }
+.req-card:hover { border-color:var(--gray-400); background:var(--gray-50); }
+.req-card:active { background:var(--gray-100); }
+.req-card.denied { opacity:0.5; cursor:default; }
+.req-card-icon { font-size:18px; flex-shrink:0; }
+.req-card-body { flex:1; }
+.req-card-name { font-size:13px; font-weight:600; }
+.req-card-meta { font-size:11px; color:var(--gray-500); margin-top:1px; }
+.req-card-badge { padding:3px 8px; border-radius:4px; font-size:10px; font-weight:700; white-space:nowrap; }
+.req-card-badge.pending { background:var(--gray-200); color:var(--gray-700); }
+.req-card-badge.approved { background:#d4edda; color:#155724; }
+.req-card-badge.denied { background:#f8d7da; color:#721c24; }
+
+/* Admin stats */
+.admin-stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:4px; }
+.admin-stat { background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius-sm); padding:14px 10px; text-align:center; }
+.admin-stat-num { font-size:22px; font-weight:800; }
+.admin-stat-label { font-size:10px; color:var(--gray-500); font-weight:600; text-transform:uppercase; letter-spacing:0.3px; margin-top:2px; }
+
+/* Demo label */
+.demo-label { font-size:10px; color:var(--gray-400); font-style:italic; text-align:center; margin-top:6px; }
 
 /* Splash */
 #splash { background:var(--black); color:var(--white); justify-content:center; align-items:center; text-align:center; }
@@ -469,7 +503,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Artists</div></div>
   <div class="content">
     <div class="search">🔍 Search artists...</div>
-    <div class="pills"><div class="pill on" onclick="setPill(this)">All</div><div class="pill" onclick="setPill(this)">Vocal</div><div class="pill" onclick="setPill(this)">Violin</div><div class="pill" onclick="setPill(this)">Bharatanatyam</div></div>
+    <div class="pills"><div class="pill on" onclick="setPill(this)">All</div><div class="pill" onclick="setPill(this)">Karnatic</div><div class="pill" onclick="setPill(this)">Hindustani</div><div class="pill" onclick="setPill(this)">Jazz</div><div class="pill" onclick="setPill(this)">Dance</div><div class="pill" onclick="setPill(this)">Comedy</div></div>
     <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Abhishek Raghuram</div><div class="li-sub">Karnatic · Vocal · Bangalore</div></div></div>
     <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Ranjani & Gayatri</div><div class="li-sub">Karnatic · Vocal · Chennai</div></div></div>
     <div class="li" onclick="nav('artistProfile')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Shobana Balachandra</div><div class="li-sub">Bharatanatyam · Chennai</div></div></div>
@@ -577,7 +611,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="content">
     <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--gray-200);margin-bottom:10px">
       <div><span class="sr-badge plan">Planning</span><span style="font-size:12px;color:var(--gray-500);margin-left:8px">8/11 confirmed</span><div style="font-size:11px;color:var(--gray-400);margin-top:2px">Phoenix, AZ · May 2026</div></div>
-      <button class="pub">Publish →</button>
+      <button class="pub" onclick="nav('publishSeries')">Publish →</button>
     </div>
     <div class="pills" id="slotPills"><div class="pill on" onclick="filterSlots('all',this)">All</div><div class="pill" onclick="filterSlots('avail',this)">Available</div><div class="pill" onclick="filterSlots('pend',this)">Pending</div><div class="pill" onclick="filterSlots('conf',this)">Confirmed</div></div>
     <div id="slotList">
@@ -603,7 +637,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="content">
     <div class="ctx">For: May 16 (Fri) · 6:00 – 8:00 PM<br>Spring Concert Series 2026 · Phoenix, AZ</div>
     <div class="search">🔍 Search artists...</div>
-    <div class="pills"><div class="pill">Karnatic</div><div class="pill">Vocal</div><div class="pill">Violin</div><div class="pill">Flute</div></div>
+    <div class="pills"><div class="pill">Karnatic</div><div class="pill">Hindustani</div><div class="pill">Jazz</div><div class="pill">Dance</div><div class="pill">Comedy</div></div>
     <div class="as" onclick="nav('invitePreview')"><div class="as-av">●</div><div class="as-info"><div class="as-name">Abhishek Raghuram</div><div class="as-det">Karnatic · Vocal · Bangalore</div><div class="as-free">✓ Available May 16</div></div></div>
     <div class="as" onclick="nav('invitePreview')"><div class="as-av">●</div><div class="as-info"><div class="as-name">Vedanth Bharadwaj</div><div class="as-det">Karnatic · Violin · Chennai</div><div class="as-free">✓ Available May 16</div></div></div>
     <div class="as"><div class="as-av">●</div><div class="as-info"><div class="as-name">Shobana Balachandra</div><div class="as-det">Bharatanatyam · Chennai</div><div class="as-busy">⚠ Busy May 16 (FAAA event)</div></div></div>
@@ -671,8 +705,12 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="rv"><div class="rv-label">Series</div><div class="rv-val">Spring Concert Series 2026</div></div>
     <div class="rv"><div class="rv-label">Original Invite</div><div style="font-size:13px">Proposed: May 14, May 15</div><div style="display:inline-block;padding:2px 6px;border-radius:3px;background:var(--gray-200);font-size:10px;font-weight:700;margin-top:3px">COUNTER-PROPOSED</div></div>
     <div class="rv"><div class="rv-label">Artist's Message</div><div class="msg">"I'm available May 20 or 22 instead. May 14-15 I have an event in Chennai."</div></div>
-    <button class="btn btn-p" onclick="nav('reinvite')">Withdraw & Re-invite</button>
-    <button class="btn btn-o">Withdraw Only</button>
+    <div style="font-size:12px;font-weight:700;color:var(--gray-500);text-transform:uppercase;margin-bottom:8px">Your Options</div>
+    <button class="btn btn-p" onclick="nav('acceptCounterConf')">Accept Artist's Dates</button>
+    <div style="font-size:11px;color:var(--gray-400);text-align:center;margin-bottom:12px">Book the artist on one of their suggested dates</div>
+    <button class="btn btn-o" onclick="nav('reinvite')">Propose Different Dates</button>
+    <div style="font-size:11px;color:var(--gray-400);text-align:center;margin-bottom:12px">Send a new invite with other available slots</div>
+    <button class="btn btn-d" onclick="nav('withdrawConf')">Withdraw Invite</button>
   </div>
 </div>
 
@@ -691,15 +729,57 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   </div>
 </div>
 
+<!-- ACCEPT COUNTER-PROPOSAL: SELECT DATE -->
+<div id="acceptCounterConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Accept Dates</div></div>
+  <div class="content">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div class="as-av" style="width:36px;height:36px;font-size:14px">●</div><div><div style="font-weight:700;font-size:14px">Ranjani & group</div><div style="font-size:11px;color:var(--gray-500)">Karnatic · Vocal</div></div></div>
+    <div class="fl">Artist is available on these dates. Select one:</div>
+    <div class="dt" onclick="togDt(this)"><div class="dt-box"></div><div class="dt-info"><div class="dt-label">May 20 (Tue) · 6:00 PM</div><div class="dt-sub">AVAILABLE in your series</div></div></div>
+    <div class="dt on" onclick="togDt(this)"><div class="dt-box">✓</div><div class="dt-info"><div class="dt-label">May 22 (Thu) · 6:00 PM</div><div class="dt-sub">AVAILABLE in your series</div></div></div>
+    <button class="btn btn-p" style="margin-top:14px" onclick="nav('acceptCounterDone')">Confirm Booking</button>
+  </div>
+</div>
+
+<!-- ACCEPT COUNTER DONE -->
+<div id="acceptCounterDone" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Booking Confirmed!</div><div class="conf-line">Ranjani & group</div><div class="conf-line">May 22 (Thu) · 6:00 PM</div><div class="conf-line">Spring Concert Series 2026</div><div class="conf-status">Artist notified by email</div><button class="btn btn-s btn-sm" onclick="nav('seriesPlanner')">Back to Series</button></div>
+</div>
+
+<!-- WITHDRAW INVITE CONFIRMATION -->
+<div id="withdrawConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Withdraw Invite</div></div>
+  <div class="content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px">
+    <div style="font-size:40px;margin-bottom:14px">🤔</div>
+    <div style="font-size:18px;font-weight:800;margin-bottom:6px">Withdraw this invite?</div>
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:4px">Ranjani & group</div>
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:20px">Spring Concert Series 2026</div>
+    <div style="font-size:12px;color:var(--gray-400);margin-bottom:24px;line-height:1.5">The artist will be notified and the slot will return to Available.</div>
+    <button class="btn btn-d" onclick="nav('withdrawDone')" style="width:100%;margin-bottom:8px">Yes, Withdraw Invite</button>
+    <button class="btn btn-s" onclick="goBack()" style="width:100%">Go Back</button>
+  </div>
+</div>
+
+<!-- WITHDRAW DONE -->
+<div id="withdrawDone" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Invite Withdrawn</div><div class="conf-line">The artist has been notified.</div><div class="conf-line">The slot is now available.</div><div class="conf-status"></div><button class="btn btn-s btn-sm" onclick="nav('seriesPlanner')">Back to Series</button></div>
+</div>
+
 <!-- CREATE SERIES: DETAILS -->
 <div id="createSeries1" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Create Series (1/4)</div></div>
   <div class="content">
+    <div class="ctx">Create a new concert series. You can invite artists after setup.</div>
     <div class="fg"><div class="fl">Series Name *</div><input class="fi" value="Monsoon Music Festival 2026"></div>
-    <div class="fg"><div class="fl">Location *</div><input class="fi" value="Phoenix, AZ"></div>
-    <div class="fg"><div class="fl">Description</div><textarea class="ft" placeholder="Describe the series..."></textarea></div>
-    <div class="fg"><div class="fl">Art Form *</div><div class="pills"><div class="pill on" onclick="this.classList.toggle('on')">Karnatic</div><div class="pill" onclick="this.classList.toggle('on')">Hindustani</div><div class="pill" onclick="this.classList.toggle('on')">Bharatanatyam</div><div class="pill" onclick="this.classList.toggle('on')">Dance</div><div class="pill" onclick="this.classList.toggle('on')">Instrumental</div></div></div>
+    <div class="fg"><div class="fl">Location (City) *</div><input class="fi" value="Phoenix, AZ"></div>
+    <div class="fg"><div class="fl">Venue Name</div><input class="fi" placeholder="e.g., Scottsdale Center for the Arts"></div>
+    <div class="fg"><div class="fl">Description</div><textarea class="ft" placeholder="e.g., Annual spring concert series featuring Karnatic music and dance performances"></textarea></div>
+    <div class="fg"><div class="fl">Art Form *</div><div class="pills"><div class="pill on" onclick="this.classList.toggle('on')">Karnatic</div><div class="pill" onclick="this.classList.toggle('on')">Hindustani</div><div class="pill" onclick="this.classList.toggle('on')">Dance</div><div class="pill" onclick="this.classList.toggle('on')">Jazz</div><div class="pill" onclick="this.classList.toggle('on')">Comedy</div></div></div>
     <button class="btn btn-p" onclick="nav('createSeries2')">Continue →</button>
   </div>
 </div>
@@ -709,13 +789,18 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Select Dates (2/4)</div></div>
   <div class="content">
-    <div style="font-size:13px;color:var(--gray-500);margin-bottom:12px">Tap dates to add slots</div>
+    <div class="ctx">Tap dates to select. Each date gets at least one performance slot.</div>
     <div style="text-align:center;margin-bottom:16px">
-      <div style="font-weight:700;margin-bottom:8px">July 2026</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:10px">
+        <span style="font-size:18px;cursor:pointer;color:var(--gray-400);padding:4px 8px" onclick="changeCalMonth(-1)">‹</span>
+        <span style="font-weight:700;font-size:15px;min-width:120px" id="calMonthLabel">July 2026</span>
+        <span style="font-size:18px;cursor:pointer;color:var(--gray-400);padding:4px 8px" onclick="changeCalMonth(1)">›</span>
+      </div>
       <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:12px;color:var(--gray-400);margin-bottom:4px"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
       <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;font-size:13px" id="calGrid"></div>
     </div>
-    <div style="font-size:12px;color:var(--gray-500);margin-bottom:12px" id="dateCount">0 dates selected</div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:4px" id="dateCount">5 dates selected</div>
+    <div style="font-size:12px;color:var(--gray-500);margin-bottom:14px;line-height:1.5" id="dateSummary">Jul 8, 10, 12, 15, 18</div>
     <button class="btn btn-p" onclick="nav('createSeries3')">Continue →</button>
   </div>
 </div>
@@ -725,10 +810,29 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Set Time Slots (3/4)</div></div>
   <div class="content">
-    <div style="border-bottom:1px solid var(--gray-200);padding-bottom:10px;margin-bottom:12px"><div class="fl">Jul 8 (Wed)</div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px">Slot 1:</span><input class="fi" value="6:00 PM" style="width:100px;padding:8px"><input class="fi" value="2 hrs" style="width:70px;padding:8px"></div><div style="font-size:12px;color:var(--gray-500);cursor:pointer;margin-top:4px">+ Add another slot</div></div>
-    <div style="border-bottom:1px solid var(--gray-200);padding-bottom:10px;margin-bottom:12px"><div class="fl">Jul 10 (Fri)</div><div style="display:flex;gap:8px;align-items:center;margin-bottom:6px"><span style="font-size:12px">Slot 1:</span><input class="fi" value="10:00 AM" style="width:100px;padding:8px"><input class="fi" value="2 hrs" style="width:70px;padding:8px"></div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px">Slot 2:</span><input class="fi" value="6:00 PM" style="width:100px;padding:8px"><input class="fi" value="2 hrs" style="width:70px;padding:8px"></div><div style="font-size:12px;color:var(--gray-500);cursor:pointer;margin-top:4px">+ Add another slot</div></div>
-    <div style="border-bottom:1px solid var(--gray-200);padding-bottom:10px;margin-bottom:12px"><div class="fl">Jul 12 (Sun)</div><div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px">Slot 1:</span><input class="fi" value="4:00 PM" style="width:100px;padding:8px"><input class="fi" value="3 hrs" style="width:70px;padding:8px"></div><div style="font-size:12px;color:var(--gray-500);cursor:pointer;margin-top:4px">+ Add another slot</div></div>
-    <div style="font-size:12px;color:var(--gray-500);margin-bottom:12px">4 slots across 3 dates</div>
+    <div class="ctx">Set the start time and duration for each performance slot.</div>
+
+    <div style="border-bottom:1px solid var(--gray-200);padding-bottom:12px;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:6px">Wednesday, Jul 8</div>
+      <div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--gray-500);min-width:42px">Slot 1</span><input class="fi" value="6:00 PM" style="width:100px;padding:8px"><input class="fi" value="2 hrs" style="width:70px;padding:8px"></div>
+      <button class="btn btn-o btn-sm" style="margin-top:6px;font-size:11px;padding:6px 12px">+ Add slot</button>
+    </div>
+
+    <div style="border-bottom:1px solid var(--gray-200);padding-bottom:12px;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:6px">Friday, Jul 10</div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px"><span style="font-size:12px;color:var(--gray-500);min-width:42px">Slot 1</span><input class="fi" value="10:00 AM" style="width:100px;padding:8px"><input class="fi" value="2 hrs" style="width:70px;padding:8px"></div>
+      <div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--gray-500);min-width:42px">Slot 2</span><input class="fi" value="6:00 PM" style="width:100px;padding:8px"><input class="fi" value="2 hrs" style="width:70px;padding:8px"></div>
+      <button class="btn btn-o btn-sm" style="margin-top:6px;font-size:11px;padding:6px 12px">+ Add slot</button>
+    </div>
+
+    <div style="border-bottom:1px solid var(--gray-200);padding-bottom:12px;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:6px">Sunday, Jul 12</div>
+      <div style="display:flex;gap:8px;align-items:center"><span style="font-size:12px;color:var(--gray-500);min-width:42px">Slot 1</span><input class="fi" value="4:00 PM" style="width:100px;padding:8px"><input class="fi" value="3 hrs" style="width:70px;padding:8px"></div>
+      <button class="btn btn-o btn-sm" style="margin-top:6px;font-size:11px;padding:6px 12px">+ Add slot</button>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;color:var(--gray-600);margin-bottom:4px">4 slots across 3 dates</div>
+    <div style="font-size:11px;color:var(--gray-400);margin-bottom:14px">Tip: Most concerts start at 6:00 PM with a 2-hour duration</div>
     <button class="btn btn-p" onclick="nav('createSeries4')">Continue →</button>
   </div>
 </div>
@@ -738,17 +842,31 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review Series (4/4)</div></div>
   <div class="content">
-    <div class="rv"><div class="rv-label">Series</div><div class="rv-val">Monsoon Music Festival 2026</div></div>
-    <div class="rv"><div class="rv-label">Location</div><div class="rv-val">Phoenix, AZ</div></div>
-    <div class="rv"><div class="rv-label">Art Form</div><div class="rv-val">Karnatic</div></div>
-    <div class="rv"><div class="rv-label">Slots (4)</div>
-      <div style="font-size:13px;margin-top:3px">• Jul 8 (Wed) · 6:00 PM · 2 hrs</div>
-      <div style="font-size:13px">• Jul 10 (Fri) · 10:00 AM · 2 hrs</div>
-      <div style="font-size:13px">• Jul 10 (Fri) · 6:00 PM · 2 hrs</div>
-      <div style="font-size:13px">• Jul 12 (Sun) · 4:00 PM · 3 hrs</div>
+    <div class="rv">
+      <div style="display:flex;justify-content:space-between;align-items:center"><div class="rv-label">Series</div><div style="font-size:11px;color:var(--gray-500);cursor:pointer" onclick="nav('createSeries1')">Edit ›</div></div>
+      <div class="rv-val">Monsoon Music Festival 2026</div>
     </div>
-    <div style="font-size:12px;color:var(--gray-500);margin-top:12px">All slots will start as AVAILABLE.</div>
-    <button class="btn btn-p" style="margin-top:16px" onclick="nav('createSeriesConf')">Create Series</button>
+    <div class="rv">
+      <div style="display:flex;justify-content:space-between;align-items:center"><div class="rv-label">Location & Venue</div><div style="font-size:11px;color:var(--gray-500);cursor:pointer" onclick="nav('createSeries1')">Edit ›</div></div>
+      <div class="rv-val">Phoenix, AZ</div>
+      <div style="font-size:12px;color:var(--gray-500)">Scottsdale Center for the Arts</div>
+    </div>
+    <div class="rv"><div class="rv-label">Art Form</div><div class="rv-val">Karnatic</div></div>
+    <div class="rv"><div class="rv-label">Description</div><div style="font-size:13px;color:var(--gray-500);line-height:1.5">Annual spring concert series featuring Karnatic music and dance performances</div></div>
+    <div class="rv">
+      <div style="display:flex;justify-content:space-between;align-items:center"><div class="rv-label">Slots (4)</div><div style="font-size:11px;color:var(--gray-500);cursor:pointer" onclick="nav('createSeries3')">Edit ›</div></div>
+      <div style="margin-top:6px">
+        <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:4px">Wednesday, Jul 8</div>
+        <div style="font-size:13px;color:var(--gray-700);margin-bottom:8px;padding-left:10px">• 6:00 PM · 2 hrs</div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:4px">Friday, Jul 10</div>
+        <div style="font-size:13px;color:var(--gray-700);padding-left:10px">• 10:00 AM · 2 hrs</div>
+        <div style="font-size:13px;color:var(--gray-700);margin-bottom:8px;padding-left:10px">• 6:00 PM · 2 hrs</div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:4px">Sunday, Jul 12</div>
+        <div style="font-size:13px;color:var(--gray-700);padding-left:10px">• 4:00 PM · 3 hrs</div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--gray-500);margin-top:12px">All slots will start as AVAILABLE. You can invite artists once the series is created.</div>
+    <button class="btn btn-p" style="margin-top:16px" onclick="nav('createSeriesConf')">Create Series (Planning)</button>
   </div>
 </div>
 
@@ -756,6 +874,67 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <div id="createSeriesConf" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Series Created!</div><div class="conf-line">Monsoon Music Festival 2026</div><div class="conf-line">Phoenix, AZ · 4 slots</div><div class="conf-status">Status: PLANNING</div><button class="btn btn-p btn-sm" onclick="nav('seriesPlanner')">Start Inviting Artists</button><button class="btn btn-s btn-sm" onclick="nav('myorg')">Back to My Org</button></div>
+</div>
+
+<!-- PUBLISH SERIES CONFIRMATION -->
+<div id="publishSeries" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Publish Series</div></div>
+  <div class="content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px">
+    <div style="font-size:40px;margin-bottom:14px">📢</div>
+    <div style="font-size:18px;font-weight:800;margin-bottom:6px">Publish this series?</div>
+    <div style="font-size:14px;font-weight:700;margin-bottom:4px">Spring Concert Series 2026</div>
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:16px">Phoenix, AZ · 11 slots</div>
+    <div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:20px;text-align:left;width:100%">
+      <div style="font-size:12px;font-weight:700;color:var(--gray-500);margin-bottom:8px">What happens when you publish:</div>
+      <div style="font-size:13px;color:var(--gray-600);line-height:1.8">
+        ✓ Series appears in Explore for all users<br>
+        ✓ Confirmed events become public<br>
+        ✓ Available slots remain hidden (only you see them)<br>
+        ✓ You can still invite artists to empty slots
+      </div>
+    </div>
+    <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:20px;width:100%;text-align:left">
+      <div style="font-size:12px;color:#856404;font-weight:600">⚠ 3 slots still unfilled (2 available, 1 pending)</div>
+      <div style="font-size:11px;color:#856404;margin-top:2px">You can publish now and continue filling slots later.</div>
+    </div>
+    <button class="btn btn-p" onclick="nav('publishSeriesDone')" style="width:100%;margin-bottom:8px">Yes, Publish Series</button>
+    <button class="btn btn-s" onclick="goBack()" style="width:100%">Go Back</button>
+  </div>
+</div>
+
+<!-- PUBLISH SERIES DONE -->
+<div id="publishSeriesDone" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">🎉</div><div class="conf-title">Series Published!</div><div class="conf-line" style="font-weight:700">Spring Concert Series 2026</div><div class="conf-line">Phoenix, AZ · 8 confirmed events</div><div class="conf-line" style="color:var(--gray-400);font-size:12px;margin-top:4px">Now visible to all Sabhalog users</div><div class="conf-status"></div><button class="btn btn-s btn-sm" onclick="nav('seriesPlanner')">View Series</button><button class="btn btn-o btn-sm" onclick="nav('myorg')">Back to My Org</button></div>
+</div>
+
+<!-- EDIT ORG PROFILE -->
+<div id="editOrgProfile" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Edit Organization</div></div>
+  <div class="content">
+    <div class="fg">
+      <div class="fl">Organization Logo</div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:64px;height:64px;border-radius:var(--radius-sm);background:var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--gray-500);flex-shrink:0">▣</div>
+        <div style="font-size:13px;color:var(--gray-600);cursor:pointer;text-decoration:underline">Change logo</div>
+      </div>
+    </div>
+    <div class="fg"><div class="fl">Organization Name</div><input class="fi" value="Fine Arts Association of Arizona"></div>
+    <div class="fg"><div class="fl">Location</div><input class="fi" value="Phoenix, AZ"></div>
+    <div class="fg"><div class="fl">Art Forms</div><div class="pills"><div class="pill on" onclick="this.classList.toggle('on')">Karnatic</div><div class="pill" onclick="this.classList.toggle('on')">Hindustani</div><div class="pill" onclick="this.classList.toggle('on')">Dance</div><div class="pill" onclick="this.classList.toggle('on')">Jazz</div><div class="pill" onclick="this.classList.toggle('on')">Comedy</div></div></div>
+    <div class="fg"><div class="fl">About</div><textarea class="ft" style="min-height:80px">Bringing the rich heritage of Indian classical music to the Arizona community since 2005. We organize annual concert series, workshops, and cultural events.</textarea></div>
+    <div class="fg"><div class="fl">Contact Email</div><input class="fi" value="info@faaa.org"></div>
+    <div class="fg"><div class="fl">Website</div><input class="fi" value="faaa.org"></div>
+    <button class="btn btn-p" style="margin-top:8px" onclick="nav('editOrgSaved')">Save Changes</button>
+  </div>
+</div>
+
+<!-- EDIT ORG SAVED -->
+<div id="editOrgSaved" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Organization Updated!</div><div class="conf-line">Your changes are now live.</div><div class="conf-status"></div><button class="btn btn-s btn-sm" onclick="nav('profile')">Back to Profile</button></div>
 </div>
 
 <!-- ARTIST: INVITES -->
@@ -783,7 +962,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="rv"><div class="rv-label">Message from Organization</div><div class="msg">"Would love to have you perform at our spring series. May 16 is preferred but flexible."</div></div>
     <button class="btn btn-p" onclick="nav('artistAccConf')">Accept Selected Date</button>
     <button class="btn btn-o" onclick="nav('artistCounter')">Suggest Different Dates</button>
-    <button class="btn btn-d">Decline</button>
+    <button class="btn btn-d" onclick="nav('artistDeclineConf')">Decline</button>
   </div>
 </div>
 
@@ -795,8 +974,35 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="rv"><div style="font-weight:700">Fine Arts Association of Arizona</div><div style="font-size:12px;color:var(--gray-500)">Spring Concert Series 2026</div></div>
     <div style="font-size:12px;color:var(--gray-400);margin-bottom:8px">They proposed: May 16, May 18</div>
     <div class="fg"><div class="fl">Your Message</div><textarea class="ft" style="min-height:100px">I'm available May 20 or 22 instead. May 16 I have an event in Chennai.</textarea></div>
-    <button class="btn btn-p" onclick="nav('artistInvites')">Send to Organization</button>
+    <button class="btn btn-p" onclick="nav('artistCounterConf')">Send to Organization</button>
   </div>
+</div>
+
+<!-- ARTIST: DECLINE CONFIRMATION -->
+<div id="artistDeclineConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Decline Invite</div></div>
+  <div class="content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px">
+    <div style="font-size:40px;margin-bottom:14px">🤔</div>
+    <div style="font-size:18px;font-weight:800;margin-bottom:6px">Decline this invite?</div>
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:4px;line-height:1.5">Fine Arts Association of Arizona</div>
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:20px;line-height:1.5">Spring Concert Series 2026 · Phoenix, AZ</div>
+    <div style="font-size:12px;color:var(--gray-400);margin-bottom:24px;line-height:1.5">The organization will be notified and the slot will be released for other artists.</div>
+    <button class="btn btn-d" onclick="nav('artistDeclineDone')" style="width:100%;margin-bottom:8px">Yes, Decline Invite</button>
+    <button class="btn btn-s" onclick="goBack()" style="width:100%">Go Back</button>
+  </div>
+</div>
+
+<!-- ARTIST: DECLINE DONE -->
+<div id="artistDeclineDone" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Invite Declined</div><div class="conf-line">The organization has been notified.</div><div class="conf-line">The slot is now available for other artists.</div><div class="conf-status" style="margin-top:14px"></div><button class="btn btn-s btn-sm" onclick="nav('artistInvites')">Back to Invites</button></div>
+</div>
+
+<!-- ARTIST: COUNTER-PROPOSE SENT -->
+<div id="artistCounterConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">📩</div><div class="conf-title">Message Sent!</div><div class="conf-line">Fine Arts Association of Arizona</div><div class="conf-line">will review your suggested dates</div><div class="conf-line">and get back to you.</div><div class="conf-status">You'll be notified when they respond</div><button class="btn btn-s btn-sm" onclick="nav('artistInvites')">Back to Invites</button></div>
 </div>
 
 <!-- ARTIST: ACCEPT CONFIRM -->
@@ -810,16 +1016,103 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="nav('saved')">♡</div><div class="h-icon" onclick="openSheet()">👤</div></div></div>
   <div class="content">
-    <div style="font-size:20px;font-weight:800;margin-bottom:14px">My Upcoming Performances</div>
+    <div style="font-size:20px;font-weight:800;margin-bottom:14px">My Performances</div>
+
+    <div style="font-size:14px;font-weight:700;margin-bottom:10px">Upcoming</div>
     <div class="sc-month">March 2026</div>
-    <div class="sc" onclick="nav('eventDetail')"><div class="sc-date">Mar 27 (Fri) · 7:00 PM</div><div class="sc-event">Charsur Arts Foundation</div><div class="sc-event" style="font-size:12px">Monsoon Music Festival</div><div class="sc-venue">Chennai</div></div>
+    <div class="sc" onclick="nav('perfDetail')"><div class="sc-date">Mar 27 (Fri) · 7:00 PM</div><div class="sc-event">Charsur Arts Foundation</div><div class="sc-event" style="font-size:12px">Monsoon Music Festival</div><div class="sc-venue">Chennai</div></div>
     <div class="sc-month">May 2026</div>
-    <div class="sc" onclick="nav('eventDetail')"><div class="sc-date">May 16 (Fri) · 6:00 PM</div><div class="sc-event">Fine Arts Assoc. of Arizona</div><div class="sc-event" style="font-size:12px">Spring Concert Series 2026</div><div class="sc-venue">Phoenix, AZ</div></div>
-    <div class="sc" onclick="nav('eventDetail')"><div class="sc-date">May 17 (Sat) · 7:00 PM</div><div class="sc-event">South India Fine Arts (SIFA)</div><div class="sc-event" style="font-size:12px">SIFA Annual Concert</div><div class="sc-venue">San Diego</div></div>
+    <div class="sc" onclick="nav('perfDetail')"><div class="sc-date">May 16 (Fri) · 6:00 PM</div><div class="sc-event">Fine Arts Assoc. of Arizona</div><div class="sc-event" style="font-size:12px">Spring Concert Series 2026</div><div class="sc-venue">Phoenix, AZ</div></div>
+    <div class="sc" onclick="nav('perfDetail')"><div class="sc-date">May 17 (Sat) · 7:00 PM</div><div class="sc-event">South India Fine Arts (SIFA)</div><div class="sc-event" style="font-size:12px">SIFA Annual Concert</div><div class="sc-venue">San Diego</div></div>
     <div class="sc-month">July 2026</div>
-    <div class="sc" onclick="nav('eventDetail')"><div class="sc-date">Jul 10 (Fri) · 6:30 PM</div><div class="sc-event">Cleveland Aradhana</div><div class="sc-event" style="font-size:12px">Summer Concert</div><div class="sc-venue">Cleveland, OH</div></div>
+    <div class="sc" onclick="nav('perfDetail')"><div class="sc-date">Jul 10 (Fri) · 6:30 PM</div><div class="sc-event">Cleveland Aradhana</div><div class="sc-event" style="font-size:12px">Summer Concert</div><div class="sc-venue">Cleveland, OH</div></div>
+
+    <div style="font-size:14px;font-weight:700;margin-top:24px;margin-bottom:10px;color:var(--gray-500)">Past</div>
+    <div class="sc-month" style="color:var(--gray-400)">January 2026</div>
+    <div class="sc" style="opacity:0.5" onclick="nav('eventDetail')"><div class="sc-date">Jan 15 (Wed) · 6:30 PM</div><div class="sc-event">South India Fine Arts (SIFA)</div><div class="sc-event" style="font-size:12px">Margazhi Concert Season</div><div class="sc-venue">Chennai</div></div>
+    <div class="sc" style="opacity:0.5" onclick="nav('eventDetail')"><div class="sc-date">Jan 3 (Fri) · 7:00 PM</div><div class="sc-event">Narada Gana Sabha</div><div class="sc-event" style="font-size:12px">December Music Festival</div><div class="sc-venue">Chennai</div></div>
+    <div class="sc-month" style="color:var(--gray-400)">December 2025</div>
+    <div class="sc" style="opacity:0.5" onclick="nav('eventDetail')"><div class="sc-date">Dec 20 (Sat) · 5:00 PM</div><div class="sc-event">Cleveland Aradhana</div><div class="sc-event" style="font-size:12px">Winter Concert</div><div class="sc-venue">Cleveland, OH</div></div>
   </div>
   <div id="artistScheduleNav"></div>
+</div>
+
+<!-- ARTIST: PERFORMANCE DETAIL -->
+<div id="perfDetail" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Performance Details</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:16px 0">
+      <div style="font-size:13px;color:var(--gray-500)">May 16, 2026</div>
+      <div style="font-size:20px;font-weight:800;margin-top:4px">Spring Concert Series 2026</div>
+      <div style="display:inline-block;padding:3px 10px;border-radius:4px;font-size:11px;font-weight:700;background:#d4edda;color:#155724;margin-top:8px">✅ CONFIRMED</div>
+    </div>
+    <div class="rv"><div class="rv-label">Date & Time</div><div class="rv-val">Friday, May 16 · 6:00 – 8:00 PM</div></div>
+    <div class="rv"><div class="rv-label">Organization</div><div style="font-size:14px;font-weight:600;cursor:pointer" onclick="nav('orgProfile')">▣ Fine Arts Association of Arizona</div></div>
+    <div class="rv"><div class="rv-label">Venue</div><div class="rv-val">Scottsdale Center for the Arts</div><div style="font-size:12px;color:var(--gray-500)">Phoenix, AZ</div></div>
+    <div class="rv"><div class="rv-label">Accepted On</div><div style="font-size:13px;color:var(--gray-500)">Mar 25, 2026</div></div>
+
+    <div style="margin-top:20px">
+      <button class="btn btn-o btn-sm">Add to Calendar</button>
+      <button class="btn btn-s btn-sm" onclick="nav('eventDetail')">View Public Event Page</button>
+    </div>
+
+    <div style="margin-top:24px;padding-top:16px;border-top:1px solid var(--gray-200)">
+      <button class="btn btn-d" onclick="nav('cancelPerfConf')">Cancel Performance</button>
+      <div style="font-size:11px;color:var(--gray-400);text-align:center;margin-top:6px">The organization will be notified and the slot will be released</div>
+    </div>
+  </div>
+</div>
+
+<!-- ARTIST: CANCEL PERFORMANCE CONFIRM -->
+<div id="cancelPerfConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Cancel Performance</div></div>
+  <div class="content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px">
+    <div style="font-size:40px;margin-bottom:14px">⚠️</div>
+    <div style="font-size:18px;font-weight:800;margin-bottom:6px">Cancel this performance?</div>
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:4px">Spring Concert Series 2026</div>
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:4px">Fine Arts Association of Arizona</div>
+    <div style="font-size:13px;font-weight:600;margin-bottom:20px">May 16, 2026 · 6:00 – 8:00 PM</div>
+    <div style="font-size:12px;color:var(--gray-400);margin-bottom:24px;line-height:1.5">This cannot be undone. The organization will be notified and the slot will become available for other artists.</div>
+    <div class="fg" style="width:100%;text-align:left"><div class="fl">Reason (optional)</div><textarea class="ft" placeholder="e.g., Schedule conflict, personal reasons..."></textarea></div>
+    <button class="btn btn-d" onclick="nav('cancelPerfDone')" style="width:100%;margin-bottom:8px">Yes, Cancel Performance</button>
+    <button class="btn btn-s" onclick="goBack()" style="width:100%">Go Back</button>
+  </div>
+</div>
+
+<!-- ARTIST: CANCEL DONE -->
+<div id="cancelPerfDone" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Performance Cancelled</div><div class="conf-line">The organization has been notified.</div><div class="conf-line">This event has been removed from your schedule.</div><div class="conf-status"></div><button class="btn btn-s btn-sm" onclick="nav('artistSchedule')">Back to Schedule</button></div>
+</div>
+
+<!-- EDIT ARTIST PROFILE -->
+<div id="editArtistProfile" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Edit Artist Profile</div></div>
+  <div class="content">
+    <div class="fg">
+      <div class="fl">Profile Photo</div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:64px;height:64px;border-radius:50%;background:var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--gray-500);flex-shrink:0">●</div>
+        <div style="font-size:13px;color:var(--gray-600);cursor:pointer;text-decoration:underline">Change photo</div>
+      </div>
+    </div>
+    <div class="fg"><div class="fl">Stage / Display Name</div><input class="fi" value="Yogin Naidu"></div>
+    <div class="fg"><div class="fl">Art Form</div><div class="pills"><div class="pill on" onclick="this.classList.toggle('on')">Karnatic</div><div class="pill" onclick="this.classList.toggle('on')">Hindustani</div><div class="pill" onclick="this.classList.toggle('on')">Bharatanatyam</div><div class="pill" onclick="this.classList.toggle('on')">Dance</div><div class="pill" onclick="this.classList.toggle('on')">Jazz</div></div></div>
+    <div class="fg"><div class="fl">Instrument / Skill</div><input class="fi" value="Vocal"></div>
+    <div class="fg"><div class="fl">Location</div><input class="fi" value="Chennai, India"></div>
+    <div class="fg"><div class="fl">Bio</div><textarea class="ft" style="min-height:80px">Karnatic vocalist trained under Sri Ramamurthy Iyer. Performing at sabhas across India and the US since 2018.</textarea></div>
+    <div class="fg"><div class="fl">Social Links</div><input class="fi" value="instagram.com/yoginnaidu" style="margin-bottom:6px"><input class="fi" value="youtube.com/@yoginnaidu" style="margin-bottom:6px"><input class="fi" placeholder="Website URL"></div>
+    <button class="btn btn-p" style="margin-top:8px" onclick="nav('editArtistSaved')">Save Changes</button>
+  </div>
+</div>
+
+<!-- EDIT ARTIST SAVED -->
+<div id="editArtistSaved" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Profile Updated!</div><div class="conf-line">Your changes are now live.</div><div class="conf-status"></div><button class="btn btn-s btn-sm" onclick="nav('profile')">Back to Profile</button></div>
 </div>
 
 <!-- PROFILE -->
@@ -828,66 +1121,139 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Profile</div></div>
   <div class="content">
     <div class="pf-sec"><div class="pf-name">Yogin Naidu</div><div class="pf-email">yogin@schoolcues.com</div></div>
-    <div class="pf-sec"><div class="pf-label">Switch Role</div>
-      <div onclick="switchRole('general');nav('explore')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px">
-        <div style="font-size:20px">◎</div>
-        <div style="flex:1"><div style="font-size:14px;font-weight:700">General</div><div style="font-size:12px;color:var(--gray-500)">Browse events, orgs, and artists</div></div>
-      </div>
-      <div onclick="switchRole('org');nav('myorg')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px">
-        <div style="font-size:20px">▣</div>
-        <div style="flex:1"><div style="font-size:14px;font-weight:700">Org Admin</div><div style="font-size:12px;color:var(--gray-500)">Fine Arts Association of AZ</div></div>
-        <div style="font-size:12px;font-weight:700;color:var(--gray-700)">⚠ 3</div>
-      </div>
-      <div onclick="switchRole('artist');nav('artistInvites')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px">
-        <div style="font-size:20px">●</div>
-        <div style="flex:1"><div style="font-size:14px;font-weight:700">Artist</div><div style="font-size:12px;color:var(--gray-500)">Yogin Naidu · Vocal</div></div>
-        <div style="font-size:12px;font-weight:700;color:var(--gray-700)">● 1</div>
-      </div>
-      <div onclick="switchRole('admin');nav('adminDash')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:10px">
-        <div style="font-size:20px">⚙</div>
-        <div style="flex:1"><div style="font-size:14px;font-weight:700">Admin</div><div style="font-size:12px;color:var(--gray-500)">App administration</div></div>
-        <div style="font-size:12px;font-weight:700;color:var(--gray-700)">5 pending</div>
-      </div>
-      <div style="font-size:11px;color:var(--gray-400);font-style:italic;padding-left:2px">Admin access is granted by Sabhalog founders only</div>
-    </div>
-    <div class="pf-sec"><div class="pf-label">Org Settings</div><div class="pf-link">Edit organization profile <span>→</span></div></div>
+
+    <!-- Role Switcher Dropdown (demo tool) -->
     <div class="pf-sec">
-      <div class="pf-label">My Requests</div>
-      <div onclick="nav('reqStatusPending')" style="border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:12px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:10px">
-        <div style="font-size:18px">●</div>
-        <div style="flex:1"><div style="font-size:13px;font-weight:600">Artist — Priya Subramanian</div><div style="font-size:11px;color:var(--gray-500)">New profile · Submitted 2h ago</div></div>
-        <div style="padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;background:var(--gray-100);color:var(--gray-600)">PENDING</div>
-      </div>
-      <div onclick="nav('reqStatusMoreInfo')" style="border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:12px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:10px">
-        <div style="font-size:18px">▣</div>
-        <div style="flex:1"><div style="font-size:13px;font-weight:600">Org — Bay Area Sangeet Sabha</div><div style="font-size:11px;color:var(--gray-500)">New org · Submitted 3d ago</div></div>
-        <div style="padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;background:#fff3cd;color:#856404">ACTION NEEDED</div>
-      </div>
-      <div onclick="nav('reqStatusApproved')" style="border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:12px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:10px">
-        <div style="font-size:18px">▣</div>
-        <div style="flex:1"><div style="font-size:13px;font-weight:600">Org — Cleveland Aradhana</div><div style="font-size:11px;color:var(--gray-500)">Claim access · Mar 22</div></div>
-        <div style="padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;background:#d4edda;color:#155724">APPROVED</div>
-      </div>
-      <div style="border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;opacity:0.5">
-        <div style="font-size:18px">●</div>
-        <div style="flex:1"><div style="font-size:13px;font-weight:600">Artist — Karthik Raman</div><div style="font-size:11px;color:var(--gray-500)">Claim access · Mar 18</div></div>
-        <div style="padding:3px 8px;border-radius:4px;font-size:10px;font-weight:700;background:#f8d7da;color:#721c24">DENIED</div>
+      <div class="pf-label">Viewing Profile As</div>
+      <select id="profileRoleSelect" onchange="switchProfileView(this.value)" style="width:100%;padding:12px 14px;font-size:14px;font-weight:700;border:2px solid var(--gray-900);border-radius:var(--radius);background:#fff;color:var(--gray-900);cursor:pointer;appearance:auto">
+        <option value="general">◎ General User</option>
+        <option value="org">▣ Org Admin — Fine Arts Association of AZ</option>
+        <option value="artist">● Artist — Yogin Naidu · Vocal</option>
+        <option value="admin">⚙ Admin</option>
+      </select>
+      <div class="demo-label">Demo tool — in production, role is set by account state</div>
+    </div>
+
+    <!-- GENERAL: Register as Artist -->
+    <div class="pf-role" data-roles="general">
+      <div class="pf-sec">
+        <div class="pf-card">
+          <div class="pf-card-icon">🎨</div>
+          <div class="pf-card-title">Register as Artist</div>
+          <div class="pf-card-desc">Join Sabhalog as a performing artist. An admin will review and approve your request.</div>
+          <div class="pf-hint">Already have a profile on Sabhalog?</div>
+          <div class="pf-link" onclick="nav('claimArtist')">🔍 Claim existing artist profile <span>→</span></div>
+          <div class="pf-hint">New to Sabhalog?</div>
+          <div class="pf-link" onclick="nav('registerArtist')">⊕ Create new artist profile <span>→</span></div>
+        </div>
+        <!-- My Artist Requests -->
+        <div style="margin-top:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">My Artist Requests</div>
+          <div class="req-card" onclick="nav('reqStatusPending')">
+            <div class="req-card-icon">●</div>
+            <div class="req-card-body"><div class="req-card-name">Priya Subramanian</div><div class="req-card-meta">New profile · Submitted 2h ago</div></div>
+            <div class="req-card-badge pending">⏳ PENDING</div>
+          </div>
+          <div class="req-card denied">
+            <div class="req-card-icon">●</div>
+            <div class="req-card-body"><div class="req-card-name">Karthik Raman</div><div class="req-card-meta">Claim access · Denied Mar 18</div></div>
+            <div class="req-card-badge denied">❌ DENIED</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="pf-sec">
-      <div class="pf-label">Become an Artist</div>
-      <div class="pf-link" onclick="nav('claimArtist')">🔍 Claim existing artist profile <span>→</span></div>
-      <div class="pf-link" onclick="nav('registerArtist')">⊕ Register as new artist <span>→</span></div>
+
+    <!-- GENERAL: Register as Organization -->
+    <div class="pf-role" data-roles="general">
+      <div class="pf-sec">
+        <div class="pf-card">
+          <div class="pf-card-icon">🏛️</div>
+          <div class="pf-card-title">Register as Organization</div>
+          <div class="pf-card-desc">Manage your organization on Sabhalog — create events, invite artists, and publish series.</div>
+          <div class="pf-hint">Your organization is already on Sabhalog?</div>
+          <div class="pf-link" onclick="nav('claimOrg')">🔍 Claim existing organization <span>→</span></div>
+          <div class="pf-hint">Registering a new organization?</div>
+          <div class="pf-link" onclick="nav('registerOrg')">⊕ Create new organization <span>→</span></div>
+        </div>
+        <!-- My Org Requests -->
+        <div style="margin-top:10px">
+          <div style="font-size:11px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">My Org Requests</div>
+          <div class="req-card" onclick="nav('reqStatusApproved')">
+            <div class="req-card-icon">▣</div>
+            <div class="req-card-body"><div class="req-card-name">Cleveland Aradhana</div><div class="req-card-meta">Claim access · Mar 22</div></div>
+            <div class="req-card-badge approved">✅ APPROVED</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="pf-sec">
-      <div class="pf-label">Become an Organization</div>
-      <div class="pf-link" onclick="nav('claimOrg')">🔍 Claim existing organization <span>→</span></div>
-      <div class="pf-link" onclick="nav('registerOrg')">⊕ Register new organization <span>→</span></div>
+
+    <!-- ARTIST: Artist Profile & Settings -->
+    <div class="pf-role" data-roles="artist">
+      <div class="pf-sec">
+        <!-- Mini artist profile preview -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--gray-500);flex-shrink:0">●</div>
+          <div>
+            <div style="font-size:16px;font-weight:800">Yogin Naidu</div>
+            <div style="font-size:12px;color:var(--gray-500)">Karnatic · Vocal · Chennai</div>
+            <div style="font-size:11px;color:var(--gray-400);margin-top:2px">Instagram · YouTube</div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--gray-500);line-height:1.5;margin-bottom:14px;padding:10px 0;border-top:1px solid var(--gray-100)">Karnatic vocalist trained under Sri Ramamurthy Iyer. Performing at sabhas across India and the US since 2018.</div>
+        <div class="pf-link" onclick="nav('artistProfile')">👤 View public profile <span>→</span></div>
+        <div class="pf-link" onclick="nav('editArtistProfile')">✏️ Edit artist profile <span>→</span></div>
+      </div>
     </div>
-    <div class="pf-sec">
+
+    <!-- ORG: Org Settings -->
+    <div class="pf-role" data-roles="org">
+      <div class="pf-sec">
+        <!-- Mini org profile preview -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <div style="width:56px;height:56px;border-radius:var(--radius-sm);background:var(--gray-200);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--gray-500);flex-shrink:0">▣</div>
+          <div>
+            <div style="font-size:16px;font-weight:800">Fine Arts Assoc. of Arizona</div>
+            <div style="font-size:12px;color:var(--gray-500)">Phoenix, AZ · Karnatic</div>
+            <div style="font-size:11px;color:var(--gray-400);margin-top:2px">faaa.org</div>
+          </div>
+        </div>
+        <div class="pf-link" onclick="nav('orgProfile')">👤 View public profile <span>→</span></div>
+        <div class="pf-link" onclick="nav('editOrgProfile')">✏️ Edit organization profile <span>→</span></div>
+      </div>
+    </div>
+
+    <!-- ADMIN: Mini command center -->
+    <div class="pf-role" data-roles="admin">
+      <div class="pf-sec">
+        <div style="font-size:13px;font-weight:700;color:var(--gray-500);margin-bottom:4px">Role: Administrator</div>
+        <div style="font-size:11px;color:var(--gray-400)">Sabhalog System Admin</div>
+      </div>
+      <div class="pf-sec">
+        <div class="pf-label">Overview</div>
+        <div class="admin-stats">
+          <div class="admin-stat"><div class="admin-stat-num">5</div><div class="admin-stat-label">Pending</div></div>
+          <div class="admin-stat"><div class="admin-stat-num">320</div><div class="admin-stat-label">Orgs</div></div>
+          <div class="admin-stat"><div class="admin-stat-num">1.2K</div><div class="admin-stat-label">Artists</div></div>
+        </div>
+      </div>
+      <div class="pf-sec">
+        <div class="pf-label">Quick Actions</div>
+        <div class="pf-link" onclick="nav('adminDash')">⚙ Review pending requests <span>→</span></div>
+        <div class="pf-link" onclick="nav('adminOrgList')">▣ View all organizations <span>→</span></div>
+        <div class="pf-link" onclick="nav('adminArtistList')">● View all artists <span>→</span></div>
+      </div>
+    </div>
+
+    <!-- Account links: Contact Us + Delete Account (not admin) -->
+    <div class="pf-sec pf-role" data-roles="general org artist">
       <div class="pf-link">Contact Us <span>→</span></div>
       <div class="pf-link">Sign Out <span>→</span></div>
       <div class="pf-link danger">Delete Account <span>→</span></div>
+    </div>
+
+    <!-- Admin: just sign out -->
+    <div class="pf-sec pf-role" data-roles="admin">
+      <div class="pf-link">Sign Out <span>→</span></div>
     </div>
   </div>
 </div>
@@ -1035,39 +1401,6 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="rv"><div class="rv-label">Status</div><div style="display:inline-block;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;background:var(--gray-100);color:var(--gray-600)">PENDING</div></div>
     <div class="ctx" style="margin-top:14px">An admin is reviewing your submission. You'll receive an email once a decision is made. This usually takes 24–48 hours.</div>
   </div>
-</div>
-
-<!-- REQUEST STATUS: MORE INFO NEEDED -->
-<div id="reqStatusMoreInfo" class="screen">
-  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Request Status</div></div>
-  <div class="content">
-    <div style="text-align:center;padding:20px 0">
-      <div style="font-size:40px;margin-bottom:10px">💬</div>
-      <div style="font-size:18px;font-weight:800">More Info Requested</div>
-      <div style="font-size:13px;color:var(--gray-500);margin-top:4px">The admin needs additional details</div>
-    </div>
-    <div class="rv"><div class="rv-label">Request</div><div class="rv-val">New Organization</div></div>
-    <div class="rv"><div class="rv-label">Name</div><div class="rv-val">Bay Area Sangeet Sabha</div><div style="font-size:12px;color:var(--gray-500)">Bay Area, CA · Karnatic</div></div>
-    <div class="rv"><div class="rv-label">Submitted</div><div style="font-size:13px;color:var(--gray-500)">Mar 24, 2026</div></div>
-    <div class="rv"><div class="rv-label">Status</div><div style="display:inline-block;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;background:#fff3cd;color:#856404">ACTION NEEDED</div></div>
-
-    <div style="border:1px solid #ffc107;border-radius:var(--radius);padding:14px;margin:14px 0;background:#fffdf0">
-      <div style="font-size:12px;font-weight:700;color:#856404;margin-bottom:6px">Message from Admin</div>
-      <div style="font-size:13px;color:var(--gray-700);line-height:1.5">"Thanks for registering. Can you please provide:<br>1. Photos of your venue or past events<br>2. A link to your website or social media page<br>3. How many events have you organized in the last year?"</div>
-      <div style="font-size:11px;color:var(--gray-400);margin-top:6px">— Sabhalog Admin · Mar 25, 2026</div>
-    </div>
-
-    <div class="fg"><div class="fl">Your Response</div><textarea class="ft" placeholder="Type your response here..."></textarea></div>
-    <div class="fg"><div class="fl">Upload Additional Files</div><div style="border:1px dashed var(--gray-300);border-radius:var(--radius-sm);padding:16px;text-align:center;color:var(--gray-400);font-size:13px;cursor:pointer">📎 Tap to upload images, videos, or documents</div></div>
-    <button class="btn btn-p" onclick="nav('moreInfoSentConf')">Submit Response</button>
-  </div>
-</div>
-
-<!-- MORE INFO SENT CONFIRMATION -->
-<div id="moreInfoSentConf" class="screen">
-  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Response Sent!</div><div class="conf-line">The admin will review your additional info</div><div class="conf-line">and get back to you shortly.</div><div class="conf-status">Status: UNDER REVIEW</div><button class="btn btn-s btn-sm" onclick="nav('profile')">Back to Profile</button></div>
 </div>
 
 <!-- REQUEST STATUS: APPROVED -->
@@ -1286,7 +1619,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 
     <div style="margin-top:20px">
       <button class="btn btn-p" onclick="nav('adminApproveConf')">Approve Artist</button>
-      <button class="btn btn-o" onclick="goBack()">Request More Info</button>
+
       <button class="btn btn-d" onclick="goBack()">Reject</button>
     </div>
   </div>
@@ -1317,7 +1650,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 
     <div style="margin-top:20px">
       <button class="btn btn-p" onclick="nav('adminApproveConf')">Approve — Grant Access</button>
-      <button class="btn btn-o" onclick="goBack()">Request More Info</button>
+
       <button class="btn btn-d" onclick="goBack()">Reject</button>
     </div>
   </div>
@@ -1358,7 +1691,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 
     <div style="margin-top:20px">
       <button class="btn btn-p" onclick="nav('adminApproveConf')">Approve Organization</button>
-      <button class="btn btn-o" onclick="goBack()">Request More Info</button>
+
       <button class="btn btn-d" onclick="goBack()">Reject</button>
     </div>
   </div>
@@ -1390,7 +1723,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 
     <div style="margin-top:20px">
       <button class="btn btn-p" onclick="nav('adminApproveConf')">Approve — Grant Access</button>
-      <button class="btn btn-o" onclick="goBack()">Request More Info</button>
+
       <button class="btn btn-d" onclick="goBack()">Reject</button>
     </div>
   </div>
@@ -1441,6 +1774,7 @@ function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   renderNavs();
+  if (id === 'profile') switchProfileView(role);
 }
 
 // Build bottom nav HTML based on current role — Profile in header
@@ -1492,6 +1826,18 @@ function renderNavs() {
 function switchRole(r) {
   role = r;
   renderNavs();
+}
+
+// Profile page: show/hide sections based on selected role
+function switchProfileView(r) {
+  switchRole(r);
+  document.querySelectorAll('#profile .pf-role').forEach(sec => {
+    const roles = sec.getAttribute('data-roles').split(' ');
+    sec.style.display = roles.includes(r) ? '' : 'none';
+  });
+  // Sync dropdown
+  const sel = document.getElementById('profileRoleSelect');
+  if (sel) sel.value = r;
 }
 
 function setPill(el) { el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('on')); el.classList.add('on'); }
@@ -1572,27 +1918,72 @@ function filterSlots(type, el) {
 }
 
 // Calendar grid
-(function buildCal(){
+// Calendar state
+let calMonth = 6; // July (0-indexed)
+let calYear = 2026;
+let calSelected = {}; // key: 'YYYY-M-D', value: true
+// Pre-select some dates for demo
+['2026-6-8','2026-6-10','2026-6-12','2026-6-15','2026-6-18'].forEach(k => calSelected[k] = true);
+
+function buildCal() {
   const grid = document.getElementById('calGrid');
   if (!grid) return;
-  let html = '<span></span><span></span>';
-  let selected = [8,10,12,15,18];
-  for (let d=1; d<=31; d++) {
-    let sel = selected.includes(d);
-    html += `<span style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;font-weight:${sel?'700':'400'};background:${sel?'var(--black)':'transparent'};color:${sel?'var(--white)':'var(--gray-700)'}" onclick="this.style.background=this.style.background==='transparent'?'var(--black)':'transparent';this.style.color=this.style.color==='var(--white)'?'var(--gray-700)':'var(--white)';this.style.fontWeight=this.style.fontWeight==='700'?'400':'700';updateDateCount()">${d}</span>`;
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('calMonthLabel').textContent = monthNames[calMonth] + ' ' + calYear;
+  const firstDay = new Date(calYear, calMonth, 1).getDay(); // 0=Sun
+  const offset = firstDay === 0 ? 6 : firstDay - 1; // convert to Mon=0
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  let html = '';
+  for (let i = 0; i < offset; i++) html += '<span></span>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = calYear + '-' + calMonth + '-' + d;
+    const sel = calSelected[key];
+    html += `<span style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;font-weight:${sel?'700':'400'};background:${sel?'var(--black)':'transparent'};color:${sel?'var(--white)':'var(--gray-700)'}" onclick="toggleCalDay(${d})">${d}</span>`;
   }
   grid.innerHTML = html;
-})();
+  updateDateCount();
+}
+
+function toggleCalDay(d) {
+  const key = calYear + '-' + calMonth + '-' + d;
+  if (calSelected[key]) delete calSelected[key]; else calSelected[key] = true;
+  buildCal();
+}
+
+function changeCalMonth(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  buildCal();
+}
 
 function updateDateCount() {
-  const grid = document.getElementById('calGrid');
-  const count = grid.querySelectorAll('span[style*="font-weight: 700"], span[style*="font-weight:700"]').length;
-  document.getElementById('dateCount').textContent = count + ' dates selected';
+  const keys = Object.keys(calSelected);
+  const count = keys.length;
+  document.getElementById('dateCount').textContent = count + ' date' + (count !== 1 ? 's' : '') + ' selected';
+  // Build summary
+  const monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const grouped = {};
+  keys.forEach(k => {
+    const [y, m, d] = k.split('-').map(Number);
+    const label = monthShort[m] + ' ' + calYear;
+    if (!grouped[label]) grouped[label] = [];
+    grouped[label].push(d);
+  });
+  let summary = '';
+  for (const [month, days] of Object.entries(grouped)) {
+    days.sort((a,b) => a - b);
+    summary += (summary ? ' · ' : '') + month.split(' ')[0] + ' ' + days.join(', ');
+  }
+  document.getElementById('dateSummary').textContent = summary || 'No dates selected';
 }
+
+buildCal();
 
 // Init — default to org role for demo (user has both roles)
 role = 'org';
 renderNavs();
+switchProfileView(role);
 // After splash, org lands on My Org; artist on Invites; general on Explore
 </script>
 </body>

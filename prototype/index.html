@@ -843,6 +843,11 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
         <div style="flex:1"><div style="font-size:14px;font-weight:700">Artist</div><div style="font-size:12px;color:var(--gray-500)">Yogin Naidu · Vocal</div></div>
         <div style="font-size:12px;font-weight:700;color:var(--gray-700)">● 1</div>
       </div>
+      <div onclick="switchRole('admin');nav('adminDash')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px">
+        <div style="font-size:20px">⚙</div>
+        <div style="flex:1"><div style="font-size:14px;font-weight:700">Admin</div><div style="font-size:12px;color:var(--gray-500)">App administration</div></div>
+        <div style="font-size:12px;font-weight:700;color:var(--gray-700)">5 pending</div>
+      </div>
     </div>
     <div class="pf-sec"><div class="pf-label">Org Settings</div><div class="pf-link">Edit organization profile <span>→</span></div></div>
     <div class="pf-sec">
@@ -855,6 +860,106 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   </div>
 </div>
 
+
+<!-- ADMIN DASHBOARD -->
+<div id="adminDash" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('notifications')">🔔</div><div class="h-icon" onclick="nav('profile')">👤</div></div></div>
+  <div class="content">
+    <div style="font-size:20px;font-weight:800;margin-bottom:14px">Admin Dashboard</div>
+
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px">
+      <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:22px;font-weight:800">320</div><div style="font-size:11px;color:var(--gray-500)">Organizations</div></div>
+      <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:22px;font-weight:800">185</div><div style="font-size:11px;color:var(--gray-500)">Artists</div></div>
+      <div style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--gray-800)">5</div><div style="font-size:11px;color:var(--gray-500)">Pending</div></div>
+    </div>
+
+    <!-- Pending Requests -->
+    <div class="sec-header" style="margin-top:0"><div class="sec-title">Pending Requests (5)</div></div>
+
+    <div class="pills" style="margin-top:4px">
+      <div class="pill on" onclick="filterAdmin('all',this)">All</div>
+      <div class="pill" onclick="filterAdmin('artist',this)">Artists (3)</div>
+      <div class="pill" onclick="filterAdmin('org',this)">Organizations (2)</div>
+    </div>
+
+    <div id="adminList">
+      <div class="nf admin-artist" onclick="nav('adminArtistReview')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Priya Subramanian</div><div class="nf-meta">Karnatic · Vocal · Chennai</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ARTIST REQUEST</span> <span style="font-size:10px;color:var(--gray-400)">· 2h ago</span></div></div><div class="nf-arrow">→</div></div>
+
+      <div class="nf admin-artist" onclick="nav('adminArtistReview')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Karthik Raman</div><div class="nf-meta">Karnatic · Mridangam · Bangalore</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ARTIST REQUEST</span> <span style="font-size:10px;color:var(--gray-400)">· 5h ago</span></div></div><div class="nf-arrow">→</div></div>
+
+      <div class="nf admin-org" onclick="nav('adminOrgReview')"><div class="nf-icon">▣</div><div class="nf-body"><div class="nf-title">Madras Music Academy</div><div class="nf-meta">Chennai · Karnatic, Hindustani</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG REQUEST</span> <span style="font-size:10px;color:var(--gray-400)">· 1d ago</span></div></div><div class="nf-arrow">→</div></div>
+
+      <div class="nf admin-artist" onclick="nav('adminArtistReview')"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Deepa Krishnamurthy</div><div class="nf-meta">Bharatanatyam · Mumbai</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ARTIST REQUEST</span> <span style="font-size:10px;color:var(--gray-400)">· 1d ago</span></div></div><div class="nf-arrow">→</div></div>
+
+      <div class="nf admin-org" onclick="nav('adminOrgReview')"><div class="nf-icon">▣</div><div class="nf-body"><div class="nf-title">Bay Area Sangeet Sabha</div><div class="nf-meta">Bay Area, CA · Karnatic</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG REQUEST</span> <span style="font-size:10px;color:var(--gray-400)">· 2d ago</span></div></div><div class="nf-arrow">→</div></div>
+    </div>
+
+    <!-- Recently Approved -->
+    <div class="sec-header"><div class="sec-title">Recently Approved</div></div>
+    <div class="nf" style="opacity:0.6"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Vedanth Bharadwaj</div><div class="nf-meta">Artist · Approved Mar 25</div></div></div>
+    <div class="nf" style="opacity:0.6"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shanmukhananda Sabha</div><div class="nf-meta">Organization · Approved Mar 24</div></div></div>
+  </div>
+  <div id="adminDashNav"></div>
+</div>
+
+<!-- ADMIN: ARTIST REVIEW -->
+<div id="adminArtistReview" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review Artist Request</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:16px 0">
+      <div style="width:72px;height:72px;border-radius:50%;background:var(--gray-200);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--gray-500)">●</div>
+      <div style="font-size:18px;font-weight:800">Priya Subramanian</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-top:3px">priya.sub@gmail.com</div>
+    </div>
+
+    <div class="rv"><div class="rv-label">Art Form</div><div class="rv-val">Karnatic</div></div>
+    <div class="rv"><div class="rv-label">Instrument / Skill</div><div class="rv-val">Vocal</div></div>
+    <div class="rv"><div class="rv-label">Location</div><div class="rv-val">Chennai, India</div></div>
+    <div class="rv"><div class="rv-label">Bio</div><div style="font-size:13px;color:var(--gray-600);line-height:1.5">Trained under Padma Bhushan Smt. R. Vedavalli for 12 years. Performed at Music Academy, Narada Gana Sabha, and SIFA annual festivals. AIR-graded artist since 2019.</div></div>
+    <div class="rv"><div class="rv-label">Previous Work / History</div><div style="font-size:13px;color:var(--gray-600);line-height:1.5">• 50+ solo concerts across India<br>• Featured artist at December Season 2024, 2025<br>• YouTube channel: 12K subscribers<br>• Released 2 albums with Charsur Digital</div></div>
+    <div class="rv"><div class="rv-label">Social Links</div><div style="font-size:13px;color:var(--gray-500)">Instagram · YouTube · Website</div></div>
+    <div class="rv"><div class="rv-label">Requested</div><div style="font-size:13px;color:var(--gray-500)">2 hours ago · Mar 27, 2026</div></div>
+
+    <div style="margin-top:20px">
+      <button class="btn btn-p" onclick="nav('adminApproveConf')">Approve Artist</button>
+      <button class="btn btn-d" onclick="goBack()">Reject</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN: ORG REVIEW -->
+<div id="adminOrgReview" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review Org Request</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:16px 0">
+      <div style="width:64px;height:64px;border-radius:var(--radius);background:var(--gray-200);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--gray-500)">▣</div>
+      <div style="font-size:18px;font-weight:800">Madras Music Academy</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-top:3px">admin@musicacademy.in</div>
+    </div>
+
+    <div class="rv"><div class="rv-label">Location</div><div class="rv-val">Chennai, India</div></div>
+    <div class="rv"><div class="rv-label">Art Forms</div><div class="rv-val">Karnatic, Hindustani</div></div>
+    <div class="rv"><div class="rv-label">About</div><div style="font-size:13px;color:var(--gray-600);line-height:1.5">Founded in 1927. One of India's most prestigious music institutions. Hosts the annual December Season — the world's largest classical music festival with 1,000+ concerts over 4 weeks.</div></div>
+    <div class="rv"><div class="rv-label">Contact Person</div><div class="rv-val">Dr. Rajesh Venkataraman</div><div style="font-size:12px;color:var(--gray-500)">Secretary · rajesh@musicacademy.in</div></div>
+    <div class="rv"><div class="rv-label">Website</div><div style="font-size:13px;color:var(--gray-500)">musicacademymadras.in</div></div>
+    <div class="rv"><div class="rv-label">Requested</div><div style="font-size:13px;color:var(--gray-500)">1 day ago · Mar 26, 2026</div></div>
+
+    <div style="margin-top:20px">
+      <button class="btn btn-p" onclick="nav('adminApproveConf')">Approve Organization</button>
+      <button class="btn btn-d" onclick="goBack()">Reject</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN: APPROVE CONFIRMATION -->
+<div id="adminApproveConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Approved!</div><div class="conf-line">Profile is now live on Sabhalog</div><div class="conf-status">User has been notified by email</div><button class="btn btn-p btn-sm" onclick="nav('adminDash')">Back to Dashboard</button></div>
+</div>
 
 <!-- CITY PICKER -->
 <div id="cityOverlay" class="overlay" onclick="closeCitySheet()"></div>
@@ -915,6 +1020,11 @@ function getNavHTML(activeTab) {
       { id:'artistSchedule', icon:'▦', label:'Schedule' },
       { id:'explore', icon:'◎', label:'Explore' }
     ];
+  } else if (role === 'admin') {
+    tabs = [
+      { id:'adminDash', icon:'⚙', label:'Admin', badge:'5' },
+      { id:'explore', icon:'◎', label:'Explore' }
+    ];
   }
   return '<div class="bottom-nav">' + tabs.map(t => {
     let cls = (t.id === activeTab) ? 'nav-tab active' : 'nav-tab';
@@ -928,7 +1038,8 @@ function renderNavs() {
     'explore': 'exploreNav',
     'myorg': 'myorgNav',
     'artistInvites': 'artistInvitesNav',
-    'artistSchedule': 'artistScheduleNav'
+    'artistSchedule': 'artistScheduleNav',
+    'adminDash': 'adminDashNav'
   };
   for (let [screen, navId] of Object.entries(navMap)) {
     const el = document.getElementById(navId);
@@ -979,6 +1090,16 @@ function navGenre(genre) {
   document.querySelectorAll('#evFilterBar .pill').forEach(p => p.classList.remove('on'));
   const pill = document.getElementById('evf-' + genre);
   if (pill) pill.classList.add('on');
+}
+
+// Admin request filter
+function filterAdmin(type, el) {
+  setPill(el);
+  document.querySelectorAll('#adminList .nf').forEach(n => {
+    if (type === 'all') { n.style.display = ''; }
+    else if (type === 'artist') { n.style.display = n.classList.contains('admin-artist') ? '' : 'none'; }
+    else if (type === 'org') { n.style.display = n.classList.contains('admin-org') ? '' : 'none'; }
+  });
 }
 
 // Notification role filter

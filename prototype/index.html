@@ -851,8 +851,16 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     </div>
     <div class="pf-sec"><div class="pf-label">Org Settings</div><div class="pf-link">Edit organization profile <span>→</span></div></div>
     <div class="pf-sec">
-      <div class="pf-link">⊕ Register as Artist <span>→</span></div>
-      <div class="pf-link">⊕ Request Org Access <span>→</span></div>
+      <div class="pf-label">Become an Artist</div>
+      <div class="pf-link" onclick="nav('claimArtist')">🔍 Claim existing artist profile <span>→</span></div>
+      <div class="pf-link" onclick="nav('registerArtist')">⊕ Register as new artist <span>→</span></div>
+    </div>
+    <div class="pf-sec">
+      <div class="pf-label">Become an Organization</div>
+      <div class="pf-link" onclick="nav('claimOrg')">🔍 Claim existing organization <span>→</span></div>
+      <div class="pf-link" onclick="nav('registerOrg')">⊕ Register new organization <span>→</span></div>
+    </div>
+    <div class="pf-sec">
       <div class="pf-link">Contact Us <span>→</span></div>
       <div class="pf-link">Sign Out <span>→</span></div>
       <div class="pf-link danger">Delete Account <span>→</span></div>
@@ -860,6 +868,121 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   </div>
 </div>
 
+
+<!-- CLAIM EXISTING ARTIST -->
+<div id="claimArtist" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Claim Artist Profile</div></div>
+  <div class="content">
+    <div class="ctx">Search for your artist profile. If it's already in Sabhalog, you can request access. An admin will verify and approve.</div>
+    <div class="search">🔍 Search by name...</div>
+    <div class="li" onclick="nav('claimArtistConfirm')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Abhishek Raghuram</div><div class="li-sub">Karnatic · Vocal · Bangalore</div></div></div>
+    <div class="li" onclick="nav('claimArtistConfirm')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Ranjani & Gayatri</div><div class="li-sub">Karnatic · Vocal · Chennai</div></div></div>
+    <div class="li" onclick="nav('claimArtistConfirm')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Shobana Balachandra</div><div class="li-sub">Bharatanatyam · Chennai</div></div></div>
+    <div class="li" onclick="nav('claimArtistConfirm')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Sanjay Subrahmanyan</div><div class="li-sub">Karnatic · Vocal · Chennai</div></div></div>
+    <div class="li" onclick="nav('claimArtistConfirm')"><div class="li-av round">●</div><div class="li-body"><div class="li-name">Bombay Jayashri</div><div class="li-sub">Karnatic · Vocal · Mumbai</div></div></div>
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-200);text-align:center">
+      <div style="font-size:13px;color:var(--gray-500);margin-bottom:8px">Don't see your profile?</div>
+      <button class="btn btn-o btn-sm" onclick="nav('registerArtist')">Register as New Artist</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLAIM ARTIST CONFIRM -->
+<div id="claimArtistConfirm" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Request Access</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:16px 0">
+      <div style="width:72px;height:72px;border-radius:50%;background:var(--gray-200);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--gray-500)">●</div>
+      <div style="font-size:18px;font-weight:800">Abhishek Raghuram</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-top:3px">Karnatic · Vocal · Bangalore</div>
+    </div>
+    <div class="ctx">You're requesting to manage this artist profile. An admin will review and verify your identity before granting access.</div>
+    <div class="fg" style="margin-top:14px"><div class="fl">Why should we grant you access?</div><textarea class="ft" placeholder="e.g., This is my profile. I perform regularly at Music Academy and SIFA..."></textarea></div>
+    <button class="btn btn-p" onclick="nav('requestSentConf')">Request Access</button>
+  </div>
+</div>
+
+<!-- CLAIM EXISTING ORG -->
+<div id="claimOrg" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Claim Organization</div></div>
+  <div class="content">
+    <div class="ctx">Search for your organization. If it's already in Sabhalog, you can request admin access. An admin will verify and approve.</div>
+    <div class="search">🔍 Search by name or city...</div>
+    <div class="li" onclick="nav('claimOrgConfirm')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Cleveland Aradhana</div><div class="li-sub">Cleveland, OH · Karnatic</div></div></div>
+    <div class="li" onclick="nav('claimOrgConfirm')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">South India Fine Arts (SIFA)</div><div class="li-sub">Chennai · Karnatic, Hindustani</div></div></div>
+    <div class="li" onclick="nav('claimOrgConfirm')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Charsur Arts Foundation</div><div class="li-sub">Chennai · Karnatic</div></div></div>
+    <div class="li" onclick="nav('claimOrgConfirm')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Fine Arts Assoc. of Arizona</div><div class="li-sub">Phoenix, AZ · Karnatic</div></div></div>
+    <div class="li" onclick="nav('claimOrgConfirm')"><div class="li-av">▣</div><div class="li-body"><div class="li-name">Narada Gana Sabha</div><div class="li-sub">Chennai · Karnatic, Dance</div></div></div>
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--gray-200);text-align:center">
+      <div style="font-size:13px;color:var(--gray-500);margin-bottom:8px">Don't see your organization?</div>
+      <button class="btn btn-o btn-sm" onclick="nav('registerOrg')">Register New Organization</button>
+    </div>
+  </div>
+</div>
+
+<!-- CLAIM ORG CONFIRM -->
+<div id="claimOrgConfirm" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Request Access</div></div>
+  <div class="content">
+    <div style="text-align:center;padding:16px 0">
+      <div style="width:64px;height:64px;border-radius:var(--radius);background:var(--gray-200);margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--gray-500)">▣</div>
+      <div style="font-size:18px;font-weight:800">Cleveland Aradhana</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-top:3px">Cleveland, OH · Karnatic</div>
+    </div>
+    <div class="ctx">You're requesting admin access to this organization. An admin will verify your affiliation before granting access.</div>
+    <div class="fg" style="margin-top:14px"><div class="fl">Your role at this organization</div><input class="fi" placeholder="e.g., Secretary, Event Coordinator, President..."></div>
+    <div class="fg"><div class="fl">Why should we grant you access?</div><textarea class="ft" placeholder="e.g., I'm the event coordinator and manage our concert series..."></textarea></div>
+    <button class="btn btn-p" onclick="nav('requestSentConf')">Request Access</button>
+  </div>
+</div>
+
+<!-- REGISTER NEW ARTIST -->
+<div id="registerArtist" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Register as Artist</div></div>
+  <div class="content">
+    <div class="ctx">Fill in your details to create a new artist profile. An admin will review your submission before it goes live.</div>
+    <div class="fg"><div class="fl">Stage / Display Name *</div><input class="fi" placeholder="e.g., Priya Subramanian"></div>
+    <div class="fg"><div class="fl">Art Form *</div><div class="pills"><div class="pill" onclick="this.classList.toggle('on')">Karnatic</div><div class="pill" onclick="this.classList.toggle('on')">Hindustani</div><div class="pill" onclick="this.classList.toggle('on')">Bharatanatyam</div><div class="pill" onclick="this.classList.toggle('on')">Dance</div><div class="pill" onclick="this.classList.toggle('on')">Jazz</div></div></div>
+    <div class="fg"><div class="fl">Instrument / Skill *</div><input class="fi" placeholder="e.g., Vocal, Violin, Mridangam..."></div>
+    <div class="fg"><div class="fl">Location *</div><input class="fi" placeholder="e.g., Chennai, India"></div>
+    <div class="fg"><div class="fl">Bio *</div><textarea class="ft" placeholder="Tell us about yourself — training, guru, style..."></textarea></div>
+    <div class="fg"><div class="fl">Previous Work / Performance History *</div><textarea class="ft" placeholder="Concerts performed, festivals, albums, notable appearances..."></textarea></div>
+    <div class="fg"><div class="fl">Photo</div><div style="border:1px dashed var(--gray-300);border-radius:var(--radius-sm);padding:24px;text-align:center;color:var(--gray-400);font-size:13px;cursor:pointer">📷 Tap to upload photo</div></div>
+    <div class="fg"><div class="fl">Social Links (optional)</div><input class="fi" placeholder="Instagram URL" style="margin-bottom:6px"><input class="fi" placeholder="YouTube URL" style="margin-bottom:6px"><input class="fi" placeholder="Website URL"></div>
+    <button class="btn btn-p" style="margin-top:8px" onclick="nav('requestSentConf')">Submit for Review</button>
+    <div style="font-size:11px;color:var(--gray-400);text-align:center;margin-top:8px">An admin will review your profile within 24–48 hours</div>
+  </div>
+</div>
+
+<!-- REGISTER NEW ORG -->
+<div id="registerOrg" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Register Organization</div></div>
+  <div class="content">
+    <div class="ctx">Fill in your organization's details. An admin will review and verify before the profile goes live.</div>
+    <div class="fg"><div class="fl">Organization Name *</div><input class="fi" placeholder="e.g., Madras Music Academy"></div>
+    <div class="fg"><div class="fl">Location *</div><input class="fi" placeholder="e.g., Chennai, India"></div>
+    <div class="fg"><div class="fl">Art Forms *</div><div class="pills"><div class="pill" onclick="this.classList.toggle('on')">Karnatic</div><div class="pill" onclick="this.classList.toggle('on')">Hindustani</div><div class="pill" onclick="this.classList.toggle('on')">Dance</div><div class="pill" onclick="this.classList.toggle('on')">Jazz</div><div class="pill" onclick="this.classList.toggle('on')">Comedy</div></div></div>
+    <div class="fg"><div class="fl">About the Organization *</div><textarea class="ft" placeholder="History, mission, what kind of events you organize..."></textarea></div>
+    <div class="fg"><div class="fl">Your Role *</div><input class="fi" placeholder="e.g., Secretary, President, Event Coordinator..."></div>
+    <div class="fg"><div class="fl">Contact Email *</div><input class="fi" placeholder="e.g., admin@musicacademy.in"></div>
+    <div class="fg"><div class="fl">Logo / Photo</div><div style="border:1px dashed var(--gray-300);border-radius:var(--radius-sm);padding:24px;text-align:center;color:var(--gray-400);font-size:13px;cursor:pointer">📷 Tap to upload logo</div></div>
+    <div class="fg"><div class="fl">Website (optional)</div><input class="fi" placeholder="e.g., musicacademymadras.in"></div>
+    <button class="btn btn-p" style="margin-top:8px" onclick="nav('requestSentConf')">Submit for Review</button>
+    <div style="font-size:11px;color:var(--gray-400);text-align:center;margin-top:8px">An admin will review your organization within 24–48 hours</div>
+  </div>
+</div>
+
+<!-- REQUEST SENT CONFIRMATION -->
+<div id="requestSentConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">📩</div><div class="conf-title">Request Submitted!</div><div class="conf-line">An admin will review your request</div><div class="conf-line">and notify you by email once approved.</div><div class="conf-status">Usually within 24–48 hours</div><button class="btn btn-s btn-sm" onclick="nav('profile')">Back to Profile</button></div>
+</div>
 
 <!-- ADMIN DASHBOARD -->
 <div id="adminDash" class="screen">

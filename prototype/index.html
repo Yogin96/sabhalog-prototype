@@ -318,13 +318,13 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="content">
     <div class="search" onclick="nav('search')">🔍 Search events, orgs, artists...</div>
 
-    <!-- Browse by Art Form -->
-    <div class="sec-header" style="margin-top:8px"><div class="sec-title">Browse by Art Form</div></div>
+    <!-- Browse by Genre -->
+    <div class="sec-header" style="margin-top:8px"><div class="sec-title">Browse by Genre</div></div>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px">
-      <div onclick="navInstrument('Vocal')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px 0;text-align:center;cursor:pointer"><div style="font-size:32px;margin-bottom:4px">🎤</div><div style="font-size:11px;font-weight:600">Vocal</div></div>
-      <div onclick="navInstrument('Violin')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px 0;text-align:center;cursor:pointer"><div style="font-size:32px;margin-bottom:4px">🎻</div><div style="font-size:11px;font-weight:600">Violin</div></div>
-      <div onclick="navInstrument('Flute')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px 0;text-align:center;cursor:pointer"><div style="font-size:32px;margin-bottom:4px">🪈</div><div style="font-size:11px;font-weight:600">Flute</div></div>
-      <div onclick="navInstrument('Bharatanatyam')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px 0;text-align:center;cursor:pointer"><div style="font-size:32px;margin-bottom:4px">💃</div><div style="font-size:11px;font-weight:600">Bharatanatyam</div></div>
+      <div onclick="navGenre('Karnatic')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px 0;text-align:center;cursor:pointer"><div style="font-size:32px;margin-bottom:4px">🎶</div><div style="font-size:11px;font-weight:600">Karnatic</div></div>
+      <div onclick="navGenre('Hindustani')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px 0;text-align:center;cursor:pointer"><div style="font-size:32px;margin-bottom:4px">🎵</div><div style="font-size:11px;font-weight:600">Hindustani</div></div>
+      <div onclick="navGenre('Dance')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px 0;text-align:center;cursor:pointer"><div style="font-size:32px;margin-bottom:4px">💃</div><div style="font-size:11px;font-weight:600">Dance</div></div>
+      <div onclick="navGenre('Jazz')" style="border:1px solid var(--gray-200);border-radius:var(--radius);padding:14px 0;text-align:center;cursor:pointer"><div style="font-size:32px;margin-bottom:4px">🎷</div><div style="font-size:11px;font-weight:600">Jazz</div></div>
     </div>
 
     <!-- What's Happening (with time dropdown) -->
@@ -395,11 +395,19 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <div id="notifications" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Notifications</div></div>
+  <div style="padding:0 20px">
+    <div class="pills" style="margin-top:12px">
+      <div class="pill on" onclick="filterNotifs('all',this)">All</div>
+      <div class="pill" onclick="filterNotifs('org',this)">Org</div>
+      <div class="pill" onclick="filterNotifs('artist',this)">Artist</div>
+    </div>
+  </div>
   <div class="content">
-    <div class="nf" onclick="nav('orgAcceptDetail')"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shobana Balachandra accepted</div><div class="nf-meta">May 14 · Spring Concert Series · 2h ago</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG</span></div></div><div class="nf-arrow">→</div></div>
-    <div class="nf" onclick="nav('counterProposal')"><div class="nf-icon">↩</div><div class="nf-body"><div class="nf-title">Ranjani counter-proposed</div><div class="nf-meta">Spring Concert Series · "I'm available May 20..."</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG</span></div></div><div class="nf-arrow">→</div></div>
-    <div class="nf" onclick="nav('seriesPlanner')"><div class="nf-icon">✗</div><div class="nf-body"><div class="nf-title">Abhishek Raghuram declined</div><div class="nf-meta">May 16 · Spring Concert Series · 1d ago</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG</span></div></div><div class="nf-arrow">→</div></div>
-    <div class="nf" onclick="nav('artistInviteDetail')"><div class="nf-icon">✉</div><div class="nf-body"><div class="nf-title">New invite from SIFA</div><div class="nf-meta">Mar 28 · Spring Series · 5h ago</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ARTIST</span></div></div><div class="nf-arrow">→</div></div>
+    <div class="nf nf-org" onclick="nav('orgAcceptDetail')"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shobana Balachandra accepted</div><div class="nf-meta">May 14 · Spring Concert Series · 2h ago</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG</span></div></div><div class="nf-arrow">→</div></div>
+    <div class="nf nf-org" onclick="nav('counterProposal')"><div class="nf-icon">↩</div><div class="nf-body"><div class="nf-title">Ranjani counter-proposed</div><div class="nf-meta">Spring Concert Series · "I'm available May 20..."</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG</span></div></div><div class="nf-arrow">→</div></div>
+    <div class="nf nf-org" onclick="nav('seriesPlanner')"><div class="nf-icon">✗</div><div class="nf-body"><div class="nf-title">Abhishek Raghuram declined</div><div class="nf-meta">May 16 · Spring Concert Series · 1d ago</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ORG</span></div></div><div class="nf-arrow">→</div></div>
+    <div class="nf nf-artist" onclick="nav('artistInvDetail')"><div class="nf-icon">✉</div><div class="nf-body"><div class="nf-title">New invite from SIFA</div><div class="nf-meta">Mar 28 · Spring Series · 5h ago</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ARTIST</span></div></div><div class="nf-arrow">→</div></div>
+    <div class="nf nf-artist" onclick="nav('artistInvDetail')"><div class="nf-icon">✉</div><div class="nf-body"><div class="nf-title">New invite from Cleveland Aradhana</div><div class="nf-meta">Apr 2 · Summer Series · 1d ago</div><div style="margin-top:3px"><span style="font-size:10px;font-weight:700;color:var(--gray-500);background:var(--gray-100);padding:2px 6px;border-radius:4px">ARTIST</span></div></div><div class="nf-arrow">→</div></div>
   </div>
 </div>
 
@@ -414,11 +422,11 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
       <div class="pill" onclick="evFilter('date',this)">Date ▾</div>
       <div class="pill" onclick="evFilter('today',this)">Today</div>
       <div class="pill" onclick="evFilter('week',this)">This Week</div>
-      <div class="pill" onclick="evFilter('venue',this)">Venue ▾</div>
-      <div class="pill" onclick="evFilter('Vocal',this)" id="evf-Vocal">Vocal</div>
-      <div class="pill" onclick="evFilter('Violin',this)" id="evf-Violin">Violin</div>
-      <div class="pill" onclick="evFilter('Flute',this)" id="evf-Flute">Flute</div>
-      <div class="pill" onclick="evFilter('Bharatanatyam',this)" id="evf-Bharatanatyam">Bharatanatyam</div>
+      <div class="pill" onclick="evFilter('Karnatic',this)" id="evf-Karnatic">Karnatic</div>
+      <div class="pill" onclick="evFilter('Hindustani',this)" id="evf-Hindustani">Hindustani</div>
+      <div class="pill" onclick="evFilter('Dance',this)" id="evf-Dance">Dance</div>
+      <div class="pill" onclick="evFilter('Jazz',this)" id="evf-Jazz">Jazz</div>
+      <div class="pill" onclick="evFilter('Comedy',this)" id="evf-Comedy">Comedy</div>
     </div>
     <div class="ev-grid" id="evGrid">
       <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎻<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Cleveland Aradhana Opening</div><div class="ev-date">Tue, Apr 1 · 5:00 PM</div><div class="ev-meta">Cleveland Aradhana · Cleveland</div></div></div>
@@ -965,13 +973,22 @@ document.addEventListener('click', function(e) {
   if (menu && !e.target.closest('#timeDropdown')) menu.classList.remove('on');
 });
 
-// Navigate to events page with optional instrument filter
-function navInstrument(instr) {
+// Navigate to events page with genre filter
+function navGenre(genre) {
   nav('events');
-  // Activate the matching filter pill
   document.querySelectorAll('#evFilterBar .pill').forEach(p => p.classList.remove('on'));
-  const pill = document.getElementById('evf-' + instr);
+  const pill = document.getElementById('evf-' + genre);
   if (pill) pill.classList.add('on');
+}
+
+// Notification role filter
+function filterNotifs(type, el) {
+  setPill(el);
+  document.querySelectorAll('#notifications .nf').forEach(n => {
+    if (type === 'all') { n.style.display = ''; }
+    else if (type === 'org') { n.style.display = n.classList.contains('nf-org') ? '' : 'none'; }
+    else if (type === 'artist') { n.style.display = n.classList.contains('nf-artist') ? '' : 'none'; }
+  });
 }
 
 // Events page filter (visual only for prototype)

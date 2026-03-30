@@ -65,6 +65,19 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 .sec-title { font-size:16px; font-weight:700; }
 .sec-link { font-size:13px; color:var(--gray-600); cursor:pointer; text-decoration:underline; }
 
+/* Stepper */
+.stepper { display:flex; align-items:center; gap:0; padding:12px 20px 8px; flex-shrink:0; }
+.step { display:flex; align-items:center; flex:1; }
+.step:last-child { flex:none; }
+.step-dot { width:28px; height:28px; border-radius:50%; border:2px solid var(--gray-300); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--gray-400); flex-shrink:0; background:var(--white); position:relative; z-index:1; }
+.step-dot.active { border-color:var(--black); color:var(--black); background:var(--white); }
+.step-dot.done { border-color:var(--black); background:var(--black); color:var(--white); }
+.step-line { flex:1; height:2px; background:var(--gray-200); margin:0 -1px; }
+.step-line.done { background:var(--black); }
+.step-label { font-size:9px; color:var(--gray-400); text-align:center; margin-top:3px; }
+.step-label.active, .step-label.done { color:var(--black); font-weight:600; }
+.step-wrap { display:flex; flex-direction:column; align-items:center; }
+
 /* Search */
 .search { display:flex; align-items:center; gap:8px; background:var(--gray-100); border-radius:var(--radius); padding:11px 14px; margin-bottom:14px; color:var(--gray-500); font-size:14px; cursor:text; border:1px solid var(--gray-200); }
 
@@ -772,7 +785,8 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- CREATE SERIES: DETAILS -->
 <div id="createSeries1" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Create Series (1/4)</div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Create Series</div></div>
+  <div class="stepper"><div class="step"><div class="step-wrap"><div class="step-dot active">1</div><div class="step-label active">Details</div></div><div class="step-line"></div></div><div class="step"><div class="step-wrap"><div class="step-dot">2</div><div class="step-label">Dates</div></div><div class="step-line"></div></div><div class="step"><div class="step-wrap"><div class="step-dot">3</div><div class="step-label">Slots</div></div><div class="step-line"></div></div><div class="step" style="flex:none"><div class="step-wrap"><div class="step-dot">4</div><div class="step-label">Review</div></div></div></div>
   <div class="content">
     <div class="ctx">Create a new concert series. You can invite artists after setup.</div>
     <div class="fg"><div class="fl">Series Name *</div><input class="fi" value="Monsoon Music Festival 2026"></div>
@@ -787,7 +801,8 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- CREATE SERIES: DATES -->
 <div id="createSeries2" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Select Dates (2/4)</div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Create Series</div></div>
+  <div class="stepper"><div class="step"><div class="step-wrap"><div class="step-dot done">✓</div><div class="step-label done">Details</div></div><div class="step-line done"></div></div><div class="step"><div class="step-wrap"><div class="step-dot active">2</div><div class="step-label active">Dates</div></div><div class="step-line"></div></div><div class="step"><div class="step-wrap"><div class="step-dot">3</div><div class="step-label">Slots</div></div><div class="step-line"></div></div><div class="step" style="flex:none"><div class="step-wrap"><div class="step-dot">4</div><div class="step-label">Review</div></div></div></div>
   <div class="content">
     <div class="ctx">Tap dates to select. Each date gets at least one performance slot.</div>
     <div style="text-align:center;margin-bottom:16px">
@@ -808,7 +823,8 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- CREATE SERIES: TIME SLOTS -->
 <div id="createSeries3" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Set Time Slots (3/4)</div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Create Series</div></div>
+  <div class="stepper"><div class="step"><div class="step-wrap"><div class="step-dot done">✓</div><div class="step-label done">Details</div></div><div class="step-line done"></div></div><div class="step"><div class="step-wrap"><div class="step-dot done">✓</div><div class="step-label done">Dates</div></div><div class="step-line done"></div></div><div class="step"><div class="step-wrap"><div class="step-dot active">3</div><div class="step-label active">Slots</div></div><div class="step-line"></div></div><div class="step" style="flex:none"><div class="step-wrap"><div class="step-dot">4</div><div class="step-label">Review</div></div></div></div>
   <div class="content">
     <div class="ctx">Set the start time and duration for each performance slot.</div>
 
@@ -840,7 +856,8 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- CREATE SERIES: REVIEW -->
 <div id="createSeries4" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Review Series (4/4)</div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Create Series</div></div>
+  <div class="stepper"><div class="step"><div class="step-wrap"><div class="step-dot done">✓</div><div class="step-label done">Details</div></div><div class="step-line done"></div></div><div class="step"><div class="step-wrap"><div class="step-dot done">✓</div><div class="step-label done">Dates</div></div><div class="step-line done"></div></div><div class="step"><div class="step-wrap"><div class="step-dot done">✓</div><div class="step-label done">Slots</div></div><div class="step-line done"></div></div><div class="step" style="flex:none"><div class="step-wrap"><div class="step-dot active">4</div><div class="step-label active">Review</div></div></div></div>
   <div class="content">
     <div class="rv">
       <div style="display:flex;justify-content:space-between;align-items:center"><div class="rv-label">Series</div><div style="font-size:11px;color:var(--gray-500);cursor:pointer" onclick="nav('createSeries1')">Edit ›</div></div>

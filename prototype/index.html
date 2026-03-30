@@ -603,7 +603,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="sec-header"><div class="sec-title">My Series</div><div class="fab" onclick="nav('createSeries1')">+ Create</div></div>
     <div class="sr" onclick="nav('seriesPlanner')"><div class="sr-top"><div class="sr-name">Spring Concert Series 2026</div><span class="sr-badge plan">Planning</span></div><div class="sr-stats"><span>8/11 confirmed</span><span class="sr-warn">⚠ 2 pending</span></div></div>
     <div class="sr" onclick="nav('seriesPlanner')"><div class="sr-top"><div class="sr-name">Fall Season 2026</div><span class="sr-badge plan">Planning</span></div><div class="sr-stats"><span>0/8 confirmed</span></div></div>
-    <div class="sr"><div class="sr-top"><div class="sr-name">Cleveland Aradhana 2026</div><span class="sr-badge pub">Published</span></div><div class="sr-stats"><span>12/12 confirmed</span></div></div>
+    <div class="sr" onclick="nav('publishedSeries')"><div class="sr-top"><div class="sr-name">Cleveland Aradhana 2026</div><span class="sr-badge pub">Published</span></div><div class="sr-stats"><span>12/12 confirmed</span></div></div>
   </div>
   <div id="myorgNav"></div>
 </div>
@@ -1754,6 +1754,29 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <div id="adminApproveConf" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Approved!</div><div class="conf-line">Profile is now live on Sabhalog</div><div class="conf-status">User has been notified by email</div><button class="btn btn-p btn-sm" onclick="nav('adminDash')">Back to Dashboard</button></div>
+</div>
+
+<!-- PUBLISHED SERIES VIEW -->
+<div id="publishedSeries" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="nav('myorg')">←</div><div class="pg-title">Cleveland Aradhana 2026</div><div class="pg-right"><span onclick="openSeriesMenu()">⋮</span></div></div>
+  <div class="content">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--gray-200);margin-bottom:10px">
+      <div><span class="sr-badge pub">Published</span><span style="font-size:12px;color:var(--gray-500);margin-left:8px">12/12 confirmed</span><div style="font-size:11px;color:var(--gray-400);margin-top:2px">Cleveland, OH · April 2026</div></div>
+    </div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Sanjay Subrahmanyan · Vocal</div><div class="sl-date">Apr 1 (Wed) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Bombay Jayashri · Vocal</div><div class="sl-date">Apr 2 (Thu) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">T.M. Krishna · Vocal</div><div class="sl-date">Apr 3 (Fri) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Shobana Balachandra · Bharatanatyam</div><div class="sl-date">Apr 4 (Sat) · 4:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Abhishek Raghuram · Vocal</div><div class="sl-date">Apr 5 (Sun) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Vedanth Bharadwaj · Violin</div><div class="sl-date">Apr 6 (Mon) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Ranjani & Gayatri · Vocal</div><div class="sl-date">Apr 7 (Tue) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Shashank Subramanyam · Flute</div><div class="sl-date">Apr 8 (Wed) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Sudha Raghunathan · Vocal</div><div class="sl-date">Apr 9 (Thu) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Aruna Sairam · Vocal</div><div class="sl-date">Apr 10 (Fri) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">U. Srinivas Memorial · Mandolin</div><div class="sl-date">Apr 11 (Sat) · 4:00 PM</div></div>
+    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Lalgudi GJR Krishnan · Violin</div><div class="sl-date">Apr 12 (Sun) · 6:00 PM</div></div>
+  </div>
 </div>
 
 <!-- PENDING INVITE DETAIL (Shashank) -->

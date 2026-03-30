@@ -624,7 +624,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- SERIES PLANNER -->
 <div id="seriesPlanner" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="nav('myorg')">←</div><div class="pg-title">Spring Concert Series</div></div>
+  <div class="pg-header"><div class="back" onclick="nav('myorg')">←</div><div class="pg-title">Spring Concert Series</div><div class="pg-right"><span onclick="openSeriesMenu()">⋮</span></div></div>
   <div class="content">
     <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--gray-200);margin-bottom:10px">
       <div><span class="sr-badge plan">Planning</span><span style="font-size:12px;color:var(--gray-500);margin-left:8px">8/11 confirmed</span><div style="font-size:11px;color:var(--gray-400);margin-top:2px">Phoenix, AZ · May 2026</div></div>
@@ -633,14 +633,14 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="pills" id="slotPills"><div class="pill on" onclick="filterSlots('all',this)">All</div><div class="pill" onclick="filterSlots('avail',this)">Available</div><div class="pill" onclick="filterSlots('pend',this)">Pending</div><div class="pill" onclick="filterSlots('conf',this)">Confirmed</div></div>
     <div id="slotList">
       <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Shobana Balachandra · Bharatanatyam</div><div class="sl-date">May 14 (Wed) · 6:00 PM</div></div>
-      <div class="sl slot-pend"><div class="sl-date">May 15 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Ranjani & group · Vocal</div><div class="sl-meta">Invited 3 days ago</div></div>
+      <div class="sl slot-pend" onclick="nav('counterProposal')"><div class="sl-date">May 15 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Ranjani & group · Vocal</div><div class="sl-meta">Invited 3 days ago</div></div>
       <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 16 (Fri) · 6:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
       <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Vedanth Bharadwaj · Violin</div><div class="sl-date">May 17 (Sat) · 6:00 PM</div></div>
       <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 18 (Sun) · 4:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
       <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Sanjay Subrahmanyan · Vocal</div><div class="sl-date">May 19 (Mon) · 6:00 PM</div></div>
       <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Bombay Jayashri · Vocal</div><div class="sl-date">May 20 (Tue) · 6:00 PM</div></div>
       <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">T.M. Krishna · Vocal</div><div class="sl-date">May 21 (Wed) · 6:00 PM</div></div>
-      <div class="sl slot-pend"><div class="sl-date">May 22 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Shashank Subramanyam · Flute</div><div class="sl-meta">Invited 1 day ago</div></div>
+      <div class="sl slot-pend" onclick="nav('pendingInvDetail')"><div class="sl-date">May 22 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Shashank Subramanyam · Flute</div><div class="sl-meta">Invited 1 day ago</div></div>
       <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 23 (Fri) · 6:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
       <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Abhishek Raghuram · Vocal</div><div class="sl-date">May 24 (Sat) · 6:00 PM</div></div>
     </div>
@@ -1756,6 +1756,117 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Approved!</div><div class="conf-line">Profile is now live on Sabhalog</div><div class="conf-status">User has been notified by email</div><button class="btn btn-p btn-sm" onclick="nav('adminDash')">Back to Dashboard</button></div>
 </div>
 
+<!-- PENDING INVITE DETAIL (Shashank) -->
+<div id="pendingInvDetail" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Invite Details</div></div>
+  <div class="content">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div class="as-av" style="width:36px;height:36px;font-size:14px">●</div><div><div style="font-weight:700;font-size:14px">Shashank Subramanyam</div><div style="font-size:11px;color:var(--gray-500)">Karnatic · Flute · Bangalore</div></div></div>
+    <div class="rv"><div class="rv-label">Series</div><div class="rv-val">Spring Concert Series 2026</div><div style="font-size:11px;color:var(--gray-500)">Phoenix, AZ</div></div>
+    <div class="rv"><div class="rv-label">Proposed Date</div><div class="rv-val">May 22 (Thu) · 6:00 – 8:00 PM</div></div>
+    <div class="rv"><div class="rv-label">Status</div><div style="display:inline-block;padding:2px 6px;border-radius:3px;background:var(--gray-200);font-size:10px;font-weight:700;margin-top:3px">PENDING</div><div style="font-size:11px;color:var(--gray-400);margin-top:4px">Invited 1 day ago · Awaiting artist response</div></div>
+    <div class="rv"><div class="rv-label">Your Message</div><div class="msg">We'd love to have you perform at our spring series!</div></div>
+    <div style="margin-top:20px">
+      <button class="btn btn-o" onclick="nav('reinvite')">Propose Different Dates</button>
+      <button class="btn btn-d" onclick="nav('withdrawConf')">Withdraw Invite</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT SERIES DETAILS -->
+<div id="editSeries" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Edit Series</div></div>
+  <div class="content">
+    <div class="fg"><div class="fl">Series Name *</div><input class="fi" value="Spring Concert Series 2026"></div>
+    <div class="fg"><div class="fl">Location (City) *</div><input class="fi" value="Phoenix, AZ"></div>
+    <div class="fg"><div class="fl">Venue Name</div><input class="fi" value="Scottsdale Center for the Arts"></div>
+    <div class="fg"><div class="fl">Description</div><textarea class="ft" style="min-height:80px">Annual spring concert series featuring Karnatic music and dance performances in the Phoenix metro area.</textarea></div>
+    <div class="fg"><div class="fl">Art Form *</div><div class="pills"><div class="pill on" onclick="this.classList.toggle('on')">Karnatic</div><div class="pill" onclick="this.classList.toggle('on')">Hindustani</div><div class="pill" onclick="this.classList.toggle('on')">Dance</div><div class="pill" onclick="this.classList.toggle('on')">Jazz</div><div class="pill" onclick="this.classList.toggle('on')">Comedy</div></div></div>
+    <button class="btn btn-p" style="margin-top:8px" onclick="nav('editSeriesSaved')">Save Changes</button>
+  </div>
+</div>
+
+<!-- EDIT SERIES SAVED -->
+<div id="editSeriesSaved" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Series Updated!</div><div class="conf-line">Your changes have been saved.</div><div class="conf-status"></div><button class="btn btn-s btn-sm" onclick="nav('seriesPlanner')">Back to Series</button></div>
+</div>
+
+<!-- DELETE SERIES CONFIRMATION -->
+<div id="deleteSeriesConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Delete Series</div></div>
+  <div class="content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px">
+    <div style="font-size:40px;margin-bottom:14px">⚠</div>
+    <div style="font-size:18px;font-weight:800;margin-bottom:6px">Delete this series?</div>
+    <div style="font-size:14px;font-weight:700;margin-bottom:4px">Spring Concert Series 2026</div>
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:16px">Phoenix, AZ · 11 slots</div>
+    <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:20px;width:100%;text-align:left">
+      <div style="font-size:12px;color:#856404;font-weight:600">This action cannot be undone</div>
+      <div style="font-size:11px;color:#856404;margin-top:2px">8 confirmed artists and 2 pending invites will be notified of the cancellation.</div>
+    </div>
+    <button class="btn btn-d" onclick="nav('deleteSeriesDone')" style="width:100%;margin-bottom:8px">Yes, Delete Series</button>
+    <button class="btn btn-s" onclick="goBack()" style="width:100%">Go Back</button>
+  </div>
+</div>
+
+<!-- DELETE SERIES DONE -->
+<div id="deleteSeriesDone" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Series Deleted</div><div class="conf-line">All artists have been notified.</div><div class="conf-status"></div><button class="btn btn-s btn-sm" onclick="nav('myorg')">Back to My Org</button></div>
+</div>
+
+<!-- EDIT SLOT -->
+<div id="editSlot" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Edit Slot</div></div>
+  <div class="content">
+    <div class="ctx">Spring Concert Series 2026 · Phoenix, AZ</div>
+    <div class="fg"><div class="fl">Date</div><input class="fi" value="May 17 (Sat)"></div>
+    <div class="fg"><div class="fl">Start Time</div><input class="fi" value="6:00 PM"></div>
+    <div class="fg"><div class="fl">Duration</div><input class="fi" value="2 hrs"></div>
+    <button class="btn btn-p" style="margin-top:12px" onclick="nav('editSlotSaved')">Save Changes</button>
+    <button class="btn btn-d" style="margin-top:8px" onclick="nav('removeSlotConf')">Remove This Slot</button>
+  </div>
+</div>
+
+<!-- EDIT SLOT SAVED -->
+<div id="editSlotSaved" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Slot Updated!</div><div class="conf-line">Changes saved.</div><div class="conf-status"></div><button class="btn btn-s btn-sm" onclick="nav('seriesPlanner')">Back to Series</button></div>
+</div>
+
+<!-- REMOVE SLOT CONFIRMATION -->
+<div id="removeSlotConf" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Remove Slot</div></div>
+  <div class="content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px">
+    <div style="font-size:40px;margin-bottom:14px">🤔</div>
+    <div style="font-size:18px;font-weight:800;margin-bottom:6px">Remove this slot?</div>
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:4px">May 17 (Sat) · 6:00 PM</div>
+    <div style="font-size:13px;color:var(--gray-500);margin-bottom:20px">Vedanth Bharadwaj · Confirmed</div>
+    <div style="font-size:12px;color:var(--gray-400);margin-bottom:24px;line-height:1.5">The artist will be notified of the cancellation.</div>
+    <button class="btn btn-d" onclick="nav('removeSlotDone')" style="width:100%;margin-bottom:8px">Yes, Remove Slot</button>
+    <button class="btn btn-s" onclick="goBack()" style="width:100%">Go Back</button>
+  </div>
+</div>
+
+<!-- REMOVE SLOT DONE -->
+<div id="removeSlotDone" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="conf"><div class="conf-icon">✓</div><div class="conf-title">Slot Removed</div><div class="conf-line">The artist has been notified.</div><div class="conf-status"></div><button class="btn btn-s btn-sm" onclick="nav('seriesPlanner')">Back to Series</button></div>
+</div>
+
+<!-- SERIES ACTION SHEET -->
+<div id="seriesMenuOverlay" class="overlay" onclick="closeSeriesMenu()"></div>
+<div id="seriesMenuSheet" class="bsheet">
+  <div class="bs-head"><div class="bs-title">Series Options</div><div class="bs-close" onclick="closeSeriesMenu()">✕</div></div>
+  <div class="nf" onclick="closeSeriesMenu();nav('editSeries')"><div class="nf-icon">✎</div><div class="nf-body"><div class="nf-title">Edit Series Details</div><div class="nf-meta">Change name, location, description</div></div><div class="nf-arrow">→</div></div>
+  <div class="nf" onclick="closeSeriesMenu();nav('editSlot')"><div class="nf-icon">⏱</div><div class="nf-body"><div class="nf-title">Edit Slots</div><div class="nf-meta">Change times or remove slots</div></div><div class="nf-arrow">→</div></div>
+  <div class="nf" onclick="closeSeriesMenu();nav('deleteSeriesConf')"><div class="nf-icon" style="color:#cc0000">✗</div><div class="nf-body"><div class="nf-title" style="color:#cc0000">Delete Series</div><div class="nf-meta">Cancel all events and notify artists</div></div><div class="nf-arrow">→</div></div>
+</div>
+
 <!-- CITY PICKER -->
 <div id="cityOverlay" class="overlay" onclick="closeCitySheet()"></div>
 <div id="citySheet" class="bsheet">
@@ -1862,6 +1973,10 @@ function switchProfileView(r) {
 }
 
 function setPill(el) { el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('on')); el.classList.add('on'); }
+
+// Series menu
+function openSeriesMenu() { document.getElementById('seriesMenuOverlay').classList.add('on'); document.getElementById('seriesMenuSheet').classList.add('on'); }
+function closeSeriesMenu() { document.getElementById('seriesMenuOverlay').classList.remove('on'); document.getElementById('seriesMenuSheet').classList.remove('on'); }
 
 // City picker
 function openCitySheet() { document.getElementById('cityOverlay').classList.add('on'); document.getElementById('citySheet').classList.add('on'); }

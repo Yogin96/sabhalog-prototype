@@ -538,14 +538,14 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title"></div><div class="pg-right"><span>♡</span><span>↗</span></div></div>
   <div class="content">
     <div style="padding:16px 0 14px;border-bottom:1px solid var(--gray-200)">
-      <div class="cd-date">Sat, Mar 27, 2026 · 7:00 – 9:00 PM</div>
-      <div class="cd-title">Sitaristique</div>
-      <div class="cd-genre">Karnatic · Vocal</div>
+      <div class="cd-date" id="ed-date">Sat, Mar 27, 2026 · 7:00 – 9:00 PM</div>
+      <div class="cd-title" id="ed-title">Sitaristique</div>
+      <div class="cd-genre" id="ed-genre">Karnatic · Vocal</div>
     </div>
-    <div class="cd-row" onclick="nav('artistProfile')">● &nbsp;Ranjani & Gayatri</div>
-    <div class="cd-row" onclick="nav('orgProfile')">▣ &nbsp;South India Fine Arts (SIFA)</div>
-    <div class="cd-row">◉ &nbsp;Chennai, India</div>
-    <div class="cd-desc">An enchanting evening of Karnatic classical music featuring the celebrated duo Ranjani & Gayatri, known for their soulful renditions. Part of SIFA's annual series celebrating 50 years of classical music.</div>
+    <div class="cd-row" id="ed-artist" onclick="nav('artistProfile')">● &nbsp;Ranjani & Gayatri</div>
+    <div class="cd-row" id="ed-org" onclick="nav('orgProfile')">▣ &nbsp;South India Fine Arts (SIFA)</div>
+    <div class="cd-row" id="ed-location">◉ &nbsp;Chennai, India</div>
+    <div class="cd-desc" id="ed-desc">An enchanting evening of Karnatic classical music featuring the celebrated duo Ranjani & Gayatri, known for their soulful renditions. Part of SIFA's annual series celebrating 50 years of classical music.</div>
     <div class="cd-actions">
       <div class="cd-act">Add to Calendar</div>
       <div class="cd-act">♡ Interested</div>
@@ -632,17 +632,17 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     </div>
     <div class="pills" id="slotPills"><div class="pill on" onclick="filterSlots('all',this)">All</div><div class="pill" onclick="filterSlots('avail',this)">Available</div><div class="pill" onclick="filterSlots('pend',this)">Pending</div><div class="pill" onclick="filterSlots('conf',this)">Confirmed</div></div>
     <div id="slotList">
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Shobana Balachandra · Bharatanatyam</div><div class="sl-date">May 14 (Wed) · 6:00 PM</div></div>
+      <div class="sl slot-conf" onclick="showEvent({artist:'Shobana Balachandra',date:'Wed, May 14, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Bharatanatyam · Dance',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">Shobana Balachandra · Bharatanatyam</div><div class="sl-date">May 14 (Wed) · 6:00 PM</div></div>
       <div class="sl slot-pend" onclick="nav('counterProposal')"><div class="sl-date">May 15 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Ranjani & group · Vocal</div><div class="sl-meta">Invited 3 days ago</div></div>
       <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 16 (Fri) · 6:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Vedanth Bharadwaj · Violin</div><div class="sl-date">May 17 (Sat) · 6:00 PM</div></div>
+      <div class="sl slot-conf" onclick="showEvent({artist:'Vedanth Bharadwaj',date:'Sat, May 17, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Violin',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">Vedanth Bharadwaj · Violin</div><div class="sl-date">May 17 (Sat) · 6:00 PM</div></div>
       <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 18 (Sun) · 4:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Sanjay Subrahmanyan · Vocal</div><div class="sl-date">May 19 (Mon) · 6:00 PM</div></div>
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Bombay Jayashri · Vocal</div><div class="sl-date">May 20 (Tue) · 6:00 PM</div></div>
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">T.M. Krishna · Vocal</div><div class="sl-date">May 21 (Wed) · 6:00 PM</div></div>
+      <div class="sl slot-conf" onclick="showEvent({artist:'Sanjay Subrahmanyan',date:'Mon, May 19, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">Sanjay Subrahmanyan · Vocal</div><div class="sl-date">May 19 (Mon) · 6:00 PM</div></div>
+      <div class="sl slot-conf" onclick="showEvent({artist:'Bombay Jayashri',date:'Tue, May 20, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">Bombay Jayashri · Vocal</div><div class="sl-date">May 20 (Tue) · 6:00 PM</div></div>
+      <div class="sl slot-conf" onclick="showEvent({artist:'T.M. Krishna',date:'Wed, May 21, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">T.M. Krishna · Vocal</div><div class="sl-date">May 21 (Wed) · 6:00 PM</div></div>
       <div class="sl slot-pend" onclick="nav('pendingInvDetail')"><div class="sl-date">May 22 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Shashank Subramanyam · Flute</div><div class="sl-meta">Invited 1 day ago</div></div>
       <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 23 (Fri) · 6:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Abhishek Raghuram · Vocal</div><div class="sl-date">May 24 (Sat) · 6:00 PM</div></div>
+      <div class="sl slot-conf" onclick="showEvent({artist:'Abhishek Raghuram',date:'Sat, May 24, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">Abhishek Raghuram · Vocal</div><div class="sl-date">May 24 (Sat) · 6:00 PM</div></div>
     </div>
   </div>
 </div>
@@ -1764,18 +1764,18 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--gray-200);margin-bottom:10px">
       <div><span class="sr-badge pub">Published</span><span style="font-size:12px;color:var(--gray-500);margin-left:8px">12/12 confirmed</span><div style="font-size:11px;color:var(--gray-400);margin-top:2px">Cleveland, OH · April 2026</div></div>
     </div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Sanjay Subrahmanyan · Vocal</div><div class="sl-date">Apr 1 (Wed) · 6:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Bombay Jayashri · Vocal</div><div class="sl-date">Apr 2 (Thu) · 6:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">T.M. Krishna · Vocal</div><div class="sl-date">Apr 3 (Fri) · 6:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Shobana Balachandra · Bharatanatyam</div><div class="sl-date">Apr 4 (Sat) · 4:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Abhishek Raghuram · Vocal</div><div class="sl-date">Apr 5 (Sun) · 6:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Vedanth Bharadwaj · Violin</div><div class="sl-date">Apr 6 (Mon) · 6:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Ranjani & Gayatri · Vocal</div><div class="sl-date">Apr 7 (Tue) · 6:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Shashank Subramanyam · Flute</div><div class="sl-date">Apr 8 (Wed) · 6:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Sudha Raghunathan · Vocal</div><div class="sl-date">Apr 9 (Thu) · 6:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Aruna Sairam · Vocal</div><div class="sl-date">Apr 10 (Fri) · 6:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">U. Srinivas Memorial · Mandolin</div><div class="sl-date">Apr 11 (Sat) · 4:00 PM</div></div>
-    <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Lalgudi GJR Krishnan · Violin</div><div class="sl-date">Apr 12 (Sun) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'Sanjay Subrahmanyan',date:'Wed, Apr 1, 2026 · 6:00 – 8:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Vocal',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">Sanjay Subrahmanyan · Vocal</div><div class="sl-date">Apr 1 (Wed) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'Bombay Jayashri',date:'Thu, Apr 2, 2026 · 6:00 – 8:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Vocal',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">Bombay Jayashri · Vocal</div><div class="sl-date">Apr 2 (Thu) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'T.M. Krishna',date:'Fri, Apr 3, 2026 · 6:00 – 8:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Vocal',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">T.M. Krishna · Vocal</div><div class="sl-date">Apr 3 (Fri) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'Shobana Balachandra',date:'Sat, Apr 4, 2026 · 4:00 – 6:00 PM',series:'Cleveland Aradhana 2026',genre:'Bharatanatyam · Dance',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">Shobana Balachandra · Bharatanatyam</div><div class="sl-date">Apr 4 (Sat) · 4:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'Abhishek Raghuram',date:'Sun, Apr 5, 2026 · 6:00 – 8:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Vocal',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">Abhishek Raghuram · Vocal</div><div class="sl-date">Apr 5 (Sun) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'Vedanth Bharadwaj',date:'Mon, Apr 6, 2026 · 6:00 – 8:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Violin',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">Vedanth Bharadwaj · Violin</div><div class="sl-date">Apr 6 (Mon) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'Ranjani & Gayatri',date:'Tue, Apr 7, 2026 · 6:00 – 8:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Vocal',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">Ranjani & Gayatri · Vocal</div><div class="sl-date">Apr 7 (Tue) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'Shashank Subramanyam',date:'Wed, Apr 8, 2026 · 6:00 – 8:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Flute',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">Shashank Subramanyam · Flute</div><div class="sl-date">Apr 8 (Wed) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'Sudha Raghunathan',date:'Thu, Apr 9, 2026 · 6:00 – 8:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Vocal',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">Sudha Raghunathan · Vocal</div><div class="sl-date">Apr 9 (Thu) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'Aruna Sairam',date:'Fri, Apr 10, 2026 · 6:00 – 8:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Vocal',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">Aruna Sairam · Vocal</div><div class="sl-date">Apr 10 (Fri) · 6:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'U. Srinivas Memorial',date:'Sat, Apr 11, 2026 · 4:00 – 6:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Mandolin',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">U. Srinivas Memorial · Mandolin</div><div class="sl-date">Apr 11 (Sat) · 4:00 PM</div></div>
+    <div class="sl slot-conf" onclick="showEvent({artist:'Lalgudi GJR Krishnan',date:'Sun, Apr 12, 2026 · 6:00 – 8:00 PM',series:'Cleveland Aradhana 2026',genre:'Karnatic · Violin',org:'Cleveland Aradhana',location:'Cleveland, OH'})"><div class="sl-artist">Lalgudi GJR Krishnan · Violin</div><div class="sl-date">Apr 12 (Sun) · 6:00 PM</div></div>
   </div>
 </div>
 
@@ -1996,6 +1996,18 @@ function switchProfileView(r) {
 }
 
 function setPill(el) { el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('on')); el.classList.add('on'); }
+
+// Dynamic event detail
+function showEvent(e) {
+  document.getElementById('ed-date').textContent = e.date || '';
+  document.getElementById('ed-title').textContent = e.series || '';
+  document.getElementById('ed-genre').textContent = e.genre || 'Karnatic';
+  document.getElementById('ed-artist').innerHTML = '● &nbsp;' + (e.artist || '');
+  document.getElementById('ed-org').innerHTML = '▣ &nbsp;' + (e.org || '');
+  document.getElementById('ed-location').innerHTML = '◉ &nbsp;' + (e.location || '');
+  document.getElementById('ed-desc').textContent = e.desc || ('A performance by ' + (e.artist || 'the artist') + ' as part of ' + (e.series || 'the series') + '.');
+  nav('eventDetail');
+}
 
 // Series menu
 function openSeriesMenu() { document.getElementById('seriesMenuOverlay').classList.add('on'); document.getElementById('seriesMenuSheet').classList.add('on'); }

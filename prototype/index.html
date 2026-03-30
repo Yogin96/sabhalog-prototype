@@ -133,6 +133,35 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 .sl-status.avail { color:var(--gray-400); }
 .sl-artist { font-size:13px; color:var(--gray-700); }
 .slot-conf .sl-artist { font-size:14px; font-weight:600; color:var(--black); }
+
+/* Tabs */
+.sp-tabs { display:flex; border-bottom:2px solid var(--gray-200); flex-shrink:0; }
+.sp-tab { flex:1; text-align:center; padding:10px 0; font-size:13px; font-weight:600; color:var(--gray-400); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; }
+.sp-tab.active { color:var(--black); border-bottom-color:var(--black); }
+
+/* Slot cards (new) */
+.slot-card { background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius); padding:12px 14px; margin-bottom:8px; cursor:pointer; border-left:3px solid var(--gray-200); position:relative; }
+.slot-card:hover { border-color:var(--gray-300); }
+.slot-card.sc-conf { border-left-color:var(--black); }
+.slot-card.sc-pend { border-left-color:var(--gray-400); }
+.slot-card.sc-avail { border-left-color:var(--gray-200); }
+.slot-card .sc-top { display:flex; justify-content:space-between; align-items:flex-start; }
+.slot-card .sc-title { font-size:14px; font-weight:700; color:var(--black); }
+.slot-card .sc-badge { font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; flex-shrink:0; }
+.sc-badge.b-conf { background:var(--gray-100); color:var(--gray-700); }
+.sc-badge.b-pend { background:#fff3cd; color:#856404; }
+.sc-badge.b-avail { background:var(--gray-100); color:var(--gray-400); }
+.slot-card .sc-time { font-size:12px; color:var(--gray-500); margin-top:2px; }
+.slot-card .sc-venue { font-size:11px; color:var(--gray-400); margin-top:2px; }
+.slot-card .sc-artist { font-size:13px; color:var(--black); font-weight:600; margin-top:6px; }
+.slot-card .sc-edit { font-size:11px; color:var(--gray-400); margin-top:4px; }
+
+/* Add slot CTA */
+.add-slot { border:2px dashed var(--gray-300); border-radius:var(--radius); padding:16px; text-align:center; cursor:pointer; margin-bottom:16px; color:var(--gray-500); font-size:14px; font-weight:600; }
+.add-slot:hover { border-color:var(--gray-400); color:var(--gray-600); }
+
+/* Date group */
+.date-group { font-size:13px; font-weight:700; color:var(--gray-600); margin:16px 0 8px; }
 .sl-meta { font-size:11px; color:var(--gray-400); margin-top:2px; }
 
 /* Buttons */
@@ -624,25 +653,135 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- SERIES PLANNER -->
 <div id="seriesPlanner" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="nav('myorg')">←</div><div class="pg-title">Spring Concert Series</div><div class="pg-right"><span onclick="openSeriesMenu()">⋮</span></div></div>
-  <div class="content">
-    <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--gray-200);margin-bottom:10px">
-      <div><span class="sr-badge plan">Planning</span><span style="font-size:12px;color:var(--gray-500);margin-left:8px">8/11 confirmed</span><div style="font-size:11px;color:var(--gray-400);margin-top:2px">Phoenix, AZ · May 2026</div></div>
+  <div class="pg-header"><div class="back" onclick="nav('myorg')">←</div><div class="pg-title">Series Planner</div><div class="pg-right"><span onclick="openSeriesMenu()">⋮</span></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 20px 10px;border-bottom:1px solid var(--gray-200)">
+    <div>
+      <div style="font-size:16px;font-weight:800">Spring Concert Series 2026</div>
+      <div style="font-size:11px;color:var(--gray-400);margin-top:2px">Phoenix, AZ · May 2026</div>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <span class="sr-badge plan">Planning</span>
       <button class="pub" onclick="nav('publishSeries')">Publish →</button>
     </div>
-    <div class="pills" id="slotPills"><div class="pill on" onclick="filterSlots('all',this)">All</div><div class="pill" onclick="filterSlots('avail',this)">Available</div><div class="pill" onclick="filterSlots('pend',this)">Pending</div><div class="pill" onclick="filterSlots('conf',this)">Confirmed</div></div>
-    <div id="slotList">
-      <div class="sl slot-conf" onclick="showEvent({artist:'Shobana Balachandra',date:'Wed, May 14, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Bharatanatyam · Dance',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">Shobana Balachandra · Bharatanatyam</div><div class="sl-date">May 14 (Wed) · 6:00 PM</div></div>
-      <div class="sl slot-pend" onclick="nav('counterProposal')"><div class="sl-date">May 15 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Ranjani & group · Vocal</div><div class="sl-meta">Invited 3 days ago</div></div>
-      <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 16 (Fri) · 6:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
-      <div class="sl slot-conf" onclick="showEvent({artist:'Vedanth Bharadwaj',date:'Sat, May 17, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Violin',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">Vedanth Bharadwaj · Violin</div><div class="sl-date">May 17 (Sat) · 6:00 PM</div></div>
-      <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 18 (Sun) · 4:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
-      <div class="sl slot-conf" onclick="showEvent({artist:'Sanjay Subrahmanyan',date:'Mon, May 19, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">Sanjay Subrahmanyan · Vocal</div><div class="sl-date">May 19 (Mon) · 6:00 PM</div></div>
-      <div class="sl slot-conf" onclick="showEvent({artist:'Bombay Jayashri',date:'Tue, May 20, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">Bombay Jayashri · Vocal</div><div class="sl-date">May 20 (Tue) · 6:00 PM</div></div>
-      <div class="sl slot-conf" onclick="showEvent({artist:'T.M. Krishna',date:'Wed, May 21, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">T.M. Krishna · Vocal</div><div class="sl-date">May 21 (Wed) · 6:00 PM</div></div>
-      <div class="sl slot-pend" onclick="nav('pendingInvDetail')"><div class="sl-date">May 22 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Shashank Subramanyam · Flute</div><div class="sl-meta">Invited 1 day ago</div></div>
-      <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 23 (Fri) · 6:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
-      <div class="sl slot-conf" onclick="showEvent({artist:'Abhishek Raghuram',date:'Sat, May 24, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="sl-artist">Abhishek Raghuram · Vocal</div><div class="sl-date">May 24 (Sat) · 6:00 PM</div></div>
+  </div>
+  <div class="sp-tabs">
+    <div class="sp-tab active" onclick="switchSpTab('slots',this)">Slots (11)</div>
+    <div class="sp-tab" onclick="switchSpTab('bookings',this)">Bookings (8)</div>
+  </div>
+  <div class="content">
+    <!-- SLOTS TAB -->
+    <div id="spSlots">
+      <div class="add-slot" onclick="nav('editSlot')">⊕ Add slot</div>
+
+      <div class="date-group">May 14, 2026</div>
+      <div class="slot-card sc-conf" onclick="showEvent({artist:'Shobana Balachandra',date:'Wed, May 14, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Bharatanatyam · Dance',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-conf">Confirmed</div></div>
+        <div class="sc-time">6:00 PM · 2 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-artist">♪ Shobana Balachandra · Bharatanatyam</div>
+        <div class="sc-edit">Tap to edit</div>
+      </div>
+
+      <div class="date-group">May 15, 2026</div>
+      <div class="slot-card sc-pend" onclick="nav('counterProposal')">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-pend">Pending</div></div>
+        <div class="sc-time">6:00 PM · 2 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-artist">♪ Ranjani & group · Vocal</div>
+        <div class="sc-edit">Invited 3 days ago · Tap to edit</div>
+      </div>
+
+      <div class="date-group">May 16, 2026</div>
+      <div class="slot-card sc-avail" onclick="nav('editSlot')">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-avail">Available</div></div>
+        <div class="sc-time">6:00 PM · 2 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-edit">Tap to edit</div>
+      </div>
+
+      <div class="date-group">May 17, 2026</div>
+      <div class="slot-card sc-conf" onclick="showEvent({artist:'Vedanth Bharadwaj',date:'Sat, May 17, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Violin',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-conf">Confirmed</div></div>
+        <div class="sc-time">6:00 PM · 2 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-artist">♪ Vedanth Bharadwaj · Violin</div>
+        <div class="sc-edit">Tap to edit</div>
+      </div>
+
+      <div class="date-group">May 18, 2026</div>
+      <div class="slot-card sc-avail" onclick="nav('editSlot')">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-avail">Available</div></div>
+        <div class="sc-time">4:00 PM · 3 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-edit">Tap to edit</div>
+      </div>
+
+      <div class="date-group">May 19, 2026</div>
+      <div class="slot-card sc-conf" onclick="showEvent({artist:'Sanjay Subrahmanyan',date:'Mon, May 19, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-conf">Confirmed</div></div>
+        <div class="sc-time">6:00 PM · 2 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-artist">♪ Sanjay Subrahmanyan · Vocal</div>
+        <div class="sc-edit">Tap to edit</div>
+      </div>
+
+      <div class="date-group">May 20, 2026</div>
+      <div class="slot-card sc-conf" onclick="showEvent({artist:'Bombay Jayashri',date:'Tue, May 20, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-conf">Confirmed</div></div>
+        <div class="sc-time">6:00 PM · 2 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-artist">♪ Bombay Jayashri · Vocal</div>
+        <div class="sc-edit">Tap to edit</div>
+      </div>
+
+      <div class="date-group">May 21, 2026</div>
+      <div class="slot-card sc-conf" onclick="showEvent({artist:'T.M. Krishna',date:'Wed, May 21, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-conf">Confirmed</div></div>
+        <div class="sc-time">6:00 PM · 2 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-artist">♪ T.M. Krishna · Vocal</div>
+        <div class="sc-edit">Tap to edit</div>
+      </div>
+
+      <div class="date-group">May 22, 2026</div>
+      <div class="slot-card sc-pend" onclick="nav('pendingInvDetail')">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-pend">Pending</div></div>
+        <div class="sc-time">6:00 PM · 2 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-artist">♪ Shashank Subramanyam · Flute</div>
+        <div class="sc-edit">Invited 1 day ago · Tap to edit</div>
+      </div>
+
+      <div class="date-group">May 23, 2026</div>
+      <div class="slot-card sc-avail" onclick="nav('editSlot')">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-avail">Available</div></div>
+        <div class="sc-time">6:00 PM · 2 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-edit">Tap to edit</div>
+      </div>
+
+      <div class="date-group">May 24, 2026</div>
+      <div class="slot-card sc-conf" onclick="showEvent({artist:'Abhishek Raghuram',date:'Sat, May 24, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})">
+        <div class="sc-top"><div class="sc-title">Concert</div><div class="sc-badge b-conf">Confirmed</div></div>
+        <div class="sc-time">6:00 PM · 2 hr</div>
+        <div class="sc-venue">◉ Scottsdale Center for the Arts</div>
+        <div class="sc-artist">♪ Abhishek Raghuram · Vocal</div>
+        <div class="sc-edit">Tap to edit</div>
+      </div>
+    </div>
+
+    <!-- BOOKINGS TAB (hidden by default) -->
+    <div id="spBookings" style="display:none">
+      <div style="font-size:13px;color:var(--gray-500);margin-bottom:12px">Artists confirmed for this series</div>
+      <div class="nf" onclick="showEvent({artist:'Shobana Balachandra',date:'Wed, May 14, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Bharatanatyam · Dance',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Shobana Balachandra</div><div class="nf-meta">May 14 · Bharatanatyam · Confirmed</div></div><div class="nf-arrow">→</div></div>
+      <div class="nf" onclick="showEvent({artist:'Vedanth Bharadwaj',date:'Sat, May 17, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Violin',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Vedanth Bharadwaj</div><div class="nf-meta">May 17 · Violin · Confirmed</div></div><div class="nf-arrow">→</div></div>
+      <div class="nf" onclick="showEvent({artist:'Sanjay Subrahmanyan',date:'Mon, May 19, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Sanjay Subrahmanyan</div><div class="nf-meta">May 19 · Vocal · Confirmed</div></div><div class="nf-arrow">→</div></div>
+      <div class="nf" onclick="showEvent({artist:'Bombay Jayashri',date:'Tue, May 20, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Bombay Jayashri</div><div class="nf-meta">May 20 · Vocal · Confirmed</div></div><div class="nf-arrow">→</div></div>
+      <div class="nf" onclick="showEvent({artist:'T.M. Krishna',date:'Wed, May 21, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">T.M. Krishna</div><div class="nf-meta">May 21 · Vocal · Confirmed</div></div><div class="nf-arrow">→</div></div>
+      <div class="nf" onclick="showEvent({artist:'Abhishek Raghuram',date:'Sat, May 24, 2026 · 6:00 – 8:00 PM',series:'Spring Concert Series 2026',genre:'Karnatic · Vocal',org:'Fine Arts Association of Arizona',location:'Phoenix, AZ'})"><div class="nf-icon">●</div><div class="nf-body"><div class="nf-title">Abhishek Raghuram</div><div class="nf-meta">May 24 · Vocal · Confirmed</div></div><div class="nf-arrow">→</div></div>
+      <div style="font-size:13px;color:var(--gray-500);margin:16px 0 12px">Pending invites</div>
+      <div class="nf" onclick="nav('counterProposal')"><div class="nf-icon" style="color:var(--gray-400)">●</div><div class="nf-body"><div class="nf-title">Ranjani & group</div><div class="nf-meta">May 15 · Vocal · Counter-proposed</div></div><div class="nf-arrow">→</div></div>
+      <div class="nf" onclick="nav('pendingInvDetail')"><div class="nf-icon" style="color:var(--gray-400)">●</div><div class="nf-body"><div class="nf-title">Shashank Subramanyam</div><div class="nf-meta">May 22 · Flute · Awaiting response</div></div><div class="nf-arrow">→</div></div>
     </div>
   </div>
 </div>
@@ -1843,14 +1982,22 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- EDIT SLOT -->
 <div id="editSlot" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Edit Slot</div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">✕</div><div class="pg-title">Edit Slot</div></div>
   <div class="content">
-    <div class="ctx">Spring Concert Series 2026 · Phoenix, AZ</div>
-    <div class="fg"><div class="fl">Date</div><input class="fi" value="May 17 (Sat)"></div>
-    <div class="fg"><div class="fl">Start Time</div><input class="fi" value="6:00 PM"></div>
-    <div class="fg"><div class="fl">Duration</div><input class="fi" value="2 hrs"></div>
-    <button class="btn btn-p" style="margin-top:12px" onclick="nav('editSlotSaved')">Save Changes</button>
-    <button class="btn btn-d" style="margin-top:8px" onclick="nav('removeSlotConf')">Remove This Slot</button>
+    <div style="font-size:15px;font-weight:700;margin-bottom:4px">Info</div>
+    <div class="fg"><div class="fl">Date</div><div class="fi" style="display:flex;justify-content:space-between;align-items:center">May 17, 2026 <span style="color:var(--gray-400)">⌄</span></div></div>
+    <div style="display:flex;gap:10px">
+      <div class="fg" style="flex:1"><div class="fl">Start Time</div><input class="fi" value="6:00 PM"></div>
+      <div class="fg" style="flex:1"><div class="fl">Duration (hours)</div><input class="fi" value="2"></div>
+    </div>
+    <div style="font-size:12px;color:#cc0000;cursor:pointer;margin-bottom:16px">Remove time</div>
+    <div class="fg"><div class="fl">Title</div><input class="fi" placeholder="e.g. Evening Concert" value="Concert"></div>
+    <div class="fg"><div class="fl">Subtitle</div><input class="fi" placeholder="e.g. Community dance event"></div>
+    <div class="fg"><div class="fl">Venue</div><div class="fi" style="color:var(--gray-400)">Add venues in Profile (Organization)</div></div>
+    <button class="btn btn-p" style="margin-top:16px" onclick="nav('inviteSelect')">♪ Add Artist</button>
+    <button class="btn btn-d" style="margin-top:8px" onclick="nav('removeSlotConf')">🗑 Delete Slot</button>
+    <div style="font-size:11px;color:var(--gray-400);margin-top:12px;line-height:1.5">Save updates date, time, title, subtitle, and venue. Adding or removing an artist takes effect immediately.</div>
+    <button class="btn btn-p" style="margin-top:12px" onclick="nav('editSlotSaved')">Save</button>
   </div>
 </div>
 
@@ -2007,6 +2154,14 @@ function showEvent(e) {
   document.getElementById('ed-location').innerHTML = '◉ &nbsp;' + (e.location || '');
   document.getElementById('ed-desc').textContent = e.desc || ('A performance by ' + (e.artist || 'the artist') + ' as part of ' + (e.series || 'the series') + '.');
   nav('eventDetail');
+}
+
+// Series planner tabs
+function switchSpTab(tab, el) {
+  document.querySelectorAll('.sp-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('spSlots').style.display = tab === 'slots' ? '' : 'none';
+  document.getElementById('spBookings').style.display = tab === 'bookings' ? '' : 'none';
 }
 
 // Series menu

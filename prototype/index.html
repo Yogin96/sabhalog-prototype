@@ -121,7 +121,10 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 .sr-warn { color:var(--gray-800); font-weight:600; }
 
 /* Slot items */
-.sl { border-bottom:1px solid var(--gray-100); padding:12px 0; cursor:pointer; }
+.sl { border-bottom:1px solid var(--gray-100); padding:12px 0; cursor:pointer; padding-left:10px; border-left:3px solid transparent; }
+.sl.slot-conf { border-left-color:var(--black); }
+.sl.slot-pend { border-left-color:var(--gray-400); }
+.sl.slot-avail { border-left-color:var(--gray-200); }
 .sl:last-child { border-bottom:none; }
 .sl-date { font-size:12px; font-weight:700; color:var(--gray-700); margin-bottom:4px; }
 .sl-status { font-size:11px; font-weight:700; letter-spacing:0.5px; margin-bottom:3px; }
@@ -129,6 +132,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 .sl-status.pend { color:var(--gray-500); }
 .sl-status.avail { color:var(--gray-400); }
 .sl-artist { font-size:13px; color:var(--gray-700); }
+.slot-conf .sl-artist { font-size:14px; font-weight:600; color:var(--black); }
 .sl-meta { font-size:11px; color:var(--gray-400); margin-top:2px; }
 
 /* Buttons */
@@ -628,17 +632,17 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     </div>
     <div class="pills" id="slotPills"><div class="pill on" onclick="filterSlots('all',this)">All</div><div class="pill" onclick="filterSlots('avail',this)">Available</div><div class="pill" onclick="filterSlots('pend',this)">Pending</div><div class="pill" onclick="filterSlots('conf',this)">Confirmed</div></div>
     <div id="slotList">
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-date">May 14 (Wed) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">Shobana Balachandra · Bharatanatyam</div></div>
+      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Shobana Balachandra · Bharatanatyam</div><div class="sl-date">May 14 (Wed) · 6:00 PM</div></div>
       <div class="sl slot-pend"><div class="sl-date">May 15 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Ranjani & group · Vocal</div><div class="sl-meta">Invited 3 days ago</div></div>
       <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 16 (Fri) · 6:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-date">May 17 (Sat) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">Vedanth Bharadwaj · Violin</div></div>
+      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Vedanth Bharadwaj · Violin</div><div class="sl-date">May 17 (Sat) · 6:00 PM</div></div>
       <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 18 (Sun) · 4:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-date">May 19 (Mon) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">Sanjay Subrahmanyan · Vocal</div></div>
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-date">May 20 (Tue) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">Bombay Jayashri · Vocal</div></div>
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-date">May 21 (Wed) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">T.M. Krishna · Vocal</div></div>
+      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Sanjay Subrahmanyan · Vocal</div><div class="sl-date">May 19 (Mon) · 6:00 PM</div></div>
+      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Bombay Jayashri · Vocal</div><div class="sl-date">May 20 (Tue) · 6:00 PM</div></div>
+      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">T.M. Krishna · Vocal</div><div class="sl-date">May 21 (Wed) · 6:00 PM</div></div>
       <div class="sl slot-pend"><div class="sl-date">May 22 (Thu) · 6:00 PM</div><div class="sl-status pend">○ PENDING</div><div class="sl-artist">Shashank Subramanyam · Flute</div><div class="sl-meta">Invited 1 day ago</div></div>
       <div class="sl slot-avail" onclick="nav('inviteSelect')"><div class="sl-date">May 23 (Fri) · 6:00 PM</div><div class="sl-status avail">◌ AVAILABLE</div><button class="btn-inv">+ Invite Artist</button></div>
-      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-date">May 24 (Sat) · 6:00 PM</div><div class="sl-status conf">● CONFIRMED</div><div class="sl-artist">Abhishek Raghuram · Vocal</div></div>
+      <div class="sl slot-conf" onclick="nav('eventDetail')"><div class="sl-artist">Abhishek Raghuram · Vocal</div><div class="sl-date">May 24 (Sat) · 6:00 PM</div></div>
     </div>
   </div>
 </div>

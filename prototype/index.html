@@ -455,12 +455,8 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <div id="onboardIntent" class="screen intent-screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 4px;">
-    <div class="intent-heading">How do you plan to use Sabhalog?</div>
-    <div class="intent-sub">You can always change this later.</div>
-    <div class="intent-card" onclick="pickIntent('explore')">
-      <div class="intent-icon">◎</div>
-      <div><div class="intent-title">Explore concerts & events</div><div class="intent-desc">Browse, discover, and save upcoming performances</div></div>
-    </div>
+    <div class="intent-heading">Are you an organizer or artist?</div>
+    <div class="intent-sub">You can always add roles later from your Profile.</div>
     <div class="intent-card" onclick="pickIntent('org')">
       <div class="intent-icon">▣</div>
       <div><div class="intent-title">I organize concerts</div><div class="intent-desc">Plan series, invite artists, manage your sabha</div></div>
@@ -469,6 +465,11 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
       <div class="intent-icon">●</div>
       <div><div class="intent-title">I'm a performing artist</div><div class="intent-desc">Get discovered, receive invites, manage your schedule</div></div>
     </div>
+    <div class="intent-card" onclick="pickIntent('both')">
+      <div class="intent-icon">◈</div>
+      <div><div class="intent-title">I organize & perform</div><div class="intent-desc">Manage your sabha and your artist schedule</div></div>
+    </div>
+    <div style="text-align:center;margin-top:16px"><span style="font-size:13px;color:var(--gray-500);cursor:pointer;text-decoration:underline" onclick="pickIntent('explore')">Skip — just let me explore</span></div>
   </div>
 </div>
 
@@ -2260,17 +2261,17 @@ function handleSave(action) {
   }
 }
 
-function handleIntentBannerAction() {
+function handleIntentBannerAction(targetRole) {
   if (!isLoggedIn) {
     pendingAction = function() {
-      if (userIntent === 'org') nav('registerOrg');
-      else if (userIntent === 'artist') nav('registerArtist');
+      if (targetRole === 'org') nav('registerOrg');
+      else if (targetRole === 'artist') nav('registerArtist');
     };
     showLoginSheet();
     return;
   }
-  if (userIntent === 'org') nav('registerOrg');
-  else if (userIntent === 'artist') nav('registerArtist');
+  if (targetRole === 'org') nav('registerOrg');
+  else if (targetRole === 'artist') nav('registerArtist');
 }
 
 function dismissIntentBanner() {
@@ -2286,9 +2287,12 @@ function renderIntentBanner() {
     return;
   }
   if (userIntent === 'org') {
-    banner.innerHTML = '<div class="nudge-banner">🏛️ Ready to list your organization? <strong onclick="handleIntentBannerAction()">Register your sabha</strong> to start planning concerts.<span class="nudge-close" onclick="dismissIntentBanner()">✕</span></div>';
+    banner.innerHTML = '<div class="nudge-banner">🏛️ Ready to list your organization? <strong onclick="handleIntentBannerAction(\'org\')">Register your sabha</strong> to start planning concerts.<span class="nudge-close" onclick="dismissIntentBanner()">✕</span></div>';
   } else if (userIntent === 'artist') {
-    banner.innerHTML = '<div class="nudge-banner">🎤 Want to be discoverable? <strong onclick="handleIntentBannerAction()">Register as an artist</strong> to receive invitations.<span class="nudge-close" onclick="dismissIntentBanner()">✕</span></div>';
+    banner.innerHTML = '<div class="nudge-banner">🎤 Want to be discoverable? <strong onclick="handleIntentBannerAction(\'artist\')">Register as an artist</strong> to receive invitations.<span class="nudge-close" onclick="dismissIntentBanner()">✕</span></div>';
+  } else if (userIntent === 'both') {
+    banner.innerHTML = '<div class="nudge-banner">🏛️ Ready to list your organization? <strong onclick="handleIntentBannerAction(\'org\')">Register your sabha</strong> to start planning concerts.<span class="nudge-close" onclick="dismissIntentBanner()">✕</span></div>' +
+      '<div class="nudge-banner" style="margin-top:8px">🎤 Want to be discoverable? <strong onclick="handleIntentBannerAction(\'artist\')">Register as an artist</strong> to receive invitations.<span class="nudge-close" onclick="dismissIntentBanner()">✕</span></div>';
   }
   banner.style.display = '';
 }

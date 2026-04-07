@@ -281,6 +281,15 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 /* Nudge banner on Explore */
 .nudge-banner { background:var(--gray-50); border:1px solid var(--gray-200); border-left:3px solid var(--black); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:14px; font-size:13px; color:var(--gray-600); display:flex; align-items:center; gap:8px; }
 .nudge-banner strong { color:var(--black); cursor:pointer; text-decoration:underline; }
+
+/* User type toggle in bottom nav */
+.user-toggle { display:flex; justify-content:center; padding:0 20px 4px; background:var(--white); }
+.user-toggle-inner { display:flex; background:var(--gray-100); border-radius:20px; padding:2px; }
+.ut-btn { padding:5px 14px; border-radius:18px; font-size:11px; font-weight:600; cursor:pointer; color:var(--gray-600); }
+.ut-btn.active { background:var(--black); color:var(--white); }
+
+/* Following tag on event cards */
+.follow-tag { display:inline-block; font-size:9px; font-weight:700; color:var(--gray-500); background:var(--gray-100); padding:2px 6px; border-radius:4px; margin-top:3px; }
 .nudge-close { margin-left:auto; cursor:pointer; color:var(--gray-400); font-size:16px; flex-shrink:0; }
 .nudge-close:hover { color:var(--gray-600); }
 
@@ -533,6 +542,61 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     </div>
   </div>
   <div id="exploreNav"></div>
+</div>
+
+<!-- EXPLORE REPEAT USER -->
+<div id="exploreRepeat" class="screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div class="header">
+    <div>
+      <div class="logo">Sabhalog</div>
+      <div class="city-pick" onclick="openCitySheet()" style="display:inline-flex;align-items:center;gap:4px;padding:2px 0;font-size:13px;font-weight:600;cursor:pointer;color:var(--gray-600)">📍 <span>Chennai</span> ▾</div>
+    </div>
+    <div class="header-icons">
+      <div class="h-icon" onclick="nav('notifications')">🔔<div class="dot" style="background:var(--black)"></div></div>
+      <div class="h-icon" onclick="handleSave('saved')">♡</div>
+      <div class="h-icon" onclick="nav('profile')">👤</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="search" onclick="nav('search')">🔍 Search events, orgs, artists...</div>
+
+    <!-- Your Saved Events -->
+    <div class="sec-header" style="margin-top:8px"><div class="sec-title">Your Saved Events</div><div class="sec-link" onclick="nav('saved')">See all →</div></div>
+    <div class="carousel">
+      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Mar 27 · 7 PM</div><div class="c-name">Sitaristique</div><div class="c-sub">Ranjani & Gayatri · Vocal</div><div class="c-meta">SIFA · Chennai</div></div></div>
+      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Apr 5 · 7 PM</div><div class="c-name">Aham Pravahini</div><div class="c-sub">Abhishek Raghuram · Vocal</div><div class="c-meta">Cleveland Aradhana</div></div></div>
+      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Apr 12 · 7 PM</div><div class="c-name">Enchantment</div><div class="c-sub">Vedanth Bharadwaj · Violin</div><div class="c-meta">FAAA · Phoenix</div></div></div>
+    </div>
+
+    <!-- Happening This Week (followed orgs/artists surfaced first) -->
+    <div class="sec-header">
+      <div class="sec-title">Happening This Week</div>
+      <div class="sec-link" onclick="nav('events')">See all →</div>
+    </div>
+    <div class="carousel">
+      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Mar 27 · 7 PM</div><div class="c-name">Sitaristique</div><div class="c-sub">Ranjani & Gayatri · Vocal</div><div class="c-meta">SIFA · Chennai</div><div class="follow-tag">Following SIFA</div></div></div>
+      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Mar 28 · 6 PM</div><div class="c-name">SIFA Spring Concert</div><div class="c-sub">Shobana · Bharatanatyam</div><div class="c-meta">Charsur Arts · Chennai</div><div class="follow-tag">Following Shobana</div></div></div>
+      <div class="c-card" onclick="nav('eventDetail')"><div class="c-img">♪</div><div class="c-body"><div class="c-date">Mar 29 · 7 PM</div><div class="c-name">Navarathri Evening</div><div class="c-sub">Sanjay Subrahmanyan · Vocal</div><div class="c-meta">Music Academy · Chennai</div></div></div>
+    </div>
+
+    <!-- Discover New Artists -->
+    <div class="sec-header"><div class="sec-title">Discover New Artists</div><div class="sec-link" onclick="nav('artistList')">See all →</div></div>
+    <div class="carousel">
+      <div class="c-card" onclick="nav('artistProfile')"><div class="c-img">●</div><div class="c-body"><div class="c-name">T.M. Krishna</div><div class="c-sub">Karnatic · Vocal</div><div class="c-meta">Chennai</div></div></div>
+      <div class="c-card" onclick="nav('artistProfile')"><div class="c-img">●</div><div class="c-body"><div class="c-name">Bombay Jayashri</div><div class="c-sub">Karnatic · Vocal</div><div class="c-meta">Mumbai</div></div></div>
+      <div class="c-card" onclick="nav('artistProfile')"><div class="c-img">●</div><div class="c-body"><div class="c-name">Sanjay Subrahmanyan</div><div class="c-sub">Karnatic · Vocal</div><div class="c-meta">Chennai</div></div></div>
+    </div>
+
+    <!-- Discover New Orgs -->
+    <div class="sec-header"><div class="sec-title">Discover New Orgs</div><div class="sec-link" onclick="nav('orgList')">See all →</div></div>
+    <div class="carousel">
+      <div class="c-card" onclick="nav('orgProfile')"><div class="c-img">▣</div><div class="c-body"><div class="c-name">Narada Gana Sabha</div><div class="c-sub">Chennai</div><div class="c-meta">9 upcoming</div></div></div>
+      <div class="c-card" onclick="nav('orgProfile')"><div class="c-img">▣</div><div class="c-body"><div class="c-name">Sri Parthasarathy Swami Sabha</div><div class="c-sub">Chennai</div><div class="c-meta">6 upcoming</div></div></div>
+      <div class="c-card" onclick="nav('orgProfile')"><div class="c-img">▣</div><div class="c-body"><div class="c-name">Shanmukhananda Sabha</div><div class="c-sub">Mumbai</div><div class="c-meta">4 upcoming</div></div></div>
+    </div>
+  </div>
+  <div id="exploreRepeatNav"></div>
 </div>
 
 <!-- SEARCH -->
@@ -2187,6 +2251,7 @@ let onboardingDone = false;
 let userIntent = null;         // 'explore' | 'org' | 'artist'
 let intentBannerDismissed = false;
 let pendingAction = null;
+let isRepeatUser = false;      // toggle between new/repeat user Explore views
 
 function nav(id) {
   hist.push(cur);
@@ -2302,37 +2367,61 @@ function renderIntentBanner() {
 // Build bottom nav HTML based on current role — Profile in header
 function getNavHTML(activeTab) {
   let tabs = [];
+  let exploreId = isRepeatUser ? 'exploreRepeat' : 'explore';
   if (role === 'general') {
     tabs = [
-      { id:'explore', icon:'◎', label:'Explore' }
+      { id: exploreId, icon:'◎', label:'Explore' }
     ];
   } else if (role === 'org') {
     tabs = [
       { id:'myorg', icon:'▣', label:'My Org' },
-      { id:'explore', icon:'◎', label:'Explore' }
+      { id: exploreId, icon:'◎', label:'Explore' }
     ];
   } else if (role === 'artist') {
     tabs = [
       { id:'artistInvites', icon:'✉', label:'Invites', badge:'2' },
       { id:'artistSchedule', icon:'▦', label:'Schedule' },
-      { id:'explore', icon:'◎', label:'Explore' }
+      { id: exploreId, icon:'◎', label:'Explore' }
     ];
   } else if (role === 'admin') {
     tabs = [
       { id:'adminDash', icon:'⚙', label:'Admin', badge:'5' },
-      { id:'explore', icon:'◎', label:'Explore' }
+      { id: exploreId, icon:'◎', label:'Explore' }
     ];
   }
-  return '<div class="bottom-nav">' + tabs.map(t => {
-    let cls = (t.id === activeTab) ? 'nav-tab active' : 'nav-tab';
+  // Normalize activeTab for highlight (both explore screens highlight Explore)
+  let normalizedActive = (activeTab === 'explore' || activeTab === 'exploreRepeat') ? exploreId : activeTab;
+  let html = '<div class="bottom-nav">' + tabs.map(t => {
+    let cls = (t.id === normalizedActive) ? 'nav-tab active' : 'nav-tab';
     let badge = t.badge ? `<div class="nbadge">${t.badge}</div>` : '';
     return `<div class="${cls}" onclick="nav('${t.id}')"><div class="ni">${t.icon}</div>${t.label}${badge}</div>`;
   }).join('') + '</div>';
+  // Add toggle for general role
+  if (role === 'general') {
+    let newCls = isRepeatUser ? '' : ' active';
+    let repCls = isRepeatUser ? ' active' : '';
+    html += '<div class="user-toggle"><div class="user-toggle-inner">' +
+      '<div class="ut-btn' + newCls + '" onclick="toggleUserType(false)">New User</div>' +
+      '<div class="ut-btn' + repCls + '" onclick="toggleUserType(true)">Repeat User</div>' +
+      '</div></div>';
+  }
+  return html;
+}
+
+function toggleUserType(repeat) {
+  if (isRepeatUser === repeat) return;
+  isRepeatUser = repeat;
+  var target = repeat ? 'exploreRepeat' : 'explore';
+  // Replace in history instead of pushing
+  hist = hist.map(h => (h === 'explore' || h === 'exploreRepeat') ? target : h);
+  cur = target;
+  show(target);
 }
 
 function renderNavs() {
   const navMap = {
     'explore': 'exploreNav',
+    'exploreRepeat': 'exploreRepeatNav',
     'myorg': 'myorgNav',
     'artistInvites': 'artistInvitesNav',
     'artistSchedule': 'artistScheduleNav',

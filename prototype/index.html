@@ -256,6 +256,48 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 .sp-btn { padding:16px 52px; background:var(--white); color:var(--black); border:none; border-radius:30px; font-size:16px; font-weight:700; cursor:pointer; }
 .sp-btn:hover { opacity:0.9; }
 
+/* Onboarding intro cards */
+.ob-screen { background:var(--black); color:var(--white); justify-content:center; align-items:center; text-align:center; padding:40px 30px; }
+.ob-dots { display:flex; gap:8px; justify-content:center; margin-bottom:40px; }
+.ob-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.3); }
+.ob-dot.active { background:var(--white); }
+.ob-icon { font-size:56px; margin-bottom:24px; }
+.ob-title { font-size:24px; font-weight:800; letter-spacing:-0.5px; margin-bottom:12px; }
+.ob-sub { font-size:15px; opacity:0.5; line-height:1.5; max-width:280px; margin:0 auto 50px; }
+.ob-skip { position:absolute; top:60px; right:28px; font-size:14px; opacity:0.4; cursor:pointer; }
+.ob-skip:hover { opacity:0.7; }
+
+/* Intent question */
+.intent-screen { justify-content:center; padding:40px 24px; }
+.intent-heading { font-size:24px; font-weight:800; letter-spacing:-0.5px; margin-bottom:6px; }
+.intent-sub { font-size:14px; color:var(--gray-500); margin-bottom:32px; }
+.intent-card { border:1.5px solid var(--gray-200); border-radius:var(--radius); padding:18px 16px; margin-bottom:10px; cursor:pointer; display:flex; align-items:center; gap:14px; }
+.intent-card:hover { border-color:var(--gray-400); background:var(--gray-50); }
+.intent-card:active { background:var(--gray-100); }
+.intent-icon { font-size:22px; width:44px; height:44px; border-radius:50%; background:var(--gray-100); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.intent-title { font-size:15px; font-weight:700; }
+.intent-desc { font-size:12px; color:var(--gray-500); margin-top:2px; }
+
+/* Nudge banner on Explore */
+.nudge-banner { background:var(--gray-50); border:1px solid var(--gray-200); border-left:3px solid var(--black); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:14px; font-size:13px; color:var(--gray-600); display:flex; align-items:center; gap:8px; }
+.nudge-banner strong { color:var(--black); cursor:pointer; text-decoration:underline; }
+.nudge-close { margin-left:auto; cursor:pointer; color:var(--gray-400); font-size:16px; flex-shrink:0; }
+.nudge-close:hover { color:var(--gray-600); }
+
+/* Login sheet */
+.login-title { font-size:18px; font-weight:800; margin-bottom:6px; }
+.login-sub { font-size:13px; color:var(--gray-500); margin-bottom:20px; line-height:1.5; }
+.login-divider { display:flex; align-items:center; gap:12px; margin:16px 0; font-size:12px; color:var(--gray-400); }
+.login-divider::before, .login-divider::after { content:''; flex:1; height:1px; background:var(--gray-200); }
+.login-skip { text-align:center; margin-top:12px; font-size:13px; color:var(--gray-500); cursor:pointer; text-decoration:underline; }
+.login-skip:hover { color:var(--gray-700); }
+
+/* Logged-out profile */
+.profile-logged-out { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; flex:1; padding:40px; }
+.profile-logged-out .plo-icon { font-size:48px; margin-bottom:16px; }
+.profile-logged-out .plo-title { font-size:18px; font-weight:700; margin-bottom:6px; }
+.profile-logged-out .plo-sub { font-size:13px; color:var(--gray-500); margin-bottom:24px; line-height:1.5; max-width:240px; }
+
 /* Confirmation */
 .conf { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; flex:1; padding:40px; }
 .conf-icon { font-size:48px; margin-bottom:14px; }
@@ -372,12 +414,61 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <body>
 <div id="phone">
 
-<!-- SPLASH -->
+<!-- SPLASH (auto-routes after 0.8s) -->
 <div id="splash" class="screen active">
   <div>
     <div class="sp-logo">Sabhalog</div>
     <div class="sp-tag">Connect.<br>Schedule.<br>Gather.</div>
-    <button class="sp-btn" onclick="nav(role==='org'?'myorg':role==='artist'?'artistInvites':'explore')">Get Started →</button>
+  </div>
+</div>
+
+<!-- ONBOARDING CARD 1 -->
+<div id="onboard1" class="screen ob-screen">
+  <div class="ob-skip" onclick="nav('onboardIntent')">Skip</div>
+  <div class="ob-dots"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+  <div class="ob-icon">🎶</div>
+  <div class="ob-title">Discover Classical Music, Live</div>
+  <div class="ob-sub">Browse upcoming Karnatic, Hindustani, and dance concerts near you — across India and the diaspora.</div>
+  <button class="sp-btn" onclick="nav('onboard2')">Next →</button>
+</div>
+
+<!-- ONBOARDING CARD 2 -->
+<div id="onboard2" class="screen ob-screen">
+  <div class="ob-skip" onclick="nav('onboardIntent')">Skip</div>
+  <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot active"></div><div class="ob-dot"></div></div>
+  <div class="ob-icon">🏛️</div>
+  <div class="ob-title">For Sabhas & Organizers</div>
+  <div class="ob-sub">Plan concert series, invite artists, and manage your season — all in one place.</div>
+  <button class="sp-btn" onclick="nav('onboard3')">Next →</button>
+</div>
+
+<!-- ONBOARDING CARD 3 -->
+<div id="onboard3" class="screen ob-screen">
+  <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div></div>
+  <div class="ob-icon">🎤</div>
+  <div class="ob-title">For Performing Artists</div>
+  <div class="ob-sub">Receive invitations, manage your schedule, and be discoverable by organizers worldwide.</div>
+  <button class="sp-btn" onclick="nav('onboardIntent')">Get Started →</button>
+</div>
+
+<!-- INTENT QUESTION -->
+<div id="onboardIntent" class="screen intent-screen">
+  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 4px;">
+    <div class="intent-heading">How do you plan to use Sabhalog?</div>
+    <div class="intent-sub">You can always change this later.</div>
+    <div class="intent-card" onclick="pickIntent('explore')">
+      <div class="intent-icon">◎</div>
+      <div><div class="intent-title">Explore concerts & events</div><div class="intent-desc">Browse, discover, and save upcoming performances</div></div>
+    </div>
+    <div class="intent-card" onclick="pickIntent('org')">
+      <div class="intent-icon">▣</div>
+      <div><div class="intent-title">I organize concerts</div><div class="intent-desc">Plan series, invite artists, manage your sabha</div></div>
+    </div>
+    <div class="intent-card" onclick="pickIntent('artist')">
+      <div class="intent-icon">●</div>
+      <div><div class="intent-title">I'm a performing artist</div><div class="intent-desc">Get discovered, receive invites, manage your schedule</div></div>
+    </div>
   </div>
 </div>
 
@@ -391,12 +482,15 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     </div>
     <div class="header-icons">
       <div class="h-icon" onclick="nav('notifications')">🔔<div class="dot" style="background:var(--black)"></div></div>
-      <div class="h-icon" onclick="nav('saved')">♡</div>
+      <div class="h-icon" onclick="handleSave('saved')">♡</div>
       <div class="h-icon" onclick="nav('profile')">👤</div>
     </div>
   </div>
   <div class="content">
     <div class="search" onclick="nav('search')">🔍 Search events, orgs, artists...</div>
+
+    <!-- Intent nudge banner (shown for org/artist intent users) -->
+    <div id="intentBanner" style="display:none"></div>
 
     <!-- Browse by Genre -->
     <div class="sec-header" style="margin-top:8px"><div class="sec-title">Browse by Genre</div></div>
@@ -509,18 +603,18 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
       <div class="pill" onclick="evFilter('Comedy',this)" id="evf-Comedy">Comedy</div>
     </div>
     <div class="ev-grid" id="evGrid">
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎻<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Cleveland Aradhana Opening</div><div class="ev-date">Tue, Apr 1 · 5:00 PM</div><div class="ev-meta">Cleveland Aradhana · Cleveland</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎻<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Enchantment</div><div class="ev-date">Sat, Apr 12 · 7:00 PM</div><div class="ev-meta">FAAA · Phoenix</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎻<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Violin Evening</div><div class="ev-date">Sat, May 3 · 7:00 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Sitaristique</div><div class="ev-date">Thu, Mar 27 · 7:00 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Navarathri Evening</div><div class="ev-date">Sat, Mar 29 · 7:00 PM</div><div class="ev-meta">Music Academy · Chennai</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Evening Raaga</div><div class="ev-date">Thu, Apr 2 · 6:00 PM</div><div class="ev-meta">Cleveland Aradhana · Cleveland</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🪈<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">FAAA Spring Kickoff</div><div class="ev-date">Sat, Apr 5 · 7:00 PM</div><div class="ev-meta">FAAA · Phoenix</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">💃<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">SIFA Spring Concert</div><div class="ev-date">Sat, Mar 28 · 6:00 PM</div><div class="ev-meta">Charsur Arts · Chennai</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Naada Vaibhavam</div><div class="ev-date">Sat, Apr 18 · 6:30 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Spring Concert Series</div><div class="ev-date">Thu, May 14 · 6:00 PM</div><div class="ev-meta">FAAA · Phoenix</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🪈<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Bamboo Breeze</div><div class="ev-date">Wed, May 20 · 6:00 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
-      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">💃<span class="ev-bkmk">♡</span></div><div class="ev-info"><div class="ev-title">Nritya Sangamam</div><div class="ev-date">Wed, Apr 22 · 7:00 PM</div><div class="ev-meta">Narada Gana Sabha · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎻<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">Cleveland Aradhana Opening</div><div class="ev-date">Tue, Apr 1 · 5:00 PM</div><div class="ev-meta">Cleveland Aradhana · Cleveland</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎻<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">Enchantment</div><div class="ev-date">Sat, Apr 12 · 7:00 PM</div><div class="ev-meta">FAAA · Phoenix</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎻<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">Violin Evening</div><div class="ev-date">Sat, May 3 · 7:00 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">Sitaristique</div><div class="ev-date">Thu, Mar 27 · 7:00 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">Navarathri Evening</div><div class="ev-date">Sat, Mar 29 · 7:00 PM</div><div class="ev-meta">Music Academy · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">Evening Raaga</div><div class="ev-date">Thu, Apr 2 · 6:00 PM</div><div class="ev-meta">Cleveland Aradhana · Cleveland</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🪈<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">FAAA Spring Kickoff</div><div class="ev-date">Sat, Apr 5 · 7:00 PM</div><div class="ev-meta">FAAA · Phoenix</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">💃<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">SIFA Spring Concert</div><div class="ev-date">Sat, Mar 28 · 6:00 PM</div><div class="ev-meta">Charsur Arts · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">Naada Vaibhavam</div><div class="ev-date">Sat, Apr 18 · 6:30 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🎤<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">Spring Concert Series</div><div class="ev-date">Thu, May 14 · 6:00 PM</div><div class="ev-meta">FAAA · Phoenix</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">🪈<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">Bamboo Breeze</div><div class="ev-date">Wed, May 20 · 6:00 PM</div><div class="ev-meta">SIFA · Chennai</div></div></div>
+      <div class="ev-card" onclick="nav('eventDetail')"><div class="ev-img">💃<span class="ev-bkmk" onclick="event.stopPropagation();handleSave('bookmark')">♡</span></div><div class="ev-info"><div class="ev-title">Nritya Sangamam</div><div class="ev-date">Wed, Apr 22 · 7:00 PM</div><div class="ev-meta">Narada Gana Sabha · Chennai</div></div></div>
     </div>
   </div>
 </div>
@@ -564,7 +658,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- EVENT DETAIL -->
 <div id="eventDetail" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title"></div><div class="pg-right"><span>♡</span><span>↗</span></div></div>
+  <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title"></div><div class="pg-right"><span onclick="handleSave('bookmark')">♡</span><span>↗</span></div></div>
   <div class="content">
     <div style="padding:16px 0 14px;border-bottom:1px solid var(--gray-200)">
       <div class="cd-date" id="ed-date">Sat, Mar 27, 2026 · 7:00 – 9:00 PM</div>
@@ -577,7 +671,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="cd-desc" id="ed-desc">An enchanting evening of Karnatic classical music featuring the celebrated duo Ranjani & Gayatri, known for their soulful renditions. Part of SIFA's annual series celebrating 50 years of classical music.</div>
     <div class="cd-actions">
       <div class="cd-act">Add to Calendar</div>
-      <div class="cd-act">♡ Interested</div>
+      <div class="cd-act" onclick="handleSave('interested')">♡ Interested</div>
     </div>
   </div>
 </div>
@@ -623,7 +717,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- MY ORG -->
 <div id="myorg" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('saved')">♡</div><div class="h-icon" onclick="nav('profile')">👤</div></div></div>
+  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="handleSave('saved')">♡</div><div class="h-icon" onclick="nav('profile')">👤</div></div></div>
   <div class="content">
     <div class="sec-header" style="margin-top:0"><div class="sec-title">Needs Attention (3)</div></div>
     <div class="nf" onclick="nav('orgAcceptDetail')"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shobana Balachandra accepted</div><div class="nf-meta">May 14 · Spring Concert Series · 2h ago</div></div><div class="nf-arrow">→</div></div>
@@ -1100,7 +1194,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- ARTIST: INVITES -->
 <div id="artistInvites" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="nav('saved')">♡</div><div class="h-icon" onclick="openSheet()">👤</div></div></div>
+  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="handleSave('saved')">♡</div><div class="h-icon" onclick="openSheet()">👤</div></div></div>
   <div class="content">
     <div style="font-size:20px;font-weight:800;margin-bottom:14px">Invites (2)</div>
     <div class="inv" onclick="nav('artistInvDetail')"><div class="inv-org">Fine Arts Association of Arizona</div><div class="inv-series">Spring Concert Series 2026 · Phoenix, AZ</div><div class="inv-dates">Proposed: May 16 or May 18</div><div class="inv-msg">"Would love to have you perform..."</div><div class="inv-time">Received 2 hours ago</div></div>
@@ -1174,7 +1268,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <!-- ARTIST: SCHEDULE -->
 <div id="artistSchedule" class="screen">
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="nav('saved')">♡</div><div class="h-icon" onclick="openSheet()">👤</div></div></div>
+  <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="handleSave('saved')">♡</div><div class="h-icon" onclick="openSheet()">👤</div></div></div>
   <div class="content">
     <div style="font-size:20px;font-weight:800;margin-bottom:14px">My Performances</div>
 
@@ -1280,6 +1374,15 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="pg-header"><div class="back" onclick="goBack()">←</div><div class="pg-title">Profile</div></div>
   <div class="content">
+    <!-- Logged-out state -->
+    <div id="profileLoggedOut" class="profile-logged-out" style="display:none">
+      <div class="plo-icon">👤</div>
+      <div class="plo-title">Sign in to access your profile</div>
+      <div class="plo-sub">Save events, follow artists, register as an organizer or artist, and more.</div>
+      <button class="btn btn-p" onclick="showLoginSheet()">Sign In</button>
+    </div>
+    <!-- Logged-in state -->
+    <div id="profileLoggedIn">
     <div class="pf-sec"><div class="pf-name">Yogin Naidu</div><div class="pf-email">yogin@schoolcues.com</div></div>
 
     <!-- Role Switcher Dropdown (demo tool) -->
@@ -1415,6 +1518,7 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
     <div class="pf-sec pf-role" data-roles="admin">
       <div class="pf-link">Sign Out <span>→</span></div>
     </div>
+    </div><!-- /profileLoggedIn -->
   </div>
 </div>
 
@@ -2054,6 +2158,18 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="role-row" onclick="pickCity('New York, NY')"><div class="role-dot" id="city-newyork"></div><div class="role-body"><div class="role-title">New York, NY</div></div></div>
 </div>
 
+<!-- LOGIN SHEET -->
+<div id="loginOverlay" class="overlay" onclick="closeLoginSheet()"></div>
+<div id="loginSheet" class="bsheet">
+  <div class="bs-head"><div class="bs-title">Sign in</div><div class="bs-close" onclick="closeLoginSheet()">✕</div></div>
+  <div class="login-title">Sign in to save</div>
+  <div class="login-sub">Create a free account to bookmark events, follow artists, and get notified about concerts you care about.</div>
+  <button class="btn btn-p" style="width:100%;margin-bottom:8px" onclick="handleLogin()">Continue with Email</button>
+  <div class="login-divider">or</div>
+  <button class="btn btn-s" style="width:100%" onclick="handleLogin()">Continue with Google</button>
+  <div class="login-skip" onclick="closeLoginSheet()">Maybe later</div>
+</div>
+
 
 </div>
 
@@ -2061,6 +2177,13 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 let hist = [];
 let cur = 'splash';
 let role = 'general'; // 'general' | 'org' | 'artist'
+
+// Onboarding state
+let isLoggedIn = false;
+let onboardingDone = false;
+let userIntent = null;         // 'explore' | 'org' | 'artist'
+let intentBannerDismissed = false;
+let pendingAction = null;
 
 function nav(id) {
   hist.push(cur);
@@ -2076,7 +2199,98 @@ function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   renderNavs();
-  if (id === 'profile') switchProfileView(role);
+  if (id === 'profile') {
+    switchProfileView(role);
+    // Toggle logged-out vs logged-in profile
+    document.getElementById('profileLoggedOut').style.display = isLoggedIn ? 'none' : 'flex';
+    document.getElementById('profileLoggedIn').style.display = isLoggedIn ? '' : 'none';
+  }
+  if (id === 'explore') renderIntentBanner();
+}
+
+// --- Onboarding functions ---
+
+function pickIntent(intent) {
+  userIntent = intent;
+  onboardingDone = true;
+  role = 'general';
+  // Clear onboarding screens from history
+  hist = [];
+  cur = 'explore';
+  show('explore');
+}
+
+function showLoginSheet() {
+  document.getElementById('loginOverlay').classList.add('on');
+  document.getElementById('loginSheet').classList.add('on');
+}
+
+function closeLoginSheet() {
+  document.getElementById('loginOverlay').classList.remove('on');
+  document.getElementById('loginSheet').classList.remove('on');
+  pendingAction = null;
+}
+
+function handleLogin() {
+  isLoggedIn = true;
+  document.getElementById('loginOverlay').classList.remove('on');
+  document.getElementById('loginSheet').classList.remove('on');
+  // Execute pending action if any
+  if (pendingAction) {
+    let action = pendingAction;
+    pendingAction = null;
+    action();
+  }
+}
+
+function handleSave(action) {
+  if (!isLoggedIn) {
+    pendingAction = function() { handleSave(action); };
+    showLoginSheet();
+    return;
+  }
+  if (action === 'saved') nav('saved');
+  else if (action === 'bookmark') {
+    // Toggle heart visual (prototype only)
+    event.target.textContent = event.target.textContent === '♡' ? '♥' : '♡';
+  }
+  else if (action === 'interested') {
+    event.target.textContent = '✓ Saved';
+    event.target.style.opacity = '0.6';
+  }
+}
+
+function handleIntentBannerAction() {
+  if (!isLoggedIn) {
+    pendingAction = function() {
+      if (userIntent === 'org') nav('registerOrg');
+      else if (userIntent === 'artist') nav('registerArtist');
+    };
+    showLoginSheet();
+    return;
+  }
+  if (userIntent === 'org') nav('registerOrg');
+  else if (userIntent === 'artist') nav('registerArtist');
+}
+
+function dismissIntentBanner() {
+  intentBannerDismissed = true;
+  document.getElementById('intentBanner').style.display = 'none';
+}
+
+function renderIntentBanner() {
+  var banner = document.getElementById('intentBanner');
+  if (!banner) return;
+  if (intentBannerDismissed || !userIntent || userIntent === 'explore') {
+    banner.style.display = 'none';
+    return;
+  }
+  if (userIntent === 'org') {
+    banner.innerHTML = '<div class="nudge-banner">🏛️ Ready to list your organization? <strong onclick="handleIntentBannerAction()">Register your sabha</strong> to start planning concerts.<span class="nudge-close" onclick="dismissIntentBanner()">✕</span></div>';
+  } else if (userIntent === 'artist') {
+    banner.innerHTML = '<div class="nudge-banner">🎤 Want to be discoverable? <strong onclick="handleIntentBannerAction()">Register as an artist</strong> to receive invitations.<span class="nudge-close" onclick="dismissIntentBanner()">✕</span></div>';
+  }
+  banner.style.display = '';
 }
 
 // Build bottom nav HTML based on current role — Profile in header
@@ -2127,6 +2341,8 @@ function renderNavs() {
 // Switch role — called from Profile page role cards
 function switchRole(r) {
   role = r;
+  isLoggedIn = true; // switching role implies logged in (demo)
+  onboardingDone = true;
   renderNavs();
 }
 
@@ -2306,11 +2522,24 @@ function updateDateCount() {
 
 buildCal();
 
-// Init — default to org role for demo (user has both roles)
-role = 'org';
+// Init — start with onboarding flow
+role = 'general';
+isLoggedIn = false;
+onboardingDone = false;
 renderNavs();
-switchProfileView(role);
-// After splash, org lands on My Org; artist on Invites; general on Explore
+
+// Auto-route from splash after brief delay
+setTimeout(function() {
+  if (isLoggedIn && onboardingDone) {
+    // Returning logged-in user → role home
+    if (role === 'org') nav('myorg');
+    else if (role === 'artist') nav('artistInvites');
+    else nav('explore');
+  } else {
+    // First time → onboarding
+    nav('onboard1');
+  }
+}, 800);
 </script>
 </body>
 </html>

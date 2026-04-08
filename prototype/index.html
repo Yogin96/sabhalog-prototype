@@ -283,10 +283,11 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 .nudge-banner { background:var(--gray-50); border:1px solid var(--gray-200); border-left:3px solid var(--black); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:14px; font-size:13px; color:var(--gray-600); display:flex; align-items:center; gap:8px; }
 .nudge-banner strong { color:var(--black); cursor:pointer; text-decoration:underline; }
 
-/* User type toggle in bottom nav */
-.user-toggle { display:flex; justify-content:center; padding:4px 20px 0; }
-.user-toggle-inner { display:flex; background:var(--gray-100); border-radius:20px; padding:2px; }
-.ut-btn { padding:5px 14px; border-radius:18px; font-size:11px; font-weight:600; cursor:pointer; color:var(--gray-600); }
+/* Persona toggle in bottom nav */
+.user-toggle { overflow-x:auto; padding:4px 12px 0; -webkit-overflow-scrolling:touch; }
+.user-toggle::-webkit-scrollbar { display:none; }
+.user-toggle-inner { display:flex; gap:4px; background:var(--gray-100); border-radius:20px; padding:2px; width:max-content; }
+.ut-btn { padding:5px 10px; border-radius:18px; font-size:10px; font-weight:600; cursor:pointer; color:var(--gray-500); white-space:nowrap; }
 .ut-btn.active { background:var(--black); color:var(--white); }
 
 /* Following tag on event cards */
@@ -787,14 +788,30 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="handleSave('saved')">♡</div><div class="h-icon" onclick="nav('profile')">👤</div></div></div>
   <div class="content">
-    <div class="sec-header" style="margin-top:0"><div class="sec-title">Needs Attention (3)</div></div>
-    <div class="nf" onclick="nav('orgAcceptDetail')"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shobana Balachandra accepted</div><div class="nf-meta">May 14 · Spring Concert Series · 2h ago</div></div><div class="nf-arrow">→</div></div>
-    <div class="nf" onclick="nav('counterProposal')"><div class="nf-icon">↩</div><div class="nf-body"><div class="nf-title">Ranjani counter-proposed</div><div class="nf-meta">Spring Concert Series · "I'm available May 20..."</div></div><div class="nf-arrow">→</div></div>
-    <div class="nf" onclick="nav('seriesPlanner')"><div class="nf-icon">✗</div><div class="nf-body"><div class="nf-title">Abhishek Raghuram declined</div><div class="nf-meta">May 16 · Spring Concert Series · 1d ago</div></div><div class="nf-arrow">→</div></div>
-    <div class="sec-header"><div class="sec-title">My Series</div><div class="fab" onclick="nav('createSeries1')">+ Create</div></div>
-    <div class="sr" onclick="nav('seriesPlanner')"><div class="sr-top"><div class="sr-name">Spring Concert Series 2026</div><span class="sr-badge plan">Planning</span></div><div class="sr-stats"><span>8/11 confirmed</span><span class="sr-warn">⚠ 2 pending</span></div></div>
-    <div class="sr" onclick="nav('seriesPlanner')"><div class="sr-top"><div class="sr-name">Fall Season 2026</div><span class="sr-badge plan">Planning</span></div><div class="sr-stats"><span>0/8 confirmed</span></div></div>
-    <div class="sr" onclick="nav('publishedSeries')"><div class="sr-top"><div class="sr-name">Cleveland Aradhana 2026</div><span class="sr-badge pub">Published</span></div><div class="sr-stats"><span>12/12 confirmed</span></div></div>
+    <!-- Empty state for new org -->
+    <div id="myorgEmpty" style="display:none">
+      <div style="text-align:center;padding:60px 20px 20px">
+        <div style="font-size:48px;margin-bottom:16px">🏛️</div>
+        <div style="font-size:20px;font-weight:800;margin-bottom:8px">Welcome, Organizer!</div>
+        <div style="font-size:14px;color:var(--gray-500);line-height:1.5;margin-bottom:24px">You're one step away from managing your concerts on Sabhalog. Register your organization to start planning series and inviting artists.</div>
+        <button class="btn btn-p" style="width:100%;padding:14px" onclick="handleEmptyStateCTA('org')">Register Your Organization</button>
+      </div>
+      <div style="padding:0 20px">
+        <div style="font-size:13px;font-weight:700;margin:24px 0 10px">What you'll be able to do:</div>
+        <div style="font-size:13px;color:var(--gray-600);line-height:1.8">▣ Create and manage concert series<br>✉ Invite artists and manage bookings<br>📅 Plan your season with a series planner<br>📢 Publish events for your audience to discover</div>
+      </div>
+    </div>
+    <!-- Existing org dashboard -->
+    <div id="myorgFull">
+      <div class="sec-header" style="margin-top:0"><div class="sec-title">Needs Attention (3)</div></div>
+      <div class="nf" onclick="nav('orgAcceptDetail')"><div class="nf-icon">✓</div><div class="nf-body"><div class="nf-title">Shobana Balachandra accepted</div><div class="nf-meta">May 14 · Spring Concert Series · 2h ago</div></div><div class="nf-arrow">→</div></div>
+      <div class="nf" onclick="nav('counterProposal')"><div class="nf-icon">↩</div><div class="nf-body"><div class="nf-title">Ranjani counter-proposed</div><div class="nf-meta">Spring Concert Series · "I'm available May 20..."</div></div><div class="nf-arrow">→</div></div>
+      <div class="nf" onclick="nav('seriesPlanner')"><div class="nf-icon">✗</div><div class="nf-body"><div class="nf-title">Abhishek Raghuram declined</div><div class="nf-meta">May 16 · Spring Concert Series · 1d ago</div></div><div class="nf-arrow">→</div></div>
+      <div class="sec-header"><div class="sec-title">My Series</div><div class="fab" onclick="nav('createSeries1')">+ Create</div></div>
+      <div class="sr" onclick="nav('seriesPlanner')"><div class="sr-top"><div class="sr-name">Spring Concert Series 2026</div><span class="sr-badge plan">Planning</span></div><div class="sr-stats"><span>8/11 confirmed</span><span class="sr-warn">⚠ 2 pending</span></div></div>
+      <div class="sr" onclick="nav('seriesPlanner')"><div class="sr-top"><div class="sr-name">Fall Season 2026</div><span class="sr-badge plan">Planning</span></div><div class="sr-stats"><span>0/8 confirmed</span></div></div>
+      <div class="sr" onclick="nav('publishedSeries')"><div class="sr-top"><div class="sr-name">Cleveland Aradhana 2026</div><span class="sr-badge pub">Published</span></div><div class="sr-stats"><span>12/12 confirmed</span></div></div>
+    </div>
   </div>
   <div id="myorgNav"></div>
 </div>
@@ -1264,9 +1281,25 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
   <div class="header"><div class="logo">Sabhalog</div><div class="header-icons"><div class="h-icon" onclick="nav('search')">🔍</div><div class="h-icon" onclick="handleSave('saved')">♡</div><div class="h-icon" onclick="openSheet()">👤</div></div></div>
   <div class="content">
-    <div style="font-size:20px;font-weight:800;margin-bottom:14px">Invites (2)</div>
-    <div class="inv" onclick="nav('artistInvDetail')"><div class="inv-org">Fine Arts Association of Arizona</div><div class="inv-series">Spring Concert Series 2026 · Phoenix, AZ</div><div class="inv-dates">Proposed: May 16 or May 18</div><div class="inv-msg">"Would love to have you perform..."</div><div class="inv-time">Received 2 hours ago</div></div>
-    <div class="inv" onclick="nav('artistInvDetail')"><div class="inv-org">Charsur Arts Foundation</div><div class="inv-series">Monsoon Music Festival · Chennai</div><div class="inv-dates">Proposed: Jul 10</div><div class="inv-time">Received 1 day ago</div></div>
+    <!-- Empty state for new artist -->
+    <div id="artistEmpty" style="display:none">
+      <div style="text-align:center;padding:60px 20px 20px">
+        <div style="font-size:48px;margin-bottom:16px">🎤</div>
+        <div style="font-size:20px;font-weight:800;margin-bottom:8px">Welcome, Artist!</div>
+        <div style="font-size:14px;color:var(--gray-500);line-height:1.5;margin-bottom:24px">Set up your artist profile to start receiving invitations from organizers and make yourself discoverable to the classical music community.</div>
+        <button class="btn btn-p" style="width:100%;padding:14px" onclick="handleEmptyStateCTA('artist')">Create Artist Profile</button>
+      </div>
+      <div style="padding:0 20px">
+        <div style="font-size:13px;font-weight:700;margin:24px 0 10px">What you'll be able to do:</div>
+        <div style="font-size:13px;color:var(--gray-600);line-height:1.8">● Receive invitations from organizers<br>📅 Manage your performance schedule<br>↩ Suggest alternate dates for invites<br>🔍 Be discoverable to sabhas and music orgs</div>
+      </div>
+    </div>
+    <!-- Existing artist dashboard -->
+    <div id="artistFull">
+      <div style="font-size:20px;font-weight:800;margin-bottom:14px">Invites (2)</div>
+      <div class="inv" onclick="nav('artistInvDetail')"><div class="inv-org">Fine Arts Association of Arizona</div><div class="inv-series">Spring Concert Series 2026 · Phoenix, AZ</div><div class="inv-dates">Proposed: May 16 or May 18</div><div class="inv-msg">"Would love to have you perform..."</div><div class="inv-time">Received 2 hours ago</div></div>
+      <div class="inv" onclick="nav('artistInvDetail')"><div class="inv-org">Charsur Arts Foundation</div><div class="inv-series">Monsoon Music Festival · Chennai</div><div class="inv-dates">Proposed: Jul 10</div><div class="inv-time">Received 1 day ago</div></div>
+    </div>
   </div>
   <div id="artistInvitesNav"></div>
 </div>
@@ -2253,6 +2286,9 @@ let userIntent = null;         // 'explore' | 'org' | 'artist'
 let intentBannerDismissed = false;
 let pendingAction = null;
 let isRepeatUser = false;      // toggle between new/repeat user Explore views
+let isNewOrg = false;          // empty-state org dashboard
+let isNewArtist = false;       // empty-state artist dashboard
+let currentPersona = 'newUser'; // active persona for toggle highlight
 
 function nav(id) {
   hist.push(cur);
@@ -2270,11 +2306,21 @@ function show(id) {
   renderNavs();
   if (id === 'profile') {
     switchProfileView(role);
-    // Toggle logged-out vs logged-in profile
     document.getElementById('profileLoggedOut').style.display = isLoggedIn ? 'none' : 'flex';
     document.getElementById('profileLoggedIn').style.display = isLoggedIn ? '' : 'none';
   }
   if (id === 'explore') renderIntentBanner();
+  // Toggle empty vs full state for org/artist dashboards
+  if (id === 'myorg') {
+    var showEmpty = isNewOrg || !isLoggedIn && role === 'org';
+    document.getElementById('myorgEmpty').style.display = showEmpty ? '' : 'none';
+    document.getElementById('myorgFull').style.display = showEmpty ? 'none' : '';
+  }
+  if (id === 'artistInvites') {
+    var showEmpty = isNewArtist || !isLoggedIn && role === 'artist';
+    document.getElementById('artistEmpty').style.display = showEmpty ? '' : 'none';
+    document.getElementById('artistFull').style.display = showEmpty ? 'none' : '';
+  }
 }
 
 // --- Onboarding functions ---
@@ -2282,11 +2328,70 @@ function show(id) {
 function pickIntent(intent) {
   userIntent = intent;
   onboardingDone = true;
-  role = 'general';
-  // Clear onboarding screens from history
   hist = [];
-  cur = 'explore';
-  show('explore');
+  if (intent === 'org') {
+    role = 'org';
+    isNewOrg = true;
+    currentPersona = 'newOrg';
+    cur = 'myorg';
+    show('myorg');
+  } else if (intent === 'artist') {
+    role = 'artist';
+    isNewArtist = true;
+    currentPersona = 'newArtist';
+    cur = 'artistInvites';
+    show('artistInvites');
+  } else if (intent === 'both') {
+    role = 'org';
+    isNewOrg = true;
+    isNewArtist = true;
+    currentPersona = 'newOrg';
+    cur = 'myorg';
+    show('myorg');
+  } else {
+    role = 'general';
+    currentPersona = 'newUser';
+    cur = 'explore';
+    show('explore');
+  }
+}
+
+function handleEmptyStateCTA(type) {
+  if (!isLoggedIn) {
+    pendingAction = function() {
+      if (type === 'org') nav('registerOrg');
+      else if (type === 'artist') nav('registerArtist');
+    };
+    showLoginSheet();
+    return;
+  }
+  if (type === 'org') nav('registerOrg');
+  else if (type === 'artist') nav('registerArtist');
+}
+
+function switchPersona(persona) {
+  currentPersona = persona;
+  hist = [];
+  intentBannerDismissed = false;
+  if (persona === 'newUser') {
+    role = 'general'; isLoggedIn = false; isRepeatUser = false; isNewOrg = false; isNewArtist = false;
+    onboardingDone = true; cur = 'explore'; show('explore');
+  } else if (persona === 'repeatUser') {
+    role = 'general'; isLoggedIn = true; isRepeatUser = true; isNewOrg = false; isNewArtist = false;
+    onboardingDone = true; cur = 'exploreRepeat'; show('exploreRepeat');
+  } else if (persona === 'newOrg') {
+    role = 'org'; isLoggedIn = false; isRepeatUser = false; isNewOrg = true; isNewArtist = false;
+    onboardingDone = true; cur = 'myorg'; show('myorg');
+  } else if (persona === 'newArtist') {
+    role = 'artist'; isLoggedIn = false; isRepeatUser = false; isNewOrg = false; isNewArtist = true;
+    onboardingDone = true; cur = 'artistInvites'; show('artistInvites');
+  } else if (persona === 'org') {
+    role = 'org'; isLoggedIn = true; isRepeatUser = false; isNewOrg = false; isNewArtist = false;
+    onboardingDone = true; cur = 'myorg'; show('myorg');
+  } else if (persona === 'artist') {
+    role = 'artist'; isLoggedIn = true; isRepeatUser = false; isNewOrg = false; isNewArtist = false;
+    onboardingDone = true; cur = 'artistInvites'; show('artistInvites');
+  }
 }
 
 function showLoginSheet() {
@@ -2397,27 +2502,26 @@ function getNavHTML(activeTab) {
     let badge = t.badge ? `<div class="nbadge">${t.badge}</div>` : '';
     return `<div class="${cls}" onclick="nav('${t.id}')"><div class="ni">${t.icon}</div>${t.label}${badge}</div>`;
   }).join('');
-  // Add toggle for general role — inside the bottom-nav
-  let toggle = '';
-  if (role === 'general') {
-    let newCls = isRepeatUser ? '' : ' active';
-    let repCls = isRepeatUser ? ' active' : '';
-    toggle = '<div class="user-toggle"><div class="user-toggle-inner">' +
-      '<div class="ut-btn' + newCls + '" onclick="event.stopPropagation();toggleUserType(false)">New User</div>' +
-      '<div class="ut-btn' + repCls + '" onclick="event.stopPropagation();toggleUserType(true)">Repeat User</div>' +
-      '</div></div>';
-  }
+  // 6-persona toggle — visible on all screens
+  let personas = [
+    { id:'newUser', label:'New User' },
+    { id:'repeatUser', label:'Repeat User' },
+    { id:'newOrg', label:'New Org' },
+    { id:'newArtist', label:'New Artist' },
+    { id:'org', label:'Organizer' },
+    { id:'artist', label:'Artist' }
+  ];
+  let toggle = '<div class="user-toggle"><div class="user-toggle-inner">' +
+    personas.map(p => {
+      let cls = (p.id === currentPersona) ? 'ut-btn active' : 'ut-btn';
+      return '<div class="' + cls + '" onclick="event.stopPropagation();switchPersona(\'' + p.id + '\')">' + p.label + '</div>';
+    }).join('') +
+    '</div></div>';
   return '<div class="bottom-nav-wrap">' + '<div class="bottom-nav">' + navTabs + '</div>' + toggle + '</div>';
 }
 
 function toggleUserType(repeat) {
-  if (isRepeatUser === repeat) return;
-  isRepeatUser = repeat;
-  var target = repeat ? 'exploreRepeat' : 'explore';
-  // Replace in history instead of pushing
-  hist = hist.map(h => (h === 'explore' || h === 'exploreRepeat') ? target : h);
-  cur = target;
-  show(target);
+  switchPersona(repeat ? 'repeatUser' : 'newUser');
 }
 
 function renderNavs() {

@@ -1477,26 +1477,14 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
   <div class="content">
     <!-- Logged-out state -->
     <div id="profileLoggedOut" class="profile-logged-out" style="display:none">
-      <div class="plo-icon">👤</div>
-      <div class="plo-title">Sign in to access your profile</div>
-      <div class="plo-sub">Save events, follow artists, register as an organizer or artist, and more.</div>
+      <div class="plo-icon" id="ploIcon">👤</div>
+      <div class="plo-title" id="ploTitle">Sign in to access your profile</div>
+      <div class="plo-sub" id="ploSub">Save events, follow artists, register as an organizer or artist, and more.</div>
       <button class="btn btn-p" onclick="showLoginSheet()">Sign In</button>
     </div>
     <!-- Logged-in state -->
     <div id="profileLoggedIn">
     <div class="pf-sec"><div class="pf-name">Yogin Naidu</div><div class="pf-email">yogin@schoolcues.com</div></div>
-
-    <!-- Role Switcher Dropdown (demo tool) -->
-    <div class="pf-sec">
-      <div class="pf-label">Viewing Profile As</div>
-      <select id="profileRoleSelect" onchange="switchProfileView(this.value)" style="width:100%;padding:12px 14px;font-size:14px;font-weight:700;border:2px solid var(--gray-900);border-radius:var(--radius);background:#fff;color:var(--gray-900);cursor:pointer;appearance:auto">
-        <option value="general">◎ General User</option>
-        <option value="org">▣ Org Admin — Fine Arts Association of AZ</option>
-        <option value="artist">● Artist — Yogin Naidu · Vocal</option>
-        <option value="admin">⚙ Admin</option>
-      </select>
-      <div class="demo-label">Demo tool — in production, role is set by account state</div>
-    </div>
 
     <!-- GENERAL: Register as Artist -->
     <div class="pf-role" data-roles="general">
@@ -2308,6 +2296,7 @@ function show(id) {
     switchProfileView(role);
     document.getElementById('profileLoggedOut').style.display = isLoggedIn ? 'none' : 'flex';
     document.getElementById('profileLoggedIn').style.display = isLoggedIn ? '' : 'none';
+    if (!isLoggedIn) renderProfileLoggedOut();
   }
   if (id === 'explore') renderIntentBanner();
   // Toggle empty vs full state for org/artist dashboards
@@ -2320,6 +2309,26 @@ function show(id) {
     var showEmpty = isNewArtist || !isLoggedIn && role === 'artist';
     document.getElementById('artistEmpty').style.display = showEmpty ? '' : 'none';
     document.getElementById('artistFull').style.display = showEmpty ? 'none' : '';
+  }
+}
+
+function renderProfileLoggedOut() {
+  var icon = document.getElementById('ploIcon');
+  var title = document.getElementById('ploTitle');
+  var sub = document.getElementById('ploSub');
+  if (!icon || !title || !sub) return;
+  if (role === 'org') {
+    icon.textContent = '🏛️';
+    title.textContent = 'Sign in to register your organization';
+    sub.textContent = 'Create your sabha profile, plan concert series, and invite artists.';
+  } else if (role === 'artist') {
+    icon.textContent = '🎤';
+    title.textContent = 'Sign in to create your artist profile';
+    sub.textContent = 'Set up your profile to receive invitations and be discoverable.';
+  } else {
+    icon.textContent = '👤';
+    title.textContent = 'Sign in to access your profile';
+    sub.textContent = 'Save events, follow artists, register as an organizer or artist, and more.';
   }
 }
 
@@ -2554,9 +2563,6 @@ function switchProfileView(r) {
     const roles = sec.getAttribute('data-roles').split(' ');
     sec.style.display = roles.includes(r) ? '' : 'none';
   });
-  // Sync dropdown
-  const sel = document.getElementById('profileRoleSelect');
-  if (sel) sel.value = r;
 }
 
 function setPill(el) { el.parentElement.querySelectorAll('.pill').forEach(p => p.classList.remove('on')); el.classList.add('on'); }

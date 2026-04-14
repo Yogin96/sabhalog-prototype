@@ -250,34 +250,53 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 /* Demo label */
 .demo-label { font-size:10px; color:var(--gray-400); font-style:italic; text-align:center; margin-top:6px; }
 
+/* Terracotta accent color */
+:root { --terra: #C4541A; --terra-light: #F9F0EB; --terra-mid: #E8D5C8; }
+
 /* Splash */
-#splash { background:var(--black); color:var(--white); justify-content:center; align-items:center; text-align:center; }
-.sp-logo { font-size:44px; font-weight:800; letter-spacing:-2px; margin-bottom:20px; }
-.sp-tag { font-size:18px; opacity:0.5; margin-bottom:60px; line-height:1.6; }
-.sp-btn { padding:16px 52px; background:var(--white); color:var(--black); border:none; border-radius:30px; font-size:16px; font-weight:700; cursor:pointer; }
+#splash { background:var(--terra-light); color:var(--black); justify-content:center; align-items:center; text-align:center; }
+.sp-logo { font-size:48px; font-weight:800; font-style:italic; letter-spacing:-1px; margin-bottom:8px; color:var(--terra); font-family:Georgia,'Times New Roman',serif; }
+.sp-tag { font-size:14px; color:var(--terra); opacity:0.6; margin-bottom:60px; line-height:1.6; font-style:italic; }
+.sp-btn { padding:16px 52px; background:var(--terra); color:var(--white); border:none; border-radius:30px; font-size:16px; font-weight:700; cursor:pointer; }
 .sp-btn:hover { opacity:0.9; }
 
 /* Onboarding intro cards */
-.ob-screen { background:var(--black); color:var(--white); justify-content:center; align-items:center; text-align:center; padding:40px 30px; }
-.ob-dots { display:flex; gap:8px; justify-content:center; margin-bottom:40px; }
-.ob-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.3); }
-.ob-dot.active { background:var(--white); }
-.ob-icon { font-size:56px; margin-bottom:24px; }
-.ob-title { font-size:24px; font-weight:800; letter-spacing:-0.5px; margin-bottom:12px; }
-.ob-sub { font-size:15px; opacity:0.5; line-height:1.5; max-width:280px; margin:0 auto 50px; }
-.ob-skip { position:absolute; top:60px; right:28px; font-size:14px; opacity:0.4; cursor:pointer; }
+.ob-screen { background:var(--white); color:var(--black); justify-content:flex-end; align-items:center; text-align:left; padding:0 30px 40px; position:relative; }
+.ob-visual { flex:1; display:flex; align-items:center; justify-content:center; width:100%; position:relative; padding-top:70px; }
+.ob-bottom { width:100%; padding:0; }
+.ob-dots { display:flex; gap:8px; margin:20px 0 16px; }
+.ob-dot { width:24px; height:6px; border-radius:3px; background:var(--terra-mid); }
+.ob-dot.active { background:var(--terra); }
+.ob-title { font-size:26px; font-weight:800; font-style:italic; letter-spacing:-0.5px; margin-bottom:8px; color:var(--terra); font-family:Georgia,'Times New Roman',serif; line-height:1.2; }
+.ob-sub { font-size:14px; color:var(--gray-600); line-height:1.5; margin-bottom:24px; }
+.ob-next { width:100%; padding:16px; background:var(--terra); color:var(--white); border:none; border-radius:var(--radius); font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; }
+.ob-next:hover { opacity:0.9; }
+.ob-skip { position:absolute; top:60px; right:28px; font-size:13px; color:var(--terra); cursor:pointer; font-weight:600; z-index:2; }
 .ob-skip:hover { opacity:0.7; }
 
-/* Intent question */
-.intent-screen { justify-content:center; padding:40px 24px; }
-.intent-heading { font-size:24px; font-weight:800; letter-spacing:-0.5px; margin-bottom:6px; }
-.intent-sub { font-size:14px; color:var(--gray-500); margin-bottom:32px; }
-.intent-card { border:1.5px solid var(--gray-200); border-radius:var(--radius); padding:18px 16px; margin-bottom:10px; cursor:pointer; display:flex; align-items:center; gap:14px; }
-.intent-card:hover { border-color:var(--gray-400); background:var(--gray-50); }
-.intent-card:active { background:var(--gray-100); }
-.intent-icon { font-size:22px; width:44px; height:44px; border-radius:50%; background:var(--gray-100); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.intent-title { font-size:15px; font-weight:700; }
-.intent-desc { font-size:12px; color:var(--gray-500); margin-top:2px; }
+/* Orbit illustration */
+.orbit-wrap { position:relative; width:240px; height:240px; }
+.orbit-ring { position:absolute; top:0; left:0; width:100%; height:100%; border:1.5px dashed var(--terra-mid); border-radius:50%; }
+.orbit-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:64px; height:64px; border-radius:50%; background:var(--terra); display:flex; align-items:center; justify-content:center; font-size:24px; color:var(--white); z-index:2; }
+.orbit-node { position:absolute; width:40px; height:40px; border-radius:50%; background:var(--terra-light); border:2px solid var(--terra-mid); display:flex; align-items:center; justify-content:center; font-size:14px; z-index:2; }
+.orbit-node.photo { background:var(--terra-mid); font-size:16px; }
+.orbit-node.icon { background:var(--white); border-color:var(--terra); font-size:16px; }
+/* Floating music notes */
+.ob-note { position:absolute; font-size:18px; color:var(--terra); opacity:0.3; }
+
+/* Intent question — redesigned */
+.intent-screen { background:var(--white); justify-content:center; padding:40px 28px; }
+.intent-heading { font-size:28px; font-weight:800; font-style:italic; letter-spacing:-0.5px; margin-bottom:4px; color:var(--terra); font-family:Georgia,'Times New Roman',serif; }
+.intent-sub { font-size:14px; color:var(--gray-500); margin-bottom:28px; }
+.intent-q { font-size:14px; font-weight:600; color:var(--gray-700); margin-bottom:16px; }
+.intent-option { display:flex; align-items:flex-start; gap:12px; padding:14px 0; border-bottom:1px solid var(--gray-100); cursor:pointer; }
+.intent-option:last-of-type { border-bottom:none; }
+.intent-option:hover .intent-radio { border-color:var(--terra); }
+.intent-radio { width:20px; height:20px; border-radius:50%; border:2px solid var(--gray-300); flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; }
+.intent-option.selected .intent-radio { border-color:var(--terra); }
+.intent-option.selected .intent-radio::after { content:''; width:10px; height:10px; border-radius:50%; background:var(--terra); }
+.intent-option-title { font-size:15px; font-weight:700; }
+.intent-option-desc { font-size:12px; color:var(--gray-500); margin-top:2px; }
 
 /* Nudge banner on Explore */
 .nudge-banner { background:var(--gray-50); border:1px solid var(--gray-200); border-left:3px solid var(--black); border-radius:var(--radius-sm); padding:12px 14px; margin-bottom:14px; font-size:13px; color:var(--gray-600); display:flex; align-items:center; gap:8px; }
@@ -425,64 +444,110 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif
 <body>
 <div id="phone">
 
-<!-- SPLASH (auto-routes after 0.8s) -->
+<!-- SPLASH -->
 <div id="splash" class="screen active">
   <div>
+    <div style="font-size:20px;color:var(--terra);opacity:0.3;margin-bottom:20px">♪ &nbsp; ♫</div>
     <div class="sp-logo">Sabhalog</div>
-    <div class="sp-tag">Connect.<br>Schedule.<br>Gather.</div>
+    <div class="sp-tag">Connect &middot; Gather &middot; Schedule</div>
   </div>
 </div>
 
-<!-- ONBOARDING CARD 1 -->
+<!-- ONBOARDING CARD 1: Discover -->
 <div id="onboard1" class="screen ob-screen">
-  <div class="ob-skip" onclick="nav('onboardIntent')">Skip</div>
-  <div class="ob-dots"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
-  <div class="ob-icon">🎶</div>
-  <div class="ob-title">Discover Classical Music, Live</div>
-  <div class="ob-sub">Browse upcoming Karnatic, Hindustani, and dance concerts near you — across India and the diaspora.</div>
-  <button class="sp-btn" onclick="nav('onboard2')">Next →</button>
+  <div class="ob-skip" onclick="nav('onboardIntent')">Skip Intro &rsaquo;</div>
+  <div class="ob-visual">
+    <div class="ob-note" style="top:20px;left:30px">&#119070;</div>
+    <div class="ob-note" style="top:40px;right:60px">&#9835;</div>
+    <div class="ob-note" style="bottom:30px;right:30px">&#9834;</div>
+    <div class="orbit-wrap">
+      <div class="orbit-ring"></div>
+      <div class="orbit-center">🔍</div>
+      <div class="orbit-node" style="top:-10px;left:50%;transform:translateX(-50%)">🎵</div>
+      <div class="orbit-node" style="top:25%;right:-10px">🎻</div>
+      <div class="orbit-node" style="bottom:25%;right:-10px">💃</div>
+      <div class="orbit-node" style="bottom:-10px;left:50%;transform:translateX(-50%)">🪈</div>
+      <div class="orbit-node" style="bottom:25%;left:-10px">🎤</div>
+      <div class="orbit-node" style="top:25%;left:-10px">🥁</div>
+    </div>
+  </div>
+  <div class="ob-bottom">
+    <div class="ob-title">Discover Classical Music, Dance...</div>
+    <div class="ob-sub">Browse upcoming Carnatic, Hindustani, and dance concerts near you — across India and the diaspora.</div>
+    <div class="ob-dots"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+    <button class="ob-next" onclick="nav('onboard2')">Next &rarr;</button>
+  </div>
 </div>
 
-<!-- ONBOARDING CARD 2 -->
+<!-- ONBOARDING CARD 2: For Sabhas & Organizers -->
 <div id="onboard2" class="screen ob-screen">
-  <div class="ob-skip" onclick="nav('onboardIntent')">Skip</div>
-  <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot active"></div><div class="ob-dot"></div></div>
-  <div class="ob-icon">🏛️</div>
-  <div class="ob-title">For Sabhas & Organizers</div>
-  <div class="ob-sub">Plan concert series, invite artists, and manage your season — all in one place.</div>
-  <button class="sp-btn" onclick="nav('onboard3')">Next →</button>
+  <div class="ob-skip" onclick="nav('onboardIntent')">Skip Intro &rsaquo;</div>
+  <div class="ob-visual">
+    <div class="ob-note" style="top:15px;left:40px">&#9835;</div>
+    <div class="ob-note" style="top:30px;right:50px">&#9834;</div>
+    <div class="orbit-wrap">
+      <div class="orbit-ring"></div>
+      <div class="orbit-center">📋</div>
+      <div class="orbit-node photo" style="top:-10px;left:50%;transform:translateX(-50%)">👤</div>
+      <div class="orbit-node icon" style="top:20%;right:-12px">✉</div>
+      <div class="orbit-node photo" style="bottom:20%;right:-12px">👤</div>
+      <div class="orbit-node icon" style="bottom:-10px;left:50%;transform:translateX(-50%)">✉</div>
+      <div class="orbit-node photo" style="bottom:20%;left:-12px">👤</div>
+      <div class="orbit-node icon" style="top:20%;left:-12px">✉</div>
+    </div>
+  </div>
+  <div class="ob-bottom">
+    <div class="ob-title">For Sabhas & Organizers</div>
+    <div class="ob-sub">Plan concert series, invite artists, and manage your season — all in one place.</div>
+    <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot active"></div><div class="ob-dot"></div></div>
+    <button class="ob-next" onclick="nav('onboard3')">Next &rarr;</button>
+  </div>
 </div>
 
-<!-- ONBOARDING CARD 3 -->
+<!-- ONBOARDING CARD 3: For Performing Artists -->
 <div id="onboard3" class="screen ob-screen">
-  <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div></div>
-  <div class="ob-icon">🎤</div>
-  <div class="ob-title">For Performing Artists</div>
-  <div class="ob-sub">Receive invitations, manage your schedule, and be discoverable by organizers worldwide.</div>
-  <button class="sp-btn" onclick="nav('onboardIntent')">Get Started →</button>
+  <div class="ob-skip" onclick="nav('onboardIntent')">Skip Intro &rsaquo;</div>
+  <div class="ob-visual">
+    <div class="ob-note" style="top:25px;right:40px">&#9835;</div>
+    <div class="orbit-wrap">
+      <div class="orbit-ring"></div>
+      <div class="orbit-center" style="width:80px;height:80px;font-size:32px;background:var(--terra-mid)">🎤</div>
+      <div class="orbit-node icon" style="top:-8px;left:50%;transform:translateX(-50%)">🔔</div>
+      <div class="orbit-node icon" style="top:25%;right:-10px">✉</div>
+      <div class="orbit-node icon" style="bottom:25%;right:-10px">📅</div>
+      <div class="orbit-node icon" style="bottom:-8px;left:50%;transform:translateX(-50%)">🌐</div>
+      <div class="orbit-node icon" style="bottom:25%;left:-10px">⭐</div>
+      <div class="orbit-node icon" style="top:25%;left:-10px">🔍</div>
+    </div>
+  </div>
+  <div class="ob-bottom">
+    <div class="ob-title">For Performing Artists</div>
+    <div class="ob-sub">Receive invitations, manage your schedule, and be discoverable by organizers worldwide.</div>
+    <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div></div>
+    <button class="ob-next" onclick="nav('onboardIntent')">Next &rarr;</button>
+  </div>
 </div>
 
 <!-- INTENT QUESTION -->
 <div id="onboardIntent" class="screen intent-screen">
-  <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 4px;">
-    <div class="intent-heading">Welcome to Sabhalog</div>
-    <div style="font-size:15px;color:var(--gray-600);margin-bottom:24px;line-height:1.5">Discover classical music concerts near you.</div>
-    <div style="font-size:13px;font-weight:700;color:var(--gray-500);margin-bottom:12px;letter-spacing:0.5px">ARE YOU ALSO AN ORGANIZER OR ARTIST?</div>
-    <div class="intent-card" onclick="pickIntent('org')">
-      <div class="intent-icon">▣</div>
-      <div><div class="intent-title">I organize concerts</div><div class="intent-desc">Plan series, invite artists, manage your sabha</div></div>
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0;">
+    <div style="text-align:center;margin-bottom:24px"><div style="width:64px;height:64px;border-radius:50%;background:var(--terra-light);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:28px">👤</div></div>
+    <div class="intent-heading">Welcome to<br>Sabhalog</div>
+    <div class="intent-q" style="margin-top:20px">How do you plan to use Sabhalog?</div>
+    <div class="intent-option" onclick="selectIntent(this,'org')">
+      <div class="intent-radio"></div>
+      <div><div class="intent-option-title">I organize concerts</div><div class="intent-option-desc">Plan series, invite artists, manage org</div></div>
     </div>
-    <div class="intent-card" onclick="pickIntent('artist')">
-      <div class="intent-icon">●</div>
-      <div><div class="intent-title">I'm a performing artist</div><div class="intent-desc">Get discovered, receive invites, manage your schedule</div></div>
+    <div class="intent-option" onclick="selectIntent(this,'artist')">
+      <div class="intent-radio"></div>
+      <div><div class="intent-option-title">I perform</div><div class="intent-option-desc">Get discovered, receive invites, manage your schedule</div></div>
     </div>
-    <div class="intent-card" onclick="pickIntent('both')">
-      <div class="intent-icon">◈</div>
-      <div><div class="intent-title">I organize & perform</div><div class="intent-desc">Manage your sabha and your artist schedule</div></div>
+    <div class="intent-option" onclick="selectIntent(this,'explore')">
+      <div class="intent-radio"></div>
+      <div><div class="intent-option-title">I'm here to explore</div><div class="intent-option-desc">Browse &amp; attend events near you</div></div>
     </div>
-    <div class="intent-sub" style="margin-top:6px">You can always add roles later from your Profile.</div>
-    <div style="text-align:center;margin-top:20px"><button class="sp-btn" style="background:var(--black);color:var(--white);padding:14px 40px;font-size:15px" onclick="pickIntent('explore')">Start Exploring →</button></div>
+    <div style="font-size:13px;color:var(--gray-400);margin-top:16px">You can always add roles later from your Profile.</div>
+    <button class="ob-next" style="margin-top:24px" onclick="confirmIntent()">Start Exploring &rarr;</button>
   </div>
 </div>
 
@@ -2277,6 +2342,7 @@ let isRepeatUser = false;      // toggle between new/repeat user Explore views
 let isNewOrg = false;          // empty-state org dashboard
 let isNewArtist = false;       // empty-state artist dashboard
 let currentPersona = 'newUser'; // active persona for toggle highlight
+let selectedIntent = 'explore'; // intent selected on radio buttons
 
 function nav(id) {
   hist.push(cur);
@@ -2333,6 +2399,16 @@ function renderProfileLoggedOut() {
 }
 
 // --- Onboarding functions ---
+
+function selectIntent(el, intent) {
+  selectedIntent = intent;
+  document.querySelectorAll('.intent-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function confirmIntent() {
+  pickIntent(selectedIntent);
+}
 
 function pickIntent(intent) {
   userIntent = intent;

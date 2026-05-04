@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sabhalog — Org Side</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --p: #C1552E;
+  --p50: #FCF6F0;
+  --p100: #F8EADC;
+  --p200: #F1D2B7;
+  --p300: #E7B28A;
+  --p700: #A54429;
+  --n50: #FAFAF9;
+  --n100: #F5F5F4;
+  --n200: #E6E6E5;
+  --n300: #D5D4D2;
+  --n400: #A6A4A0;
+  --n500: #76736E;
+  --n700: #42413E;
+  --n800: #282625;
+  --n900: #1B1A18;
+  --n950: #0B0B0A;
+  --green: #2E7D32;
+  --green-bg: #F1F8F1;
+  --red: #C62828;
+  --red-bg: #FFF0F0;
+  --r: 12px;
+  --rb: 55px;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { font-family:'Noto Sans',sans-serif; background:#111; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+#phone { width:390px; height:844px; background:#fff; border-radius:44px; overflow:hidden; position:relative; box-shadow:0 0 0 3px #333,0 24px 80px rgba(0,0,0,.7); }
+
+/* Screen */
+.sc { display:none; flex-direction:column; height:100%; width:100%; position:absolute; top:0; left:0; background:#fff; }
+.sc.on { display:flex; }
+
+/* Status bar */
+.sb { height:50px; padding:14px 24px 0; display:flex; justify-content:space-between; font-size:12px; font-weight:600; color:var(--n950); flex-shrink:0; }
+
+/* Top app bar (home) */
+.top-bar { display:flex; align-items:center; justify-content:space-between; padding:6px 20px 10px; flex-shrink:0; }
+.loc { display:flex; align-items:center; gap:4px; font-size:13px; color:var(--n500); font-weight:500; }
+.loc-icon { font-size:14px; }
+.loc-city { color:var(--n900); font-weight:600; }
+.top-icons { display:flex; align-items:center; gap:4px; }
+.ti { width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative; font-size:18px; }
+.ti-dot { position:absolute; top:5px; right:5px; width:8px; height:8px; background:#E53935; border-radius:50%; border:1.5px solid #fff; }
+
+/* Page header */
+.pg-hd { display:flex; align-items:center; justify-content:space-between; padding:10px 20px 12px; flex-shrink:0; }
+.pg-back { display:flex; align-items:center; gap:8px; cursor:pointer; font-size:15px; font-weight:600; color:var(--n950); }
+.pg-back svg { width:20px; height:20px; }
+.pg-title { font-size:17px; font-weight:700; font-family:'Noto Sans',sans-serif; }
+.pg-gear { width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--n700); font-size:20px; }
+
+/* Scrollable content */
+.content { flex:1; overflow-y:auto; padding:0 16px 16px; -webkit-overflow-scrolling:touch; }
+.content::-webkit-scrollbar { display:none; }
+
+/* Bottom nav */
+.bnav { border-top:1px solid var(--n200); background:#fff; flex-shrink:0; padding-bottom:20px; display:flex; }
+.nt { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 0; cursor:pointer; font-size:10px; font-weight:500; color:var(--n400); font-family:'Noto Sans',sans-serif; }
+.nt.on { color:var(--p); }
+.nt svg { width:22px; height:22px; }
+
+/* Buttons */
+.btn { display:flex; align-items:center; justify-content:center; gap:8px; border-radius:var(--rb); font-size:15px; font-weight:600; cursor:pointer; border:none; font-family:'Noto Sans',sans-serif; transition:opacity .15s; }
+.btn:active { opacity:.85; }
+.btn-fill { background:var(--p); color:#fff; padding:13px 24px; }
+.btn-fill:disabled, .btn-fill.dis { background:var(--n300); color:var(--n500); cursor:default; }
+.btn-outline { background:#fff; color:var(--p); border:1.5px solid var(--p); padding:12px 24px; }
+.btn-w { width:100%; }
+.btn-sm { font-size:13px; padding:10px 20px; }
+.btn-fab { position:absolute; bottom:96px; right:16px; background:var(--p); color:#fff; border-radius:var(--rb); padding:13px 22px; font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; cursor:pointer; box-shadow:0 4px 16px rgba(193,85,46,.35); z-index:10; font-family:'Noto Sans',sans-serif; }
+.btn-fab:active { background:var(--p700); }
+
+/* Series cards */
+.series-list { display:flex; flex-direction:column; gap:10px; padding:16px 16px 100px; }
+.sc-card { background:var(--n50); border:1px solid var(--n200); border-radius:var(--r); padding:14px 16px; cursor:pointer; display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+.sc-card.pub { background:var(--p50); border-color:var(--p200); }
+.sc-card-body { flex:1; }
+.sc-badge { display:inline-flex; align-items:center; font-size:11px; font-weight:600; border-radius:var(--rb); padding:3px 10px; margin-bottom:6px; border:1.5px solid var(--n300); color:var(--n500); background:#fff; }
+.sc-badge.pub { background:var(--p100); color:var(--p); border-color:var(--p200); }
+.sc-name { font-size:15px; font-weight:700; color:var(--n950); margin-bottom:4px; }
+.sc-meta { font-size:13px; color:var(--n500); display:flex; align-items:center; gap:6px; }
+.sc-conf { color:var(--p); font-weight:700; }
+.sc-chev { color:var(--n400); font-size:16px; margin-top:2px; }
+
+/* Series planner header */
+.pl-hd { padding:0 16px 12px; }
+.pl-title { font-size:20px; font-weight:700; color:var(--n950); margin-bottom:4px; }
+.pl-sub { font-size:13px; color:var(--n500); display:flex; align-items:center; gap:4px; }
+
+/* Tab bar */
+.tabs { display:flex; border-bottom:1px solid var(--n200); margin:0 16px; flex-shrink:0; }
+.tab { flex:1; padding:11px 0; text-align:center; font-size:14px; font-weight:600; color:var(--n400); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
+.tab.on { color:var(--p); border-bottom-color:var(--p); }
+
+/* Slot cards */
+.date-group { padding:16px 16px 0; }
+.date-label { font-size:13px; font-weight:600; color:var(--n700); margin-bottom:8px; }
+.slot-card { background:#fff; border:1px solid var(--n200); border-radius:var(--r); padding:12px 14px; margin-bottom:8px; cursor:pointer; }
+.slot-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+.slot-time { font-size:12px; color:var(--n500); }
+.slot-badge { font-size:11px; font-weight:600; border-radius:var(--rb); padding:3px 10px; border:1.5px solid var(--n300); color:var(--n500); }
+.slot-badge.proposed { border-color:var(--p300); color:var(--p); background:var(--p50); }
+.slot-badge.accepted { border-color:#A5D6A7; color:var(--green); background:var(--green-bg); }
+.slot-name { font-size:15px; font-weight:700; color:var(--n950); margin-bottom:4px; }
+.slot-artist { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--n500); }
+.slot-artist.accepted { color:var(--p); font-weight:600; }
+.slot-chev { color:var(--n300); font-size:14px; }
+
+/* Accordion (Create Series) */
+.accord { background:var(--p50); border:1px solid var(--p200); border-radius:var(--r); margin:0 0 8px; overflow:hidden; }
+.accord-hd { display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; }
+.accord-num { width:28px; height:28px; border-radius:50%; border:2px solid var(--p); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:var(--p); flex-shrink:0; }
+.accord-num.done { background:var(--p); border-color:var(--p); color:#fff; font-size:11px; }
+.accord-label { font-size:15px; font-weight:600; color:var(--n900); flex:1; }
+.accord-chev { color:var(--n400); font-size:16px; }
+.accord-body { padding:0 16px 16px; background:#fff; border-top:1px solid var(--p200); }
+
+/* Form fields */
+.fg { margin-bottom:14px; }
+.fl { font-size:13px; font-weight:600; color:var(--n700); margin-bottom:6px; display:block; }
+.fi { width:100%; padding:12px 14px; border:1.5px solid var(--n300); border-radius:10px; font-size:15px; font-family:'Noto Sans',sans-serif; outline:none; color:var(--n950); background:#fff; }
+.fi:focus { border-color:var(--p); }
+.fi::placeholder { color:var(--n400); }
+.fta { width:100%; padding:12px 14px; border:1.5px solid var(--n300); border-radius:10px; font-size:14px; font-family:'Noto Sans',sans-serif; outline:none; resize:none; min-height:80px; color:var(--n950); }
+.fta:focus { border-color:var(--p); }
+.fta::placeholder { color:var(--n400); }
+
+/* Dropdown select */
+.fsel { display:flex; align-items:center; justify-content:space-between; padding:11px 14px; border:1.5px solid var(--n300); border-radius:10px; font-size:14px; font-weight:500; color:var(--n950); background:var(--p50); cursor:pointer; }
+.fsel-chev { color:var(--n400); font-size:12px; }
+
+/* Calendar */
+.cal { padding:0 0 8px; }
+.cal-nav { display:flex; align-items:center; justify-content:space-between; padding:8px 4px 12px; }
+.cal-nav-btn { width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:18px; color:var(--n500); border-radius:50%; }
+.cal-nav-btn:hover { background:var(--n100); }
+.cal-month { font-size:15px; font-weight:700; color:var(--n900); }
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); }
+.cal-dow { height:36px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; color:var(--n500); }
+.cal-day { height:40px; display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--n800); cursor:pointer; border-radius:50%; position:relative; }
+.cal-day:hover { background:var(--n100); }
+.cal-day.empty { cursor:default; }
+.cal-day.today { border:2px solid var(--p); color:var(--p); font-weight:700; }
+.cal-day.sel { background:var(--p); color:#fff; font-weight:700; border:none; }
+.cal-day.sel:hover { background:var(--p700); }
+.cal-day.past { color:var(--n300); cursor:default; pointer-events:none; }
+
+/* Slot time row */
+.slot-row { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+.slot-row-num { font-size:13px; font-weight:600; color:var(--n500); width:18px; flex-shrink:0; }
+.slot-del { width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#E53935; font-size:16px; flex-shrink:0; }
+
+/* Hint text */
+.hint { font-size:12px; color:var(--n500); margin-top:6px; line-height:1.5; }
+
+/* Invite cards */
+.inv-card { border:1px solid var(--n200); border-radius:var(--r); padding:14px; margin-bottom:8px; }
+.inv-card.accepted { background:var(--green-bg); border-color:#C8E6C9; }
+.inv-card.rejected { background:var(--red-bg); border-color:#FFCDD2; }
+.inv-top { display:flex; align-items:flex-start; justify-content:space-between; }
+.inv-artist { display:flex; align-items:center; gap:8px; }
+.inv-artist-icon { font-size:16px; color:var(--n500); }
+.inv-name { font-size:14px; font-weight:700; color:var(--n900); }
+.inv-status { font-size:13px; font-weight:600; margin-left:4px; }
+.inv-status.proposed { color:var(--p); }
+.inv-status.accepted { color:var(--green); }
+.inv-status.rejected { color:var(--red); }
+.inv-dots { font-size:18px; color:var(--n400); cursor:pointer; line-height:1; padding:0 4px; }
+.inv-dates { font-size:13px; color:var(--n600); margin-top:6px; line-height:1.7; padding-left:24px; }
+.inv-msg { font-size:12px; color:var(--n500); margin-top:6px; padding-left:24px; font-style:italic; }
+
+/* Filter chips */
+.chips { display:flex; gap:8px; padding:12px 16px; overflow-x:auto; flex-shrink:0; }
+.chips::-webkit-scrollbar { display:none; }
+.chip { padding:7px 16px; border-radius:var(--rb); font-size:13px; font-weight:600; cursor:pointer; border:1.5px solid var(--n200); color:var(--n500); background:#fff; white-space:nowrap; flex-shrink:0; }
+.chip.on { background:var(--p); color:#fff; border-color:var(--p); }
+
+/* Modals */
+.overlay { display:none; position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.45); z-index:200; }
+.overlay.on { display:block; }
+.modal { position:absolute; top:0; left:0; right:0; bottom:0; background:#f5f5f4; z-index:201; display:none; flex-direction:column; }
+.modal.on { display:flex; }
+.modal-hd { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:#fff; border-bottom:1px solid var(--n200); }
+.modal-title { font-size:17px; font-weight:700; }
+.modal-close { font-size:22px; color:var(--n400); cursor:pointer; line-height:1; }
+.modal-body { flex:1; overflow-y:auto; padding:16px; }
+
+/* Context popup */
+.ctx-popup { position:absolute; right:16px; top:60px; background:#fff; border-radius:var(--r); box-shadow:0 4px 24px rgba(0,0,0,.15); z-index:300; display:none; overflow:hidden; min-width:160px; }
+.ctx-popup.on { display:block; }
+.ctx-item { display:flex; align-items:center; gap:10px; padding:14px 16px; font-size:14px; font-weight:500; cursor:pointer; color:var(--n900); }
+.ctx-item:hover { background:var(--n50); }
+.ctx-item.danger { color:var(--red); }
+.ctx-item svg { width:18px; height:18px; }
+
+/* Artist search result */
+.art-result { display:flex; align-items:center; gap:10px; padding:12px; cursor:pointer; border-radius:10px; }
+.art-result:hover { background:var(--n50); }
+.art-av { width:40px; height:40px; border-radius:50%; background:var(--n200); display:flex; align-items:center; justify-content:center; font-size:16px; overflow:hidden; flex-shrink:0; }
+.art-av img { width:100%; height:100%; object-fit:cover; }
+.art-name { font-size:14px; font-weight:700; color:var(--n900); }
+.art-role { font-size:12px; color:var(--n500); margin-top:1px; }
+.art-add { font-size:20px; color:var(--n400); margin-left:auto; cursor:pointer; }
+
+/* Selected artist row */
+.art-sel { display:flex; align-items:center; gap:10px; padding:12px 14px; background:var(--p50); border-radius:10px; margin-bottom:8px; border:1px solid var(--p200); }
+.art-sel-name { font-size:14px; font-weight:700; color:var(--n900); flex:1; }
+.art-sel-role { font-size:12px; color:var(--n500); }
+.art-rem { font-size:20px; color:var(--n500); cursor:pointer; line-height:1; }
+
+/* Checkbox */
+.cb-row { display:flex; align-items:center; gap:12px; padding:10px 0; cursor:pointer; }
+.cb-box { width:20px; height:20px; border-radius:4px; border:2px solid var(--n300); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.cb-box.checked { background:var(--p); border-color:var(--p); }
+.cb-label { font-size:14px; color:var(--n900); }
+
+/* Profile */
+.profile-card { background:var(--p50); border:1px solid var(--p200); border-radius:var(--r); padding:14px; display:flex; align-items:center; gap:12px; cursor:pointer; }
+.profile-av { width:48px; height:48px; border-radius:50%; background:var(--n200); display:flex; align-items:center; justify-content:center; overflow:hidden; font-size:22px; flex-shrink:0; }
+.profile-name { font-size:15px; font-weight:700; color:var(--n950); }
+.profile-email { font-size:12px; color:var(--n500); margin-top:2px; }
+.profile-prog { font-size:12px; color:var(--n700); margin-top:6px; }
+.profile-prog span { color:var(--p); font-weight:700; }
+.menu-group { border:1px solid var(--n200); border-radius:var(--r); overflow:hidden; margin-bottom:12px; }
+.menu-item { display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; border-bottom:1px solid var(--n200); background:#fff; }
+.menu-item:last-child { border-bottom:none; }
+.menu-item:hover { background:var(--n50); }
+.menu-icon { font-size:18px; color:var(--n500); width:24px; text-align:center; }
+.menu-body { flex:1; }
+.menu-label { font-size:14px; font-weight:600; color:var(--n900); }
+.menu-sub { font-size:12px; color:var(--n500); margin-top:2px; line-height:1.4; }
+.menu-chev { color:var(--n400); font-size:14px; }
+
+/* Edit Series form */
+.es-label { font-size:17px; font-weight:700; color:var(--n900); margin-bottom:16px; }
+
+/* Welcome screen */
+.welcome-body { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; }
+.welcome-title { font-family:'Libre Baskerville',serif; font-size:26px; font-weight:700; color:var(--n950); margin-bottom:10px; }
+.welcome-sub { font-size:14px; color:var(--n500); margin-bottom:28px; line-height:1.5; }
+
+/* Footer bar */
+.footer-bar { padding:12px 16px; border-top:1px solid var(--n200); flex-shrink:0; background:#fff; }
+
+/* ── Expandable FAB ─────────────────────────────────────── */
+.fab-wrap { position:absolute; bottom:88px; right:16px; z-index:50; display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+.fab-back { position:absolute; inset:0; z-index:49; display:none; }
+.fab-back.on { display:block; }
+.fab-opts { display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
+.fab-opt { display:flex; align-items:center; gap:10px; background:#fff; border-radius:var(--rb); padding:10px 16px; box-shadow:0 2px 20px rgba(0,0,0,.18); font-size:14px; font-weight:600; color:var(--n900); cursor:pointer; white-space:nowrap; opacity:0; transform:translateY(8px); transition:opacity .2s, transform .2s; pointer-events:none; border:1px solid var(--n200); }
+.fab-opt:active { background:var(--n50); }
+.fab-wrap.open .fab-opt { opacity:1; transform:translateY(0); pointer-events:auto; }
+.fab-wrap.open .fab-opt:nth-child(2) { transition-delay:.06s; }
+.fab-btn { background:var(--p); color:#fff; border-radius:var(--rb); padding:13px 20px; font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; cursor:pointer; box-shadow:0 4px 16px rgba(193,85,46,.35); font-family:'Noto Sans',sans-serif; border:none; transition:background .15s; user-select:none; }
+.fab-btn:active { background:var(--p700); }
+.fab-plus { font-size:18px; line-height:1; display:inline-block; transition:transform .22s; }
+.fab-wrap.open .fab-plus { transform:rotate(45deg); }
+
+/* ── Art form chips (create event) ─────────────────────── */
+.art-chips { display:flex; gap:8px; flex-wrap:wrap; }
+.art-chip { padding:7px 14px; border-radius:var(--rb); font-size:13px; font-weight:600; cursor:pointer; border:1.5px solid var(--n200); color:var(--n500); background:#fff; white-space:nowrap; transition:all .15s; }
+.art-chip.on { background:var(--p); color:#fff; border-color:var(--p); }
+
+/* ── Venue selector ─────────────────────────────────────── */
+.venue-sel { display:flex; align-items:flex-start; justify-content:space-between; padding:12px 14px; border:1.5px solid var(--n300); border-radius:10px; cursor:pointer; background:#fff; transition:border-color .15s; gap:10px; }
+.venue-sel:hover { border-color:var(--p); }
+.venue-sel-ph { font-size:15px; color:var(--n400); flex:1; }
+.vd-name { font-size:15px; font-weight:600; color:var(--n950); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.vd-addr { font-size:12px; color:var(--n500); margin-top:2px; }
+.vd-maps { display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--p); font-weight:600; margin-top:5px; text-decoration:none; }
+.vd-maps:hover { text-decoration:underline; }
+.venue-sel-chev { color:var(--n400); font-size:18px; flex-shrink:0; margin-top:1px; }
+
+/* ── Venue list items (inside picker) ───────────────────── */
+.venue-item { display:flex; align-items:flex-start; gap:10px; padding:14px; border-radius:var(--r); cursor:pointer; border:1.5px solid var(--n200); margin-bottom:8px; background:#fff; transition:border-color .15s, background .15s; }
+.venue-item:hover { background:var(--n50); }
+.venue-item.sel { border-color:var(--p); background:var(--p50); }
+.vi-name { font-size:14px; font-weight:700; color:var(--n900); margin-bottom:3px; }
+.vi-addr { font-size:12px; color:var(--n500); line-height:1.4; }
+.vi-maps { display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--p); font-weight:600; margin-top:5px; text-decoration:none; }
+.vi-maps:hover { text-decoration:underline; }
+.vi-check { color:var(--p); font-size:18px; flex-shrink:0; margin-top:1px; font-weight:700; }
+.venue-add-back { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--p); cursor:pointer; margin-bottom:16px; }
+</style>
+</head>
+<body>
+<div id="phone">
+
+<!-- ═══════════════════════════════════════
+     MY ORG — EMPTY
+════════════════════════════════════════ -->
+<div id="s-myorg-empty" class="sc on">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="top-bar">
+    <div class="loc">
+      <span class="loc-icon">📍</span>
+      <span class="loc-city">Cleveland, OH</span>
+      <span style="font-size:10px;color:var(--n400)">▶</span>
+    </div>
+    <div class="top-icons">
+      <div class="ti">🔔<span class="ti-dot"></span></div>
+      <div class="ti">🤍</div>
+      <div class="ti" onclick="nav('s-profile')">👤<span class="ti-dot"></span></div>
+    </div>
+  </div>
+  <div class="welcome-body">
+    <div class="welcome-title">Welcome, Yogin!</div>
+    <div class="welcome-sub">You're one step away from managing your concerts on Sabhalog.</div>
+    <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px;">
+      <button class="btn btn-fill btn-w" onclick="nav('s-create-1')">🗓 &nbsp;Create a Series</button>
+      <button class="btn btn-outline btn-w" onclick="nav('s-event-1')">📌 &nbsp;Add a Single Event</button>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="nt on">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      My Org
+    </div>
+    <div class="nt">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Explore
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MY ORG — WITH SERIES
+════════════════════════════════════════ -->
+<div id="s-myorg" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="top-bar">
+    <div class="loc">
+      <span class="loc-icon">📍</span>
+      <span class="loc-city">Cleveland, OH</span>
+      <span style="font-size:10px;color:var(--n400)">▶</span>
+    </div>
+    <div class="top-icons">
+      <div class="ti">🔔<span class="ti-dot"></span></div>
+      <div class="ti">🤍</div>
+      <div class="ti" onclick="nav('s-profile')">👤</div>
+    </div>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding-bottom:80px;">
+    <div class="series-list">
+      <div class="sc-card" onclick="nav('s-planner')">
+        <div class="sc-card-body">
+          <div><span class="sc-badge">Planning</span></div>
+          <div class="sc-name">December Concert series</div>
+          <div class="sc-meta"><span class="sc-conf">8</span>/12 Confirmed &nbsp;·&nbsp; 12th Mar – 25th Mar</div>
+        </div>
+        <div class="sc-chev">›</div>
+      </div>
+      <div class="sc-card" onclick="nav('s-planner')">
+        <div class="sc-card-body">
+          <div><span class="sc-badge">Planning</span></div>
+          <div class="sc-name">December Concert series</div>
+          <div class="sc-meta"><span class="sc-conf">9</span>/12 Confirmed &nbsp;·&nbsp; 12th Mar – 25th Mar</div>
+        </div>
+        <div class="sc-chev">›</div>
+      </div>
+      <div class="sc-card pub" onclick="nav('s-planner')">
+        <div class="sc-card-body">
+          <div><span class="sc-badge pub">Published</span></div>
+          <div class="sc-name">December Concert series</div>
+          <div class="sc-meta">12/12 Confirmed &nbsp;·&nbsp; 12th Mar – 25th Mar</div>
+        </div>
+        <div class="sc-chev">›</div>
+      </div>
+    </div>
+  </div>
+  <!-- FAB backdrop -->
+  <div class="fab-back" id="myorg-fab-back" onclick="closeFab()"></div>
+  <!-- Expandable FAB -->
+  <div class="fab-wrap" id="myorg-fab">
+    <div class="fab-opts">
+      <div class="fab-opt" onclick="closeFab();nav('s-event-1')">📌 &nbsp;Single Event</div>
+      <div class="fab-opt" onclick="closeFab();nav('s-create-1')">🗓 &nbsp;Series</div>
+    </div>
+    <div class="fab-btn" onclick="toggleFab()">
+      <span class="fab-plus">+</span> Create
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="nt on">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      My Org
+    </div>
+    <div class="nt">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Explore
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SERIES PLANNER
+════════════════════════════════════════ -->
+<div id="s-planner" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="pg-hd">
+    <div class="pg-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Series Planner
+    </div>
+    <div class="pg-gear" onclick="toggleCtx('ctx-planner')">⚙</div>
+  </div>
+  <!-- Settings popup -->
+  <div id="ctx-planner" class="ctx-popup">
+    <div class="ctx-item" onclick="closeCtx();nav('s-edit-series')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Edit Series
+    </div>
+  </div>
+  <div class="pl-hd">
+    <div class="pl-title">December Concert series Concert</div>
+    <div class="pl-sub">
+      <span>📍</span>
+      Fine Arts Association of Arizona, Pheonix, AZ
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab on" id="tab-slots" onclick="switchTab('slots')">Slots 12</div>
+    <div class="tab" id="tab-invites" onclick="switchTab('invites')">Invites 8</div>
+  </div>
+
+  <!-- SLOTS TAB -->
+  <div id="panel-slots" style="flex:1;overflow-y:auto;padding-bottom:80px;">
+    <div style="padding:12px 16px 0;">
+      <button class="btn btn-outline btn-w" onclick="nav('s-add-slot')">+ &nbsp;Add slot</button>
+    </div>
+    <div class="date-group">
+      <div class="date-label">27 May 2026, Friday</div>
+      <div class="slot-card" onclick="nav('s-edit-slot')">
+        <div class="slot-top">
+          <span class="slot-time">5:00 PM – 7:00 PM</span>
+          <span class="slot-badge">Available</span>
+        </div>
+        <div class="slot-name">Series Name</div>
+        <div style="display:flex;justify-content:flex-end"><span class="slot-chev">›</span></div>
+      </div>
+      <div class="slot-card" onclick="nav('s-edit-slot')">
+        <div class="slot-top">
+          <span class="slot-time">5:00 PM – 7:00 PM</span>
+          <span class="slot-badge proposed">Proposed</span>
+        </div>
+        <div class="slot-name">Series Name</div>
+        <div class="slot-artist">
+          <span>🎤</span> Ganesh-Kumares &nbsp;·&nbsp; Vocal
+        </div>
+        <div style="display:flex;justify-content:flex-end"><span class="slot-chev">›</span></div>
+      </div>
+      <div class="slot-card" onclick="nav('s-edit-slot')">
+        <div class="slot-top">
+          <span class="slot-time">5:00 PM – 7:00 PM</span>
+          <span class="slot-badge accepted">Accepted</span>
+        </div>
+        <div class="slot-name">Series Name</div>
+        <div class="slot-artist accepted">
+          <span>🎤</span> Ganesh-Kumares &nbsp;·&nbsp; Vocal
+        </div>
+        <div style="display:flex;justify-content:flex-end"><span class="slot-chev">›</span></div>
+      </div>
+    </div>
+    <div class="date-group">
+      <div class="date-label">27 May 2026, Friday</div>
+      <div class="slot-card" onclick="nav('s-edit-slot')">
+        <div class="slot-top">
+          <span class="slot-time">5:00 PM – 7:00 PM</span>
+          <span class="slot-badge">Available</span>
+        </div>
+        <div class="slot-name">Series Name</div>
+        <div style="display:flex;justify-content:flex-end"><span class="slot-chev">›</span></div>
+      </div>
+      <div class="slot-card" onclick="nav('s-edit-slot')">
+        <div class="slot-top">
+          <span class="slot-time">5:00 PM – 7:00 PM</span>
+          <span class="slot-badge accepted">Accepted</span>
+        </div>
+        <div class="slot-name">Series Name</div>
+        <div class="slot-artist accepted">
+          <span>🎤</span> Ganesh-Kumares &nbsp;·&nbsp; Vocal
+        </div>
+        <div style="display:flex;justify-content:flex-end"><span class="slot-chev">›</span></div>
+      </div>
+    </div>
+    <div class="date-group" style="padding-bottom:16px;">
+      <div class="date-label">27 May 2026, Friday</div>
+      <div class="slot-card" onclick="nav('s-edit-slot')">
+        <div class="slot-top">
+          <span class="slot-time">5:00 PM – 7:00 PM</span>
+          <span class="slot-badge">Available</span>
+        </div>
+        <div class="slot-name">Series Name</div>
+        <div style="display:flex;justify-content:flex-end"><span class="slot-chev">›</span></div>
+      </div>
+      <div class="slot-card" onclick="nav('s-edit-slot')">
+        <div class="slot-top">
+          <span class="slot-time">5:00 PM – 7:00 PM</span>
+          <span class="slot-badge accepted">Accepted</span>
+        </div>
+        <div class="slot-name">Series Name</div>
+        <div style="display:flex;justify-content:flex-end"><span class="slot-chev">›</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INVITES TAB -->
+  <div id="panel-invites" style="display:none;flex:1;overflow-y:auto;padding-bottom:100px;">
+    <div class="chips">
+      <div class="chip on" onclick="filterInv(this,'all')">All</div>
+      <div class="chip" onclick="filterInv(this,'proposed')">Proposed</div>
+      <div class="chip" onclick="filterInv(this,'accepted')">Accepted</div>
+      <div class="chip" onclick="filterInv(this,'rejected')">Rejected</div>
+    </div>
+    <div style="padding:0 16px;">
+      <div class="inv-card" id="inv-proposed-1">
+        <div class="inv-top">
+          <div class="inv-artist">
+            <span class="inv-artist-icon">🎤</span>
+            <span class="inv-name">Ganesh-Kumares</span><span class="inv-status proposed">· Proposed</span>
+          </div>
+          <div class="inv-dots" onclick="toggleCtx('ctx-inv1')">⋮</div>
+        </div>
+        <div id="ctx-inv1" class="ctx-popup" style="top:auto;bottom:auto;right:16px;position:absolute;">
+          <div class="ctx-item" onclick="closeCtx()">Withdraw invite</div>
+          <div class="ctx-item danger" onclick="closeCtx()">Cancel Invite</div>
+        </div>
+        <div class="inv-dates">27 May 2026, Fri, 6:00PM<br>27 May 2026, Fri, 6:00PM<br>27 May 2026, Fri, 6:00PM</div>
+      </div>
+      <div class="inv-card" id="inv-proposed-2">
+        <div class="inv-top">
+          <div class="inv-artist">
+            <span class="inv-artist-icon">🎤</span>
+            <span class="inv-name">Ganesh-Kumares</span><span class="inv-status proposed">· Proposed</span>
+          </div>
+          <div class="inv-dots" onclick="toggleCtx('ctx-inv2')">⋮</div>
+        </div>
+        <div id="ctx-inv2" class="ctx-popup" style="top:auto;right:16px;position:absolute;">
+          <div class="ctx-item" onclick="closeCtx()">Withdraw invite</div>
+          <div class="ctx-item danger" onclick="closeCtx()">Cancel Invite</div>
+        </div>
+        <div class="inv-dates">27 May 2026, Fri, 6:00PM</div>
+      </div>
+      <div class="inv-card accepted">
+        <div class="inv-top">
+          <div class="inv-artist">
+            <span class="inv-artist-icon">🎤</span>
+            <span class="inv-name">Ganesh-Kumares</span><span class="inv-status accepted">· Accepted</span>
+          </div>
+          <div class="inv-dots">⋮</div>
+        </div>
+        <div class="inv-dates">27 May 2026, Fri, 6:00PM</div>
+      </div>
+      <div class="inv-card accepted">
+        <div class="inv-top">
+          <div class="inv-artist">
+            <span class="inv-artist-icon">🎤</span>
+            <span class="inv-name">Ganesh-Kumares</span><span class="inv-status accepted">· Accepted</span>
+          </div>
+          <div class="inv-dots">⋮</div>
+        </div>
+        <div class="inv-dates">27 May 2026, Fri, 6:00PM</div>
+      </div>
+      <div class="inv-card rejected">
+        <div class="inv-top">
+          <div class="inv-artist">
+            <span class="inv-artist-icon">🎤</span>
+            <span class="inv-name">Ganesh-Kumares</span><span class="inv-status rejected">· Rejected</span>
+          </div>
+          <div class="inv-dots">⋮</div>
+        </div>
+        <div class="inv-dates">27 May 2026, Fri, 6:00PM</div>
+        <div class="inv-msg">Sorry I wont be available on that particular date</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <button class="btn btn-fill btn-w" id="publish-btn">Publish</button>
+  </div>
+  <!-- Invite FAB (shown on invites tab) -->
+  <div id="invite-fab" class="btn-fab" style="display:none;" onclick="openModal('modal-invite')">+ &nbsp;Invite</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     EDIT SLOT
+════════════════════════════════════════ -->
+<div id="s-edit-slot" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="pg-hd">
+    <div class="pg-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Edit Slot
+    </div>
+    <div class="pg-gear" onclick="toggleCtx('ctx-slot')">⚙</div>
+  </div>
+  <div id="ctx-slot" class="ctx-popup">
+    <div class="ctx-item danger" onclick="closeCtx()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+      Delete Slot
+    </div>
+  </div>
+  <div class="content" style="padding-top:4px;">
+    <div style="font-size:14px;font-weight:600;color:var(--n700);margin-bottom:16px;">27th May 2026, Friday</div>
+    <div class="fg">
+      <div class="fl">Slot Name</div>
+      <input class="fi" value="Monsoon Music festival" placeholder="Monsoon Music festival">
+    </div>
+    <div class="fg">
+      <div class="fl">Timings</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="flex:1;" onclick="toggleDropdown('dd-start')">
+          <div class="fsel" id="dd-start-val">6:00 PM <span class="fsel-chev">▾</span></div>
+        </div>
+        <span style="color:var(--n400);font-weight:500;">–</span>
+        <div style="flex:1;" onclick="toggleDropdown('dd-end')">
+          <div class="fsel" id="dd-end-val">7:00 Pm <span class="fsel-chev">▾</span></div>
+        </div>
+        <div style="color:#E53935;font-size:18px;cursor:pointer;flex-shrink:0;">🗑</div>
+      </div>
+      <!-- Time dropdown -->
+      <div id="dd-end" style="display:none;background:#fff;border:1px solid var(--n200);border-radius:var(--r);box-shadow:0 4px 16px rgba(0,0,0,.1);margin-top:4px;overflow:hidden;">
+        <div class="time-opt" onclick="pickTime('dd-end-val','7:00 Pm','dd-end')">7:00 Pm (1 hr)</div>
+        <div class="time-opt on" onclick="pickTime('dd-end-val','7:00 Pm','dd-end')">7:00 Pm (1 hr)</div>
+        <div class="time-opt" onclick="pickTime('dd-end-val','7:30 Pm','dd-end')">7:30 Pm (1.5 hr)</div>
+        <div class="time-opt" onclick="pickTime('dd-end-val','8:00 Pm','dd-end')">8:00 Pm (2 hr)</div>
+        <div class="time-opt" onclick="pickTime('dd-end-val','8:30 Pm','dd-end')">8:30 Pm (2.5 hr)</div>
+        <div class="time-opt" onclick="pickTime('dd-end-val','9:00 Pm','dd-end')">9:00 Pm (3 hr)</div>
+      </div>
+    </div>
+    <div class="fg">
+      <div class="fl">Add Artist</div>
+      <input class="fi" id="artist-search" placeholder="Ganesh" value="Ganesh" oninput="onArtistSearch(this.value)">
+    </div>
+    <!-- Artist search results -->
+    <div id="artist-results" style="background:#fff;border:1px solid var(--n200);border-radius:var(--r);overflow:hidden;margin-top:-8px;margin-bottom:14px;">
+      <div class="art-result" onclick="addArtist()">
+        <div class="art-av">👤</div>
+        <div><div class="art-name">Artist Name</div><div class="art-role">Vocal</div></div>
+        <div class="art-add">🤝</div>
+      </div>
+      <div class="art-result" onclick="addArtist()">
+        <div class="art-av">👤</div>
+        <div><div class="art-name">Artist Name</div><div class="art-role">Vocal</div></div>
+        <div class="art-add">🤝</div>
+      </div>
+      <div class="art-result" onclick="addArtist()">
+        <div class="art-av">👤</div>
+        <div><div class="art-name">Artist Name</div><div class="art-role">Vocal</div></div>
+        <div class="art-add">🤝</div>
+      </div>
+    </div>
+    <!-- Selected artists -->
+    <div id="selected-artists" style="margin-bottom:14px;display:none;">
+      <div class="art-sel">
+        <div class="art-av">👤</div>
+        <div>
+          <div class="art-sel-name">Ganesh-Kumares</div>
+          <div class="art-sel-role">Vocal</div>
+        </div>
+        <div class="art-rem">–</div>
+      </div>
+      <div class="art-sel">
+        <div class="art-av">👤</div>
+        <div>
+          <div class="art-sel-name">Ganesh-Kumares</div>
+          <div class="art-sel-role">Vocal</div>
+        </div>
+        <div class="art-rem">–</div>
+      </div>
+    </div>
+    <div class="fg">
+      <div class="fl">Message</div>
+      <textarea class="fta" placeholder="Ganesh" rows="3"></textarea>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <button class="btn btn-fill btn-w dis">Invite &amp; Save</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ADD SLOT (modal-style full screen)
+════════════════════════════════════════ -->
+<div id="s-add-slot" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="pg-hd">
+    <div class="pg-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Add Slot
+    </div>
+    <div class="pg-gear" style="font-size:18px;color:var(--n400);cursor:pointer;">✕</div>
+  </div>
+  <div class="content" style="padding-top:4px;">
+    <!-- Step 1: Date (accordion) -->
+    <div class="accord">
+      <div class="accord-hd">
+        <div class="accord-num" style="color:var(--p);border-color:var(--p);">2</div>
+        <div class="accord-label">Date (3 days)</div>
+      </div>
+      <div class="accord-body">
+        <div class="cal" id="cal-addslot"></div>
+      </div>
+    </div>
+    <!-- Step 2: Slots -->
+    <div class="accord">
+      <div class="accord-hd">
+        <div class="accord-num" style="color:var(--p);border-color:var(--p);">2</div>
+        <div class="accord-label">Slots 2</div>
+      </div>
+      <div class="accord-body">
+        <button class="btn btn-outline btn-w btn-sm" style="margin-bottom:14px;" onclick="addSlotRow('addslot-rows')">+ &nbsp;Add slot</button>
+        <div id="addslot-rows">
+          <div style="margin-bottom:6px;font-size:13px;font-weight:600;color:var(--n700);">27 May 2026, Friday</div>
+          <div class="slot-row">
+            <span class="slot-row-num">1</span>
+            <div style="flex:1;" onclick="toggleDropdown('as-dd1')">
+              <div class="fsel">6:00 PM <span class="fsel-chev">▾</span></div>
+            </div>
+            <span style="color:var(--n400);">–</span>
+            <div style="flex:1;" onclick="toggleDropdown('as-dd2')">
+              <div class="fsel">2 hr <span class="fsel-chev">▾</span></div>
+            </div>
+            <div class="slot-del">🗑</div>
+          </div>
+        </div>
+        <div class="hint">Each row is one slot per selected date. Tap time to change it</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <button class="btn btn-fill btn-w dis">Save</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CREATE SERIES — STEP 1
+════════════════════════════════════════ -->
+<div id="s-create-1" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="pg-hd">
+    <div class="pg-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Create Series
+    </div>
+  </div>
+  <div class="content" style="padding-top:8px;">
+    <!-- Step 1 active -->
+    <div class="accord">
+      <div class="accord-hd">
+        <div class="accord-num">1</div>
+        <div class="accord-label">Details</div>
+      </div>
+      <div class="accord-body">
+        <div class="fg">
+          <div class="fl">Series Name *</div>
+          <input class="fi" value="Monsoon Music festival" placeholder="Series Name">
+        </div>
+        <div class="fg">
+          <div class="fl">Location (City) *</div>
+          <input class="fi" placeholder="e.g., Phoenix, AZ" value="Phoenix, AZ">
+        </div>
+        <div class="fg">
+          <div class="fl">Venue</div>
+          <input class="fi" value="Fine Arts Association of Arizona" placeholder="Venue name">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <button class="btn btn-fill btn-w" onclick="nav('s-create-2')">Continue</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CREATE SERIES — STEP 2
+════════════════════════════════════════ -->
+<div id="s-create-2" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="pg-hd">
+    <div class="pg-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Create Series
+    </div>
+  </div>
+  <div class="content" style="padding-top:8px;">
+    <!-- Step 1 done -->
+    <div class="accord">
+      <div class="accord-hd" onclick="nav('s-create-1')">
+        <div class="accord-num done">✓</div>
+        <div class="accord-label">Details</div>
+        <div class="accord-chev">▾</div>
+      </div>
+    </div>
+    <!-- Step 2 active -->
+    <div class="accord">
+      <div class="accord-hd">
+        <div class="accord-num">2</div>
+        <div class="accord-label" id="date-accord-label">Date (3 days)</div>
+      </div>
+      <div class="accord-body">
+        <div class="cal" id="cal-create"></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <button class="btn btn-fill btn-w" onclick="nav('s-create-3')">Continue</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CREATE SERIES — STEP 3
+════════════════════════════════════════ -->
+<div id="s-create-3" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="pg-hd">
+    <div class="pg-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Create Series
+    </div>
+  </div>
+  <div class="content" style="padding-top:8px;">
+    <!-- Steps done -->
+    <div class="accord">
+      <div class="accord-hd" onclick="nav('s-create-1')">
+        <div class="accord-num done">✓</div>
+        <div class="accord-label">Details</div>
+        <div class="accord-chev">▾</div>
+      </div>
+    </div>
+    <div class="accord">
+      <div class="accord-hd" onclick="nav('s-create-2')">
+        <div class="accord-num done">✓</div>
+        <div class="accord-label">Dates</div>
+        <div class="accord-chev">▾</div>
+      </div>
+    </div>
+    <!-- Step 3 active -->
+    <div class="accord">
+      <div class="accord-hd">
+        <div class="accord-num">3</div>
+        <div class="accord-label">Slots (per day)</div>
+      </div>
+      <div class="accord-body">
+        <div class="hint" style="margin-bottom:10px;">Each row is one slot per selected date. Tap time to change it</div>
+        <button class="btn btn-outline btn-w btn-sm" style="margin-bottom:14px;" onclick="addSlotRow('create-slot-rows')">+ &nbsp;Add slot</button>
+        <div id="create-slot-rows">
+          <div class="slot-row">
+            <span class="slot-row-num">1</span>
+            <div style="flex:1;position:relative;">
+              <div class="fsel" onclick="toggleDropdown('c-dd1')">6:00 PM <span class="fsel-chev">▾</span></div>
+              <div id="c-dd1" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--n200);border-radius:var(--r);box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:50;overflow:hidden;margin-top:2px;">
+                <div class="time-opt" onclick="pickTimeInline('c-dd1',this,'6:00 PM')">6:00 PM</div>
+                <div class="time-opt" onclick="pickTimeInline('c-dd1',this,'6:30 PM')">6:30 PM</div>
+                <div class="time-opt on" onclick="pickTimeInline('c-dd1',this,'7:00 PM')">7:00 PM</div>
+                <div class="time-opt" onclick="pickTimeInline('c-dd1',this,'7:30 PM')">7:30 PM</div>
+                <div class="time-opt" onclick="pickTimeInline('c-dd1',this,'8:00 PM')">8:00 PM</div>
+              </div>
+            </div>
+            <span style="color:var(--n400);">–</span>
+            <div style="flex:1;position:relative;">
+              <div class="fsel" onclick="toggleDropdown('c-dd1b')">2 hr <span class="fsel-chev">▾</span></div>
+              <div id="c-dd1b" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--n200);border-radius:var(--r);box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:50;overflow:hidden;margin-top:2px;">
+                <div class="time-opt" onclick="pickTimeInline('c-dd1b',this,'1 hr')">1 hr</div>
+                <div class="time-opt" onclick="pickTimeInline('c-dd1b',this,'1.5 hr')">1.5 hr</div>
+                <div class="time-opt on" onclick="pickTimeInline('c-dd1b',this,'2 hr')">2 hr</div>
+                <div class="time-opt" onclick="pickTimeInline('c-dd1b',this,'2.5 hr')">2.5 hr</div>
+                <div class="time-opt" onclick="pickTimeInline('c-dd1b',this,'3 hr')">3 hr</div>
+              </div>
+            </div>
+            <div class="slot-del">🗑</div>
+          </div>
+          <div class="slot-row">
+            <span class="slot-row-num">2</span>
+            <div style="flex:1;">
+              <div class="fsel" onclick="toggleDropdown('c-dd2')">8:00 PM <span class="fsel-chev">▾</span></div>
+            </div>
+            <span style="color:var(--n400);">–</span>
+            <div style="flex:1;">
+              <div class="fsel">2 hr <span class="fsel-chev">▾</span></div>
+            </div>
+            <div class="slot-del">🗑</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <button class="btn btn-fill btn-w" onclick="nav('s-myorg')">Create Series</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CREATE SINGLE EVENT
+════════════════════════════════════════ -->
+<div id="s-event-1" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="pg-hd">
+    <div class="pg-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Create Event
+    </div>
+  </div>
+  <div class="content" style="padding-top:8px;">
+    <div class="accord">
+      <div class="accord-hd">
+        <div class="accord-num">1</div>
+        <div class="accord-label">Event Details</div>
+      </div>
+      <div class="accord-body">
+        <div class="fg">
+          <div class="fl">Event Name *</div>
+          <input class="fi" placeholder="e.g., Monsoon Music Festival">
+        </div>
+        <div class="fg">
+          <div class="fl">Location (City) *</div>
+          <input class="fi" placeholder="e.g., Phoenix, AZ">
+        </div>
+        <div class="fg">
+          <div class="fl">Venue</div>
+          <input class="fi" placeholder="e.g., Scottsdale Center for the Arts">
+        </div>
+        <div class="fg">
+          <div class="fl">Date *</div>
+          <input class="fi" type="date" value="2026-07-08">
+        </div>
+        <div style="display:flex;gap:10px;margin-bottom:14px;">
+          <div style="flex:1;">
+            <div class="fl">Start Time *</div>
+            <div class="fsel" id="ev-start-val" onclick="toggleDropdown('ev-dd-start')">6:00 PM <span class="fsel-chev">▾</span></div>
+            <div id="ev-dd-start" style="display:none;background:#fff;border:1px solid var(--n200);border-radius:var(--r);box-shadow:0 4px 16px rgba(0,0,0,.1);margin-top:2px;overflow:hidden;position:relative;z-index:10;">
+              <div class="time-opt" onclick="pickTime('ev-start-val','5:00 PM','ev-dd-start')">5:00 PM</div>
+              <div class="time-opt on" onclick="pickTime('ev-start-val','6:00 PM','ev-dd-start')">6:00 PM</div>
+              <div class="time-opt" onclick="pickTime('ev-start-val','6:30 PM','ev-dd-start')">6:30 PM</div>
+              <div class="time-opt" onclick="pickTime('ev-start-val','7:00 PM','ev-dd-start')">7:00 PM</div>
+              <div class="time-opt" onclick="pickTime('ev-start-val','7:30 PM','ev-dd-start')">7:30 PM</div>
+            </div>
+          </div>
+          <div style="flex:1;">
+            <div class="fl">Duration *</div>
+            <div class="fsel" id="ev-dur-val" onclick="toggleDropdown('ev-dd-dur')">2 hr <span class="fsel-chev">▾</span></div>
+            <div id="ev-dd-dur" style="display:none;background:#fff;border:1px solid var(--n200);border-radius:var(--r);box-shadow:0 4px 16px rgba(0,0,0,.1);margin-top:2px;overflow:hidden;position:relative;z-index:10;">
+              <div class="time-opt" onclick="pickTime('ev-dur-val','1 hr','ev-dd-dur')">1 hr</div>
+              <div class="time-opt" onclick="pickTime('ev-dur-val','1.5 hr','ev-dd-dur')">1.5 hr</div>
+              <div class="time-opt on" onclick="pickTime('ev-dur-val','2 hr','ev-dd-dur')">2 hr</div>
+              <div class="time-opt" onclick="pickTime('ev-dur-val','2.5 hr','ev-dd-dur')">2.5 hr</div>
+              <div class="time-opt" onclick="pickTime('ev-dur-val','3 hr','ev-dd-dur')">3 hr</div>
+            </div>
+          </div>
+        </div>
+        <div class="fg">
+          <div class="fl">Art Form *</div>
+          <div class="art-chips" style="margin-top:2px;">
+            <div class="art-chip on" onclick="this.classList.toggle('on')">Karnatic</div>
+            <div class="art-chip" onclick="this.classList.toggle('on')">Hindustani</div>
+            <div class="art-chip" onclick="this.classList.toggle('on')">Dance</div>
+            <div class="art-chip" onclick="this.classList.toggle('on')">Jazz</div>
+            <div class="art-chip" onclick="this.classList.toggle('on')">Comedy</div>
+          </div>
+        </div>
+        <div class="fg" style="margin-top:6px;">
+          <div class="fl">Artist Name</div>
+          <input class="fi" placeholder="e.g., Sanjay Subrahmanyan">
+          <div class="hint" style="margin-top:6px;">For artists not yet on Sabhalog</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <button class="btn btn-fill btn-w" onclick="nav('s-event-conf')">Create Event</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     EVENT CREATED CONFIRMATION
+════════════════════════════════════════ -->
+<div id="s-event-conf" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;text-align:center;">
+    <div style="width:64px;height:64px;border-radius:50%;background:var(--p50);border:2px solid var(--p200);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:20px;">✓</div>
+    <div style="font-family:'Libre Baskerville',serif;font-size:22px;font-weight:700;color:var(--n950);margin-bottom:8px;">Event Created!</div>
+    <div style="font-size:15px;font-weight:600;color:var(--n900);margin-bottom:4px;">Monsoon Music Festival</div>
+    <div style="font-size:13px;color:var(--n500);margin-bottom:4px;">Jul 8, 2026 &nbsp;·&nbsp; 6:00 PM – 8:00 PM</div>
+    <div style="font-size:13px;color:var(--n500);margin-bottom:28px;">Phoenix, AZ</div>
+    <div style="display:flex;flex-direction:column;gap:10px;width:100%;">
+      <button class="btn btn-fill btn-w" onclick="nav('s-planner')">Invite Artist on Sabhalog →</button>
+      <button class="btn btn-outline btn-w" onclick="nav('s-myorg')">Back to My Org</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     EDIT SERIES
+════════════════════════════════════════ -->
+<div id="s-edit-series" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="pg-hd">
+    <div class="pg-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Edit Series
+    </div>
+  </div>
+  <div class="content" style="padding-top:8px;">
+    <div class="fg">
+      <div class="fl">Series Name *</div>
+      <input class="fi" value="December Concert series Concert">
+    </div>
+    <div class="fg">
+      <div class="fl">Venue *</div>
+      <input class="fi" value="Fine Arts Association of Arizona">
+    </div>
+    <div class="fg">
+      <div class="fl">City *</div>
+      <input class="fi" value="Phoenix, AZ">
+    </div>
+  </div>
+  <div class="footer-bar">
+    <button class="btn btn-fill btn-w" onclick="goBack()">Save Changes</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PROFILE
+════════════════════════════════════════ -->
+<div id="s-profile" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="pg-hd">
+    <div class="pg-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Profile
+    </div>
+  </div>
+  <div class="content" style="padding-top:8px;">
+    <div class="profile-card" style="margin-bottom:16px;">
+      <div class="profile-av">🌿</div>
+      <div style="flex:1;">
+        <div class="profile-name">Fine Arts Association of Arizona</div>
+        <div class="profile-email">Finearts@gmail.com</div>
+        <div class="profile-prog"><span>1/3 steps done,</span> Complete your profile to increase your credibility</div>
+      </div>
+      <div style="color:var(--n400);font-size:16px;">›</div>
+    </div>
+    <div class="menu-group">
+      <div class="menu-item">
+        <div class="menu-icon">✉️</div>
+        <div class="menu-body"><div class="menu-label">Invite Friends</div></div>
+        <div class="menu-chev">›</div>
+      </div>
+    </div>
+    <div class="menu-group">
+      <div class="menu-item">
+        <div class="menu-icon">⚙</div>
+        <div class="menu-body"><div class="menu-label">More</div></div>
+        <div class="menu-chev">›</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-icon">🎤</div>
+        <div class="menu-body">
+          <div class="menu-label">Become an Artist</div>
+          <div class="menu-sub">Join Sabhalog as an Organizer. An admin will review and approve your request.</div>
+        </div>
+        <div class="menu-chev">›</div>
+      </div>
+      <div class="menu-item" onclick="nav('s-contact')">
+        <div class="menu-icon">💬</div>
+        <div class="menu-body"><div class="menu-label">Contact Us</div></div>
+        <div class="menu-chev">›</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-icon">↩</div>
+        <div class="menu-body"><div class="menu-label">Sign Out</div></div>
+        <div class="menu-chev">›</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CONTACT US
+════════════════════════════════════════ -->
+<div id="s-contact" class="sc">
+  <div class="sb"><span>9:41</span><span>●●●</span></div>
+  <div class="pg-hd">
+    <div class="pg-back" onclick="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Contact Us
+    </div>
+  </div>
+  <div class="content" style="padding-top:8px;">
+    <div class="fg">
+      <div class="fl">Your Name</div>
+      <input class="fi" placeholder="Yogin">
+    </div>
+    <div class="fg">
+      <div class="fl">Email</div>
+      <input class="fi" placeholder="yogin@example.com" type="email">
+    </div>
+    <div class="fg">
+      <div class="fl">Message</div>
+      <textarea class="fta" placeholder="History, mission, what kind of events you organize..." rows="4"></textarea>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <button class="btn btn-fill btn-w" onclick="goBack()">Send Message</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     INVITE ARTIST (full screen modal)
+════════════════════════════════════════ -->
+<div id="modal-invite" class="modal">
+  <div style="background:var(--n100);flex:1;display:flex;flex-direction:column;">
+    <div class="sb" style="background:transparent;"><span>9:41</span><span>●●●</span></div>
+    <div class="modal-hd">
+      <div class="modal-title">Invite Artist</div>
+      <div class="modal-close" onclick="closeModal('modal-invite')">✕</div>
+    </div>
+    <div class="modal-body">
+      <!-- Add Artist -->
+      <div style="background:#fff;border:1.5px solid var(--n200);border-radius:var(--r);padding:16px;margin-bottom:12px;">
+        <div class="fl" style="margin-bottom:10px;">Add Artist</div>
+        <input class="fi" id="inv-artist-search" placeholder="Fine Arts Association of Arizona" oninput="onInvSearch(this.value)">
+        <!-- Search results dropdown -->
+        <div id="inv-search-results" style="display:none;margin-top:6px;">
+          <div class="art-result" style="border:1px solid var(--n200);border-radius:10px;margin-bottom:6px;" onclick="selectInvArtist()">
+            <div class="art-av">👤</div>
+            <div><div class="art-name">Ganesh-Kumares</div><div class="art-role">Vocal</div></div>
+            <div class="art-add">🤝</div>
+          </div>
+        </div>
+        <!-- Selected artist -->
+        <div id="inv-selected" style="display:none;margin-top:8px;">
+          <div class="art-sel">
+            <div class="art-av">👤</div>
+            <div><div class="art-sel-name">Ganesh-Kumares</div><div class="art-sel-role">Vocal</div></div>
+            <div class="art-rem" onclick="removeInvArtist()">–</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Choose Slot -->
+      <div style="background:#fff;border:1.5px solid var(--n200);border-radius:var(--r);padding:16px;margin-bottom:12px;">
+        <div class="fl" style="margin-bottom:4px;">Choose Slot</div>
+        <div class="cb-row" onclick="toggleCb(this)">
+          <div class="cb-box checked">✓</div>
+          <div class="cb-label">27 May 2026, Fri, 6:00PM</div>
+        </div>
+        <div style="height:1px;background:var(--n200);margin:2px 0;"></div>
+        <div class="cb-row" onclick="toggleCb(this)">
+          <div class="cb-box checked">✓</div>
+          <div class="cb-label">27 May 2026, Fri, 6:00PM</div>
+        </div>
+        <div style="height:1px;background:var(--n200);margin:2px 0;"></div>
+        <div class="cb-row" onclick="toggleCb(this)">
+          <div class="cb-box"></div>
+          <div class="cb-label">27 May 2026, Fri, 6:00PM</div>
+        </div>
+        <div style="height:1px;background:var(--n200);margin:2px 0;"></div>
+        <div class="cb-row" onclick="toggleCb(this)">
+          <div class="cb-box"></div>
+          <div class="cb-label">27 May 2026, Fri, 6:00PM</div>
+        </div>
+        <!-- Message (visible after artist selected) -->
+        <div id="inv-msg-section" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--n200);">
+          <div class="fl" style="margin-bottom:8px;">Message</div>
+          <textarea class="fta" placeholder="History, mission, what kind of events you organize..." rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar" style="background:#fff;">
+      <button class="btn btn-fill btn-w" onclick="closeModal('modal-invite')">Invite</button>
+    </div>
+  </div>
+</div>
+
+<!-- Dropdown time option style -->
+<style>
+.time-opt { padding:13px 16px; font-size:14px; cursor:pointer; border-bottom:1px solid var(--n100); color:var(--n900); }
+.time-opt:last-child { border-bottom:none; }
+.time-opt:hover { background:var(--n50); }
+.time-opt.on { background:var(--n100); font-weight:700; }
+</style>
+
+</div><!-- #phone -->
+
+<script>
+// ── Navigation ──────────────────────────────────────────────
+let hist = [];
+let cur = 's-myorg-empty';
+
+// ── FAB ─────────────────────────────────────────────────────
+function toggleFab() {
+  const wrap = document.getElementById('myorg-fab');
+  const back = document.getElementById('myorg-fab-back');
+  if (!wrap) return;
+  const opening = !wrap.classList.contains('open');
+  wrap.classList.toggle('open', opening);
+  if (back) back.classList.toggle('on', opening);
+}
+function closeFab() {
+  const wrap = document.getElementById('myorg-fab');
+  const back = document.getElementById('myorg-fab-back');
+  if (wrap) wrap.classList.remove('open');
+  if (back) back.classList.remove('on');
+}
+
+function nav(id) {
+  closeFab();
+  closeCtx();
+  closeAllDropdowns();
+  const prev = document.getElementById(cur);
+  if (prev) prev.classList.remove('on');
+  hist.push(cur);
+  cur = id;
+  const next = document.getElementById(cur);
+  if (next) next.classList.add('on');
+  // Init calendar when needed
+  if (id === 's-create-2') buildCal('cal-create');
+  if (id === 's-add-slot') buildCal('cal-addslot');
+}
+
+function goBack() {
+  closeCtx();
+  closeAllDropdowns();
+  if (hist.length === 0) return;
+  const prev = document.getElementById(cur);
+  if (prev) prev.classList.remove('on');
+  cur = hist.pop();
+  const next = document.getElementById(cur);
+  if (next) next.classList.add('on');
+}
+
+// ── Tabs (Series Planner) ────────────────────────────────────
+function switchTab(tab) {
+  document.getElementById('tab-slots').classList.toggle('on', tab === 'slots');
+  document.getElementById('tab-invites').classList.toggle('on', tab === 'invites');
+  document.getElementById('panel-slots').style.display = tab === 'slots' ? 'block' : 'none';
+  document.getElementById('panel-invites').style.display = tab === 'invites' ? 'block' : 'none';
+  document.getElementById('invite-fab').style.display = tab === 'invites' ? 'flex' : 'none';
+  document.getElementById('publish-btn').style.display = tab === 'slots' ? 'block' : 'none';
+}
+
+// ── Context popup ────────────────────────────────────────────
+let openCtx = null;
+function toggleCtx(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (el.classList.contains('on')) { el.classList.remove('on'); openCtx = null; }
+  else { closeCtx(); el.classList.add('on'); openCtx = id; }
+}
+function closeCtx() {
+  document.querySelectorAll('.ctx-popup.on').forEach(el => el.classList.remove('on'));
+  openCtx = null;
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.ctx-popup') && !e.target.closest('.pg-gear') && !e.target.closest('.inv-dots')) closeCtx();
+});
+
+// ── Dropdowns ────────────────────────────────────────────────
+function toggleDropdown(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const was = el.style.display === 'block';
+  closeAllDropdowns();
+  if (!was) el.style.display = 'block';
+}
+function closeAllDropdowns() {
+  document.querySelectorAll('[id^="dd-"],[id^="as-dd"],[id^="c-dd"],[id^="ev-dd-"]').forEach(el => {
+    if (el.tagName !== 'DIV') return;
+    el.style.display = 'none';
+  });
+}
+function pickTime(targetId, val, ddId) {
+  const target = document.getElementById(targetId);
+  if (target) target.innerHTML = val + ' <span class="fsel-chev">▾</span>';
+  document.getElementById(ddId).style.display = 'none';
+}
+function pickTimeInline(ddId, el, val) {
+  const dd = document.getElementById(ddId);
+  if (!dd) return;
+  // Update the fsel above the dropdown
+  const fsel = dd.previousElementSibling;
+  if (fsel) fsel.innerHTML = val + ' <span class="fsel-chev">▾</span>';
+  dd.querySelectorAll('.time-opt').forEach(o => o.classList.remove('on'));
+  el.classList.add('on');
+  dd.style.display = 'none';
+}
+
+// ── Calendar ─────────────────────────────────────────────────
+let calState = { month: 4, year: 2026, sel: { '2026-4-27': true, '2026-4-28': true, '2026-4-29': true } };
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS = ['S','M','T','W','T','F','S'];
+
+function buildCal(containerId) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  const { month, year, sel } = calState;
+  const today = new Date();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  let html = `<div class="cal-nav">
+    <div class="cal-nav-btn" onclick="calNav(-1,'${containerId}')">‹</div>
+    <div class="cal-month">${MONTHS[month]} ${year}</div>
+    <div class="cal-nav-btn" onclick="calNav(1,'${containerId}')">›</div>
+  </div>
+  <div class="cal-grid">`;
+  DAYS.forEach(d => html += `<div class="cal-dow">${d}</div>`);
+  for (let i = 0; i < firstDay; i++) html += `<div class="cal-day empty"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = `${year}-${month}-${d}`;
+    const isToday = d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+    const isSel = sel[key];
+    const isPast = new Date(year, month, d) < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    let cls = 'cal-day';
+    if (isSel) cls += ' sel';
+    else if (isToday) cls += ' today';
+    else if (isPast) cls += ' past';
+    html += `<div class="${cls}" onclick="toggleDay('${key}','${containerId}')">${d}</div>`;
+  }
+  html += `</div>`;
+  c.innerHTML = html;
+  updateDateLabel();
+}
+
+function calNav(dir, cid) {
+  calState.month += dir;
+  if (calState.month > 11) { calState.month = 0; calState.year++; }
+  if (calState.month < 0)  { calState.month = 11; calState.year--; }
+  buildCal(cid);
+}
+
+function toggleDay(key, cid) {
+  if (calState.sel[key]) delete calState.sel[key];
+  else calState.sel[key] = true;
+  buildCal(cid);
+}
+
+function updateDateLabel() {
+  const el = document.getElementById('date-accord-label');
+  if (!el) return;
+  const count = Object.keys(calState.sel).length;
+  el.textContent = `Date (${count} day${count !== 1 ? 's' : ''})`;
+}
+
+// ── Modals ───────────────────────────────────────────────────
+function openModal(id) {
+  document.getElementById(id).classList.add('on');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('on');
+}
+
+// ── Add slot row ─────────────────────────────────────────────
+function addSlotRow(containerId) {
+  const c = document.getElementById(containerId);
+  const count = c.querySelectorAll('.slot-row').length + 1;
+  const div = document.createElement('div');
+  div.className = 'slot-row';
+  div.innerHTML = `<span class="slot-row-num">${count}</span>
+    <div style="flex:1;"><div class="fsel">6:00 PM <span class="fsel-chev">▾</span></div></div>
+    <span style="color:var(--n400);">–</span>
+    <div style="flex:1;"><div class="fsel">2 hr <span class="fsel-chev">▾</span></div></div>
+    <div class="slot-del" onclick="this.parentElement.remove()">🗑</div>`;
+  c.appendChild(div);
+}
+
+// ── Artist search (edit slot) ─────────────────────────────────
+function onArtistSearch(val) {
+  const res = document.getElementById('artist-results');
+  const sel = document.getElementById('selected-artists');
+  if (val.length > 0) { res.style.display = 'block'; sel.style.display = 'none'; }
+  else { res.style.display = 'none'; }
+}
+function addArtist() {
+  document.getElementById('artist-results').style.display = 'none';
+  document.getElementById('selected-artists').style.display = 'block';
+  document.getElementById('artist-search').value = '';
+  document.querySelector('.footer-bar .btn-fill').classList.remove('dis');
+}
+
+// ── Invite modal ──────────────────────────────────────────────
+function onInvSearch(val) {
+  document.getElementById('inv-search-results').style.display = val.length > 0 ? 'block' : 'none';
+}
+function selectInvArtist() {
+  document.getElementById('inv-search-results').style.display = 'none';
+  document.getElementById('inv-selected').style.display = 'block';
+  document.getElementById('inv-msg-section').style.display = 'block';
+  document.getElementById('inv-artist-search').value = '';
+}
+function removeInvArtist() {
+  document.getElementById('inv-selected').style.display = 'none';
+  document.getElementById('inv-msg-section').style.display = 'none';
+}
+
+// ── Checkbox ─────────────────────────────────────────────────
+function toggleCb(row) {
+  const box = row.querySelector('.cb-box');
+  const checked = box.classList.toggle('checked');
+  box.textContent = checked ? '✓' : '';
+}
+
+// ── Filter invites ────────────────────────────────────────────
+function filterInv(el, filter) {
+  document.querySelectorAll('.chips .chip').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+// ── Init ──────────────────────────────────────────────────────
+nav('s-myorg-empty');
+</script>
+</body>
+</html>
